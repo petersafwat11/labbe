@@ -1,0 +1,44 @@
+.arrow_container {
+  display: inline-flex;
+  padding: 1rem;
+  align-items: flex-start;
+  gap: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e1e1e1;
+  cursor: pointer;
+}
+.arrow {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.title {
+  color: #2c2c2c;
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 3.6rem;
+}
+.description {
+  color: #656565;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+  letter-spacing: 0.08px;
+}
+.resend_code {
+  color: #6b4e33;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  letter-spacing: 0.056rem;
+}
+.edit_phone {
+  color: #6b4e33;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  letter-spacing: 0.06rem;
+}

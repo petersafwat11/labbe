@@ -49,3 +49,6 @@ button {
   height: 100vh;
   display: flex;
 }
+button {
+  font-family: inherit;
+}

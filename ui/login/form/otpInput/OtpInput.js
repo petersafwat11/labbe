@@ -1,10 +1,31 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import styles from "./otpInput.module.css";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
+import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
 
 const OtpInput = () => {
   const [otp, setOtp] = useState("");
+  const [errors, setErrors] = useState({
+    otp: "",
+  });
+  const [resendTime, setResendTime] = useState(90);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors({ otp: "الرمز المرسل مطلوب" });
+  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setResendTime((prev) => {
+        if (prev > 0) {
+          return prev - 1;
+        }
+        return 0;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -18,7 +39,9 @@ const OtpInput = () => {
           لقد أرسلنا رمز مكون من 6 أرقام إلى رقم هاتفك المحمول +966021545 يرجى
           إدخاله أدناه
         </p>
-        <p className={styles.resend_code}>إعادة إرسال الرمز؟ (90 ثانية)</p>
+        <p className={styles.resend_code}>
+          إعادة إرسال الرمز؟ ({resendTime} ثانية)
+        </p>
         <div className={styles.input_container}>
           {[1, 2, 3, 4, 5, 6].map((item, index) => (
             <input
@@ -31,7 +54,7 @@ const OtpInput = () => {
           ))}
         </div>
         <div className={styles.verify_container}>
-          <button className={styles.verify}>التحقق</button>
+          <ConfirmBtn text="التحقق" active={otp} onClick={handleSubmit} />
           <button className={styles.edit_phone}>تعديل رقم الهاتف</button>
         </div>
       </div>

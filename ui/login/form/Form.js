@@ -6,6 +6,7 @@ import FormBottom from "./formBottom/FormBottom";
 import Greating from "./Greating/Greating";
 import InputGroup from "@/ui/commen/inputGroup/InputGroup";
 import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
+import OtpInput from "./otpInput/OtpInput";
 const Form = () => {
   const [data, setData] = useState({
     email: "",
@@ -28,13 +29,10 @@ const Form = () => {
         <FormHeader />
       </div>
 
-      <div className={`${styles.form} `}>
+      {/* <div className={`${styles.form} `}>
         <Greating />
         {data.type === "otp" ? (
           <div className={styles.otp}>
-            <div className={styles.otp_input}>
-              <input type="text" placeholder="ادخل رمز التحقق" />
-            </div>
           </div>
         ) : (
           <div className={styles.email_login}>
@@ -91,7 +89,8 @@ const Form = () => {
           }
           clickHandler={toggleLoginMethod}
         />
-      </div>
+      </div> */}
+      <OtpInput />
     </div>
   );
 };
