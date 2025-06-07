@@ -4,8 +4,8 @@
   width: 100%;
 }
 .form_header {
-  /* margin: 4rem 4.8rem 5rem 4rem; */
-  margin: 3rem 4.8rem 4rem 4rem;
+  margin: 4rem 4.8rem 11rem 4rem;
+  /* margin: 3rem 4.8rem 4rem 4rem; */
 }
 .form {
   display: flex;
@@ -14,6 +14,7 @@
   gap: 2.4rem;
   padding: 2.4rem 4rem;
   margin-left: 10.11rem;
+  margin-bottom: 24.7rem;
 }
 .form > * {
   width: 100%;
