@@ -35,13 +35,15 @@ const InputGroup = ({
               textAlign: placement === "left" ? "left" : "right",
             }}
           />
-          <Image
-            className={styles.icon}
-            src={`/svg/${iconPath}`}
-            alt="icon"
-            width={24}
-            height={24}
-          />
+          {iconPath && (
+            <Image
+              className={styles.icon}
+              src={`/svg/${iconPath}`}
+              alt="icon"
+              width={24}
+              height={24}
+            />
+          )}
           {type === "password" && iconPath2 && (
             <Image
               className={styles.icon_2}
