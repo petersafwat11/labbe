@@ -29,11 +29,10 @@ const Form = () => {
         <FormHeader />
       </div>
 
-      {/* <div className={`${styles.form} `}>
+      <div className={`${styles.form} `}>
         <Greating />
         {data.type === "otp" ? (
-          <div className={styles.otp}>
-          </div>
+          <div className={styles.otp}></div>
         ) : (
           <div className={styles.email_login}>
             <div className={styles.inputs}>
@@ -89,8 +88,8 @@ const Form = () => {
           }
           clickHandler={toggleLoginMethod}
         />
-      </div> */}
-      <OtpInput />
+      </div>
+      {/* <OtpInput /> */}
     </div>
   );
 };
