@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./page.module.css";
-import ImageCarousel from "@/ui/login/imageCarousel/ImageCarousel";
+import ImageCarousel from "@/ui/commen/imageCarousel/ImageCarousel";
 import Form from "@/ui/login/form/Form";
 const page = () => {
   return (
