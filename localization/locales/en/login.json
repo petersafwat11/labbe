@@ -23,6 +23,11 @@
     "buttons": {
       "login": "Login",
       "verify": "Verify"
+    },
+    "formBottom": {
+      "orContinueWith": "Or continue using",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create account"
     }
   }
 }

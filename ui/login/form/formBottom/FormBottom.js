@@ -1,13 +1,16 @@
-'use client';
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import styles from './formBottom.module.css';
-import Image from 'next/image';
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import styles from "./formBottom.module.css";
+import Image from "next/image";
+import { useTranslation } from "react-i18next";
 const FormBottom = ({ text, clickHandler }) => {
   const router = useRouter();
+  const { t } = useTranslation("login");
+
   return (
     <div className={styles.container}>
-      <p className={styles.or}>أو تابع باستخدام</p>
+      <p className={styles.or}>{t("loginForm.formBottom.orContinueWith")}</p>
       <button onClick={clickHandler} className={styles.toggle_button}>
         {text}
         <Image
@@ -18,12 +21,12 @@ const FormBottom = ({ text, clickHandler }) => {
         />
       </button>
       <button className={styles.sign_up_button}>
-        ليس لديك حساب؟{' '}
+        {t("loginForm.formBottom.noAccount")}{" "}
         <span
-          onClick={() => router.push('/signup')}
+          onClick={() => router.push("/signup")}
           className={styles.make_acc}
         >
-          إنشاء حساب
+          {t("loginForm.formBottom.createAccount")}
         </span>
       </button>
     </div>

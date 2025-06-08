@@ -21,7 +21,7 @@ const Form = () => {
     email: '',
     password: '',
     number: '',
-    type: 'email',
+    type: 'otp',
   });
   const [errors, setErrors] = useState({
     email: '',

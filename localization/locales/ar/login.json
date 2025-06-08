@@ -23,6 +23,11 @@
     "buttons": {
       "login": "تسجيل الدخول",
       "verify": "التحقق"
+    },
+    "formBottom": {
+      "orContinueWith": "أو تابع باستخدام",
+      "noAccount": "ليس لديك حساب؟",
+      "createAccount": "إنشاء حساب"
     }
   }
 }
