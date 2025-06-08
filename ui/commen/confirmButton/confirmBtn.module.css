@@ -1,7 +1,7 @@
 .confirm_btn,
 .confirm_btn_disabled {
   display: flex;
-  min-height: 5.6rem;
+  min-height: 4.8rem;
   padding: 1.6rem;
   justify-content: center;
   align-items: center;

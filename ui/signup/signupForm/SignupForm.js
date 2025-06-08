@@ -1,12 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./signupForm.module.css";
 import FormHeader from "@/ui/commen/formHeader/FormHeader";
-import InputGroup from "@/ui/commen/inputGroup/InputGroup";
+import WhiteLabelForm from "../whiteLabel/WhiteLabelForm";
+import ContinueFillingData from "../continueFillingData/ContinueFillingData";
 const SignupForm = () => {
   const [data, setData] = useState({
-    name: "",
-    service: "",
+    name: { value: "", error: "" },
+    service: { value: "", error: "" },
   });
   const [whiteLabelData, setWhiteLabelData] = useState({
     identity: {
@@ -54,16 +55,23 @@ const SignupForm = () => {
       companyName: { value: "", error: "" },
     },
   });
+  const [showSignupform, setShowSignupform] = useState(false);
+  const showFormsForSignup = () => {
+      if (data.service.value === "دعوتك عبر منصتك") {
+      setShowSignupform("whiteLabel");
+    } else {
+      setShowSignupform("host");
+    }
+  };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <div className={styles.container}>
-      <FormHeader />
-      <div className={styles.top}>
-        <h2 className={styles.title}>أكمل ملفك الشخصى</h2>
-        <p className={styles.description}>
-          أكمل ملفك الشخصى للاستفادة من خدماتنا
-        </p>
+      <div className={styles.form_header}>
+        <FormHeader />
       </div>
-      <div className={styles.form}>
+      {/* <div className={styles.form}>
         <h3 className={styles.form_title}>المعلومات شخصية </h3>
         <InputGroup
           label="الاسم"
@@ -72,7 +80,21 @@ const SignupForm = () => {
           name="name"
           value={name}
         />
-      </div>
+      </div> */}
+      {showSignupform === "whiteLabel" ? (
+        <WhiteLabelForm
+          whiteLabelData={whiteLabelData}
+          setWhiteLabelData={setWhiteLabelData}
+        />
+      ) : showSignupform === "host" ? (
+        <div>host</div>
+      ) : (
+        <ContinueFillingData
+          showFormsForSignup={showFormsForSignup}
+          data={data}
+          setData={setData}
+        />
+      )}
     </div>
   );
 };

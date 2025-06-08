@@ -1,70 +1,62 @@
-import React, { useState } from "react";
-import styles from "./stepOne.module.css";
-import Image from "next/image";
-import InputGroup from "@/ui/commen/inputGroup/InputGroup";
-const StepOne = () => {
-  const [whiteLabelData, setWhiteLabelData] = useState({
-    loginData: {
-      email: { value: "", error: "" },
-      domain: { value: "", error: "" },
-    },
-  });
+import React from "react";
+import styles from "./stepTwo.module.css";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import { StepTitle } from "../title/SectionTitle";
+import SectionTitle from "../title/SectionTitle";
+
+const StepTwo = ({ whiteLabelData, setWhiteLabelData }) => {
+  const handleInputChange = (section, field, value) => {
+    setWhiteLabelData({
+      ...whiteLabelData,
+      [section]: {
+        ...whiteLabelData[section],
+        [field]: { value, error: "" },
+      },
+    });
+  };
+
   return (
     <div className={styles.container}>
+      <StepTitle
+        title="بيانات الدخول والتخصيص"
+        description="خصّص الدخول لمنصتك وحدد النطاق واللغة المناسبة."
+      />
+
       <div className={styles.sections}>
         <div className={styles.section}>
-          <h3 className={styles.section_title}>
-            {" "}
-            <Image
-              src="/svg/auth/personal-info.svg"
-              alt="personal info"
-              width={24}
-              height={24}
-            />{" "}
-            المعلومات الشخصية
-          </h3>
+          <SectionTitle
+            title="بيانات التخصيص والدخول"
+            icon="/svg/auth/personal-info.svg"
+            height={24}
+            width={24}
+          />
+
           <div className={styles.inputs}>
             <InputGroup
-              label="البريد الالكترونى"
-              type="text"
-              placeholder="أدخل البريد الالكترونى
-"
+              label="البريد الإلكتروني الرسمي للحساب الإداري"
+              type="email"
+              placeholder="أدخل البريد الإلكترونى"
               required
-              placement="left"
               name="email"
               value={whiteLabelData.loginData.email.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  loginData: {
-                    ...whiteLabelData.loginData,
-                    email: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("loginData", "email", e.target.value)
               }
               error={whiteLabelData.loginData.email.error}
-              iconPath="auth/email.svg"
+              iconPath="auth/building.svg"
             />
             <InputGroup
-              label="الموقع الالكترونى"
-              type="text"
-              placeholder="أدخل الموقع الالكترونى
-"
+              label="النطاق الفرعي المفضل"
+              type="url"
+              placeholder="ادخل النطاق الفرعى"
               required
-              placement="left"
               name="domain"
               value={whiteLabelData.loginData.domain.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  loginData: {
-                    ...whiteLabelData.loginData,
-                    domain: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("loginData", "domain", e.target.value)
               }
               error={whiteLabelData.loginData.domain.error}
-              iconPath="auth/domain.svg"
+              iconPath="auth/building.svg"
             />
           </div>
         </div>
@@ -73,4 +65,4 @@ const StepOne = () => {
   );
 };
 
-export default StepOne;
+export default StepTwo;

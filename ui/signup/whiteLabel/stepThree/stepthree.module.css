@@ -1,0 +1,23 @@
+.container,
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  padding: 2.4rem 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+

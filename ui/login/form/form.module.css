@@ -4,17 +4,16 @@
   width: 100%;
 }
 .form_header {
-  margin: 4rem 4.8rem 11rem 4rem;
+  padding: 2.4rem 4rem 0rem 4rem;
   /* margin: 3rem 4.8rem 4rem 4rem; */
 }
 .form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2.4rem;
-  padding: 2.4rem 4rem;
-  margin-left: 10.11rem;
-  margin-bottom: 24.7rem;
+  gap: 2rem;
+  padding: 3.2rem 4rem;
+  margin: 2.8rem 0 0 10.11rem;
 }
 .form > * {
   width: 100%;
@@ -22,7 +21,7 @@
 .inputs {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 2rem;
 }
 .buttons {
   display: flex;
@@ -54,4 +53,12 @@
   line-height: 2rem;
   letter-spacing: 0.014px;
   cursor: pointer;
+}
+.edit_phone {
+  color: #6b4e33;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  letter-spacing: 0.06rem;
 }

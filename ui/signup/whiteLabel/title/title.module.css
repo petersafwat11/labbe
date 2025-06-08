@@ -1,0 +1,37 @@
+.step_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+.step_title {
+  color: #2c2c2c;
+  text-align: right;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.8rem;
+}
+.step_description {
+  color: #656565;
+  text-align: right;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.4rem;
+  letter-spacing: 0.08px;
+}
+.section_title {
+  display: flex;
+  gap: 0.5rem;
+}
+.section_title {
+  color: #2c2c2c;
+  text-align: right;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.4rem;
+  letter-spacing: 0.024rem;
+}

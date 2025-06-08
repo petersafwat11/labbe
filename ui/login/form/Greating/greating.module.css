@@ -1,20 +1,22 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: center;
-  gap: 1.2rem;
+  gap: 1.6rem;
 }
 .title {
   color: #2c2c2c;
-  font-size: 3.6rem;
-  font-weight: 400;
-  line-height: 4.4rem;
+  text-align: right;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 2.8rem;
 }
 .login_text {
   color: #656565;
-  font-size: 1.6rem;
+  text-align: right;
+  font-size: 16px;
+  font-style: normal;
   font-weight: 400;
-  line-height: 2.4rem;
-  letter-spacing: 0.08px;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.024px;
 }

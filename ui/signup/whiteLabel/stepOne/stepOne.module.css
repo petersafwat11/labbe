@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  padding: 2rem;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.4rem;
+  border-radius: 1.2rem;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Logo Upload Styles */
+.logo_upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 2rem;
+  border: 2px dashed #e0e0e0;
+  border-radius: 1.2rem;
+  background: #fafafa;
+}
+
+.section_description {
+  color: #656565;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.upload_button {
+  display: inline-flex;
+  padding: 1.2rem 2.4rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.8rem;
+  background: #c28e5c;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload_button:hover {
+  background: #a0754a;
+}
+
+.file_selected {
+  color: #2ecc71;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* Color Selection Styles */
+.color_section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.color_label {
+  color: #2c2c2c;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+}
+.color_active {
+  border: 3px solid #2c2c2c;
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.check_icon {
+  filter: invert(1);
+  /* drop-shadow: 0 0 2px rgba(0, 0, 0, 0.5)); */
+}
+.colors,
+.color_inputs {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.custom_color {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.color_picker {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 0.8rem;
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.color_picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 0.6rem;
+}
+
+.color_picker::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.6rem;
+}
+
+.custom_color_text {
+  color: #656565;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.color_picker_input {
+  color: #2c2c2c;
+  text-align: right;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.4rem;
+  letter-spacing: 0.08rem;
+  display: flex;
+  height: 5.6rem;
+  padding: 1.2rem;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.2rem;
+  border-radius: 1.2rem;
+  border-top: 1px solid #dfdfdf;
+  border-right: 1.5px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+  border-left: 1.5px solid #dfdfdf;
+  background: #fff;
+}

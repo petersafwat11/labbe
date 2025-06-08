@@ -6,11 +6,11 @@ const page = () => {
   return (
     <div className={"page"}>
       <div className={styles.container}>
-        <div className={styles.left}>
-          <ImageCarousel />
-        </div>
         <div className={styles.right}>
           <ForgetPassword />
+        </div>
+        <div className={styles.left}>
+          <ImageCarousel />
         </div>
       </div>
     </div>

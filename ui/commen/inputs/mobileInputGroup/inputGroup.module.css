@@ -1,8 +1,7 @@
 .input_group {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  gap: 0.8rem;
 }
 .label {
   color: #2c2c2c;
@@ -12,22 +11,24 @@
   letter-spacing: 0.014px;
 }
 .input_container {
-  position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
 }
 
 .input,
 .input_error {
   display: flex;
-  height: 5.6rem;
-  padding: 1.2rem;
-  margin-right: 3.6rem;
+  height: 4.8rem;
+  padding: 1.2rem 4.8rem 1.2rem 1.2rem;
   justify-content: center;
   align-items: center;
   border-radius: 1.2rem;
   border: 1.5px solid #dfdfdf;
   background: #fff;
-  width: 100%;
+  /* width: 100%; */
+  flex-grow: 1;
   color: #767676;
   font-size: 1.6rem;
   font-weight: 400;
@@ -38,10 +39,9 @@
   border: 1.5px solid #c0392b;
 }
 
-.input::placeholder {
+/* .input::placeholder {
   text-align: right;
-  margin-right: 3.6rem;
-}
+} */
 .error {
   color: #c0392b;
   text-align: right;
@@ -49,25 +49,20 @@
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: 0.014px;
-  margin-right: 0.8rem;
+  margin-top: 0.8rem;
 }
-.icon {
-  position: absolute;
-  right: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
+.code {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid #dfdfdf;
+  background: #fff;
 }
-.icon_2 {
-  position: absolute;
-  left: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  z-index: 10;
+.code_text {
+  color: #2c2c2c;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 2.4rem;
 }
-.input_error {
-  border: 1.5px solid #ff0000;
-}
-/* .input_error::placeholder {
-  color: #ff0000;
-} */

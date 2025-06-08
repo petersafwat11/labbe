@@ -1,203 +1,205 @@
 import React, { useState } from "react";
 import styles from "./stepOne.module.css";
 import Image from "next/image";
-import InputGroup from "@/ui/commen/inputGroup/InputGroup";
-const StepOne = () => {
-  const [whiteLabelData, setWhiteLabelData] = useState({
-    identity: {
-      arabic_name: { value: "", error: "" },
-      english_name: { value: "", error: "" },
-      logo: { value: "", error: "" },
-      primaryColor: { value: "", error: "" },
-      secondaryColor: { value: "", error: "" },
-      fontFamily: { value: "", error: "" },
-    },
-    loginData: {
-      email: { value: "", error: "" },
-      domain: { value: "", error: "" },
-    },
-    systemRequirements: {
-      numberOfEvents: { value: "", error: "" },
-      numberOfGuestsPerEvent: { value: "", error: "" },
-      eventsTypes: { value: [], error: "" },
-      services: { value: [], error: "" },
-    },
-    additionalServices: [],
-    paymentData: {
-      companyName: { value: "", error: "" },
-      licenseNumber: { value: "", error: "" },
-      TaxNumber: { value: "", error: "" },
-      city: { value: "", error: "" },
-      neighborhood: { value: "", error: "" },
-      street: { value: "", error: "" },
-      buildingNumber: { value: "", error: "" },
-      additionalNumber: { value: "", error: "" },
-      placeType: { value: "", error: "" },
-      placeNumber: { value: "", error: "" },
-      paymentMethod: { value: [], error: "" },
-    },
-  });
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import { StepTitle } from "../title/SectionTitle";
+import SectionTitle from "../title/SectionTitle";
+
+const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
+  const [logoFile, setLogoFile] = useState(null);
+
+  // Predefined color options
+  const colorOptions = [
+    "#c28e5c",
+    "#d6b392",
+    "#8b6f47",
+    "#a0845c",
+    "#e74c3c",
+    "#3498db",
+    "#2ecc71",
+    "#f39c12",
+    "#9b59b6",
+    "#1abc9c",
+    "#34495e",
+    "#95a5a6",
+  ];
+
+  const handleInputChange = (section, field, value) => {
+    setWhiteLabelData({
+      ...whiteLabelData,
+      [section]: {
+        ...whiteLabelData[section],
+        [field]: { value, error: "" },
+      },
+    });
+  };
+
+  const handleColorSelect = (color, colorType) => {
+    handleInputChange("identity", colorType, color);
+  };
+
+  const handleLogoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setLogoFile(file);
+      handleInputChange("identity", "logo", file.name);
+    }
+  };
+
   return (
     <div className={styles.container}>
+      <StepTitle
+        title="الهوية البصرية"
+        description="أدخل بيانات العلامة التجارية الخاصة بك بدقة ليتم عرضها على منصتك."
+      />
       <div className={styles.sections}>
         <div className={styles.section}>
-          <h3 className={styles.section_title}>
-            {" "}
-            <Image
-              src="/svg/auth/personal-info.svg"
-              alt="personal info"
-              width={24}
-              height={24}
-            />{" "}
-            المعلومات الشخصية
-          </h3>
+          <SectionTitle
+            title="المعلومات الشخصية"
+            icon="/svg/auth/personal-info.svg"
+            height={24}
+            width={24}
+          />
           <div className={styles.inputs}>
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالعربية)
-"
+              label="اسم الجهة أو العلامة التجارية (بالعربية)"
               type="text"
-              placeholder="أدخل اسم المنظمة بالعربية
-"
+              placeholder="أدخل اسم المنظمة بالعربية"
               required
-              placement="left"
               name="arabic_name"
               value={whiteLabelData.identity.arabic_name.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    arabic_name: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("identity", "arabic_name", e.target.value)
               }
               error={whiteLabelData.identity.arabic_name.error}
               iconPath="auth/building.svg"
             />
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالانجليزية)
-"
+              label="اسم الجهة أو العلامة التجارية (بالانجليزية)"
               type="text"
-              placeholder="أدخل اسم المنظمة بالانجليزية
-"
+              placeholder="أدخل اسم المنظمة بالانجليزية"
               required
-              placement="left"
               name="english_name"
               value={whiteLabelData.identity.english_name.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    english_name: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("identity", "english_name", e.target.value)
               }
               error={whiteLabelData.identity.english_name.error}
               iconPath="auth/building.svg"
             />
           </div>
         </div>
+
         <div className={styles.section}>
-          <h3 className={styles.section_title}>
-            {" "}
+          <SectionTitle
+            title="الشعار"
+            icon="/svg/auth/logo.svg"
+            height={24}
+            width={24}
+          />
+          <div className={styles.logo_upload}>
             <Image
-              src="/svg/auth/logo.svg"
+              src="/svg/auth/logo-2.svg"
               alt="logo"
               width={24}
               height={24}
-            />{" "}
-            الشعار
-          </h3>
-          <Image src="/svg/auth/logo-2.svg" alt="logo" width={24} height={24} />{" "}
-          <p className={styles.section_description}>
-            ارفع الشعار بصيغة عالية الجودة
-          </p>
-          <button className={styles.upload_button}>اختر ملف </button>
+            />
+            <p className={styles.section_description}>
+              ارفع الشعار بصيغة عالية الجودة
+            </p>
+            <label className={styles.upload_button}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                style={{ display: "none" }}
+              />
+              اختر ملف
+            </label>
+            {logoFile && (
+              <p className={styles.file_selected}>تم اختيار: {logoFile.name}</p>
+            )}
+          </div>
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.section_title}>
-            {" "}
-            <Image
-              src="/svg/auth/color.svg"
-              alt="color"
-              width={24}
-              height={24}
-            />{" "}
-            الوان العلامة التجارية
-          </h3>
-          <div className={styles.inputs}>
-            <InputGroup
-              label="اللون الاساسى"
-              type="color"
-              placeholder="ادخل اللون الاساسى"
-              required
-              placement="left"
-              name="primaryColor"
-              value={whiteLabelData.identity.primaryColor.value}
-              onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    primaryColor: { value: e.target.value, error: "" },
-                  },
-                })
-              }
-              error={whiteLabelData.identity.primaryColor.error}
-            />
-            <InputGroup
-              label="اللون الثانوى"
-              type="color"
-              placeholder="ادخل اللون الثانوى"
-              required
-              placement="left"
-              name="secondaryColor"
-              value={whiteLabelData.identity.secondaryColor.value}
-              onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    secondaryColor: { value: e.target.value, error: "" },
-                  },
-                })
-              }
-              error={whiteLabelData.identity.secondaryColor.error}
-            />
+          <SectionTitle
+            title="الوان العلامة التجارية"
+            icon="/svg/auth/color.svg"
+            height={24}
+            width={24}
+          />
+
+          <div className={styles.color_section}>
+            {/* Primary Color Selection */}
+            <div className={styles.colors}>
+              <h4 className={styles.color_label}>اللون الاساسى</h4>
+              <div className={styles.custom_color}>
+                <div className={styles.color_inputs}>
+                  <input
+                    type="color"
+                    value={whiteLabelData.identity.primaryColor.value}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "primaryColor")
+                    }
+                    className={styles.color_picker}
+                  />
+                  <input
+                    placeholder="لون مخصص"
+                    value={whiteLabelData.identity.primaryColor.value}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "primaryColor")
+                    }
+                    className={styles.color_picker_input}
+                  />
+                </div>
+                {/* <span className={styles.custom_color_text}>لون مخصص</span> */}
+              </div>
+            </div>
+
+            {/* Secondary Color Selection */}
+            <div className={styles.color_section}>
+              <h4 className={styles.color_label}>اللون الثانوى</h4>
+              <div className={styles.custom_color}>
+                <input
+                  type="color"
+                  value={whiteLabelData.identity.secondaryColor.value}
+                  onChange={(e) =>
+                    handleColorSelect(e.target.value, "secondaryColor")
+                  }
+                  className={styles.color_picker}
+                />
+                <input
+                  placeholder="لون مخصص"
+                  value={whiteLabelData.identity.secondaryColor.value}
+                  onChange={(e) =>
+                    handleColorSelect(e.target.value, "secondaryColor")
+                  }
+                  className={styles.color_picker_input}
+                />
+              </div>
+            </div>
           </div>
         </div>
+
         <div className={styles.section}>
-          <h3 className={styles.section_title}>
-            {" "}
-            <Image
-              src="/svg/auth/text.svg"
-              alt="font"
-              width={24}
-              height={24}
-            />{" "}
-            المعلومات شخصية
-          </h3>
+          <SectionTitle
+            title="نوع الخط"
+            icon="/svg/auth/text.svg"
+            height={24}
+            width={24}
+          />
           <InputGroup
-            label="اسم الخط ( اختيارى)"
+            label="اسم الخط (اختيارى)"
             type="text"
-            placeholder="ادخل اسم الفونت مثل : roboto,inter"
-            required
-            placement="left"
+            placeholder="ادخل اسم الفونت مثل : roboto, inter"
             name="fontFamily"
             value={whiteLabelData.identity.fontFamily.value}
             onChange={(e) =>
-              setWhiteLabelData({
-                ...whiteLabelData,
-                identity: {
-                  ...whiteLabelData.identity,
-                  fontFamily: { value: e.target.value, error: "" },
-                },
-              })
+              handleInputChange("identity", "fontFamily", e.target.value)
             }
             error={whiteLabelData.identity.fontFamily.error}
-            iconPath="svg/auth/font.svg"
+            iconPath="auth/smallcaps.svg"
           />
         </div>
       </div>

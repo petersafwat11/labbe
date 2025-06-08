@@ -28,7 +28,7 @@
 .step {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 3.2rem;
   width: 100%;
 }
@@ -41,7 +41,6 @@
   align-items: center;
   aspect-ratio: 1/1;
   border-radius: 9999px;
-  text-align: right;
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 1.6rem;
@@ -56,7 +55,6 @@
 .step_text {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 .step_title {
   color: #656565;

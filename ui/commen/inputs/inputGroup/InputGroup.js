@@ -10,9 +10,8 @@ const InputGroup = ({
   onChange,
   error,
   iconPath,
-  // required,
-  placement,
   iconPath2,
+  onIconClick,
 }) => {
   return (
     <div className={styles.input_group}>
@@ -31,9 +30,6 @@ const InputGroup = ({
             name={name}
             value={value}
             onChange={onChange}
-            style={{
-              textAlign: placement === "left" ? "left" : "right",
-            }}
           />
           {iconPath && (
             <Image
@@ -51,6 +47,7 @@ const InputGroup = ({
               alt="icon"
               width={24}
               height={24}
+              onClick={onIconClick}
             />
           )}
         </div>
