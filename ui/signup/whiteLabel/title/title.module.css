@@ -4,18 +4,24 @@
   justify-content: center;
   align-items: center;
   gap: 0.8rem;
+  padding: 1.6rem 2.4rem;
+  background-color: #fff;
+  border-bottom: #f0f0f0 solid 1px;
+  margin-bottom: 1.6rem;
 }
 .step_title {
-  color: #2c2c2c;
-  text-align: right;
+  color: var(--color-title);
+  text-align: start;
+  width: 100%;
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
   line-height: 2.8rem;
 }
 .step_description {
-  color: #656565;
+  color: var(--color-description);
   text-align: right;
+  width: 100%;
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 400;
@@ -27,11 +33,22 @@
   gap: 0.5rem;
 }
 .section_title {
-  color: #2c2c2c;
+  color: var(--color-title);
   text-align: right;
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 700;
   line-height: 2.4rem;
   letter-spacing: 0.024rem;
+}
+
+@media screen and (max-width: 768px) {
+  .step_text {
+    background-color: transparent;
+    margin-bottom: 0;
+    padding: 2.4rem 1.6rem;
+    margin: 0 2.4rem;
+    background-color: #fff;
+    border: none;
+  }
 }

@@ -1,10 +1,13 @@
-import React from "react";
-import styles from "./stepFour.module.css";
-import { StepTitle } from "../title/SectionTitle";
-import SectionTitle from "../title/SectionTitle";
-import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import React from 'react';
+import styles from './stepFour.module.css';
+import { StepTitle } from '../title/SectionTitle';
+import SectionTitle from '../title/SectionTitle';
+import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
+import { useTranslation } from 'react-i18next';
 
 const StepFour = ({ whiteLabelData, setWhiteLabelData }) => {
+  const { t } = useTranslation('signup');
+
   const handleCheckboxChange = (item, checked) => {
     const currentValues = whiteLabelData.additionalServices;
     let newValues;
@@ -26,26 +29,23 @@ const StepFour = ({ whiteLabelData, setWhiteLabelData }) => {
   return (
     <div className={styles.container}>
       <StepTitle
-        title="خدمات إضافية"
-        description="اختر ما يناسبك من الإعدادات والخيارات التكميلية."
+        title={t('signupForm.whiteLabel.additionalServices.title')}
+        description={t('signupForm.whiteLabel.additionalServices.description')}
       />
 
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title="نوع الفاعليات"
+            title={t('signupForm.whiteLabel.additionalServices.title')}
             icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
           />
           <div className={styles.options}>
             <CheckBoxItems
-              items={[
-                "تفعيل صفحة تهنئة/تعليقات بعد الفعالية",
-                "تمكين التحميل التلقائي لصور الضيوف",
-                "دعم النشرات البريدية أو الحملات الترويجية",
-                "دعم النشرات البريدية أو الحملات الترويجية",
-              ]}
+              items={t('signupForm.whiteLabel.additionalServices.options', {
+                returnObjects: true,
+              })}
               checkedItems={whiteLabelData.additionalServices}
               onChange={handleCheckboxChange}
               columns={1}

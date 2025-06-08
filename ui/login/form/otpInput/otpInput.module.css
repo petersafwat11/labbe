@@ -22,10 +22,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  margin:2rem 0 3.2rem;
+  margin: 2rem 0 3.2rem;
 }
 .title {
-  color: #2c2c2c;
+  color: var(--color-title);
   text-align: center;
   font-size: 24px;
   font-weight: 600;
@@ -33,7 +33,7 @@
   margin-bottom: 1.2rem;
 }
 .description {
-  color: #656565;
+  color: var(--color-description);
   text-align: center;
   font-size: 1.6rem;
   font-weight: 500;
@@ -41,7 +41,7 @@
   letter-spacing: 0.08px;
 }
 .resend_code {
-  color: #6b4e33;
+  color: var(--color-primary);
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;

@@ -1,0 +1,240 @@
+{
+  "signupForm": {
+    "step": "Step",
+    "personalInfo": {
+      "title": "Personal Information",
+      "name": {
+        "label": "Full Name",
+        "placeholder": "Enter your name"
+      }
+    },
+    "initialForm": {
+      "title": "Service Selection",
+      "description": "What type of event do you want to organize?",
+      "service": {
+        "label": "Choose the service",
+        "placeholder": "Select service type",
+        "options": {
+          "whiteLabel": "Your invitation through your platform",
+          "hosted": "We handle your invitation",
+          "selfService": "Handle it yourself"
+        },
+        "descriptions": {
+          "whiteLabel": "Professional solution: Custom dashboard and multiple features.",
+          "hosted": "Labbe team handles everything from design to sending and tracking attendance.",
+          "selfService": "Design and send your invitation easily via WhatsApp with a unique QR code for each guest!"
+        }
+      },
+      "buttons": {
+        "confirm": "Confirm"
+      }
+    },
+    "whiteLabel": {
+      "title": "Create Your Platform with Your Identity",
+      "description": "Follow these steps to customize your platform within Labbe's solutions and start activating it in a way that suits your brand.",
+      "steps": {
+        "identity": "Visual Identity",
+        "login": "Login Details",
+        "requirements": "System Requirements",
+        "services": "Additional Services",
+        "payment": "Payment & Billing"
+      },
+      "identity": {
+        "title": "Visual Identity",
+        "description": "Enter your brand details accurately to be displayed on your platform.",
+        "arabicName": {
+          "label": "Organization or Brand Name (in Arabic)",
+          "placeholder": "Enter organization name in Arabic"
+        },
+        "englishName": {
+          "label": "Organization or Brand Name (in English)",
+          "placeholder": "Enter organization name in English"
+        },
+        "logo": {
+          "label": "Logo",
+          "description": "Upload a high-quality logo",
+          "button": "Choose File"
+        },
+        "colors": {
+          "title": "Brand Colors",
+          "description": "Select the primary and secondary colors for your platform.",
+          "placeholder": "Choose color"
+        },
+        "primaryColor": {
+          "label": "Primary Color"
+        },
+        "secondaryColor": {
+          "label": "Secondary Color"
+        },
+        "fontFamily": {
+          "label": "Font Name (Optional)",
+          "placeholder": "Enter font name e.g., roboto, inter"
+        }
+      },
+      "login": {
+        "title": "Login and Customization",
+        "description": "Customize your platform access and specify domain and language preferences.",
+        "fields": {
+          "email": {
+            "label": "Official Email for Admin Account",
+            "placeholder": "Enter email address"
+          },
+          "domain": {
+            "label": "Preferred Subdomain",
+            "placeholder": "Enter subdomain"
+          }
+        }
+      },
+      "requirements": {
+        "title": "System Requirements",
+        "description": "Share usage details to help us configure the platform to suit your needs.",
+        "fields": {
+          "events": {
+            "label": "Expected Number of Events",
+            "placeholder": "Enter number of events"
+          },
+          "guests": {
+            "label": "Expected Guests per Event",
+            "placeholder": "Enter number of guests"
+          }
+        },
+        "usage": {
+          "title": "Usage Details",
+          "description": "Select the types of events you plan to organize and the systems you want to integrate with.",
+          "fields": {
+            "eventTypes": {
+              "label": "Event Types",
+              "placeholder": "Select event types"
+            },
+            "systemIntegration": {
+              "label": "Internal Systems Integration",
+              "placeholder": "Select systems to integrate"
+            }
+          }
+        },
+        "eventTypes": {
+          "title": "Event Types",
+          "options": [
+            "Workshops",
+            "Conferences",
+            "Celebrations",
+            "Meetings",
+            "Training Courses",
+            "Exhibitions"
+          ]
+        },
+        "systemIntegration": {
+          "title": "Internal Systems Integration",
+          "options": [
+            "CRM System",
+            "SMS Gateway",
+            "Email",
+            "Calendar (Google/Outlook)",
+            "Payment Gateways",
+            "Analytics Tools"
+          ]
+        }
+      },
+      "additionalServices": {
+        "title": "Additional Services",
+        "description": "Choose suitable settings and complementary options.",
+        "options": [
+          "Enable post-event congratulations/comments page",
+          "Enable automatic guest photo uploads",
+          "Support for newsletters or promotional campaigns",
+          "Support for newsletters or promotional campaigns"
+        ]
+      },
+      "payment": {
+        "title": "Create Your Own Environment",
+        "description": "Enter detailed information about the establishment and payment to be able to receive payments and legal work.",
+        "company": {
+          "title": "Company Information",
+          "fields": {
+            "name": {
+              "label": "Official Company/Entity Name",
+              "placeholder": "Enter official company name"
+            },
+            "license": {
+              "label": "Commercial Register or License Number",
+              "placeholder": "Enter commercial register number"
+            },
+            "tax": {
+              "label": "Tax Number (Optional)",
+              "placeholder": "Enter tax number"
+            }
+          }
+        },
+        "address": {
+          "title": "National Address",
+          "fields": {
+            "city": {
+              "label": "City",
+              "placeholder": "Enter city name"
+            },
+            "neighborhood": {
+              "label": "Neighborhood",
+              "placeholder": "Enter neighborhood"
+            },
+            "street": {
+              "label": "Street",
+              "placeholder": "Enter street name"
+            },
+            "buildingNumber": {
+              "label": "Building Number",
+              "placeholder": "Enter building number"
+            },
+            "additionalNumber": {
+              "label": "Additional Number",
+              "placeholder": "Enter additional number"
+            },
+            "placeType": {
+              "label": "Unit Type (Optional)",
+              "placeholder": "Enter unit type"
+            },
+            "placeNumber": {
+              "label": "Unit Number (Optional)",
+              "placeholder": "Enter unit number"
+            }
+          }
+        },
+        "paymentMethods": {
+          "title": "Payment Methods",
+          "options": ["Invoice", "Mada", "Bank Transfer"]
+        }
+      }
+    },
+    "host": {
+      "account": {
+        "title": "Account Information",
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter your name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter password"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password",
+          "placeholder": "Re-enter password"
+        }
+      },
+      "company": {
+        "title": "Company Information",
+        "logo": {
+          "label": "Logo",
+          "placeholder": "Upload company logo"
+        },
+        "name": {
+          "label": "Company Name",
+          "placeholder": "Enter company name"
+        }
+      }
+    }
+  }
+}

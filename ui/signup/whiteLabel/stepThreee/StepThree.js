@@ -1,17 +1,20 @@
-import React from "react";
-import styles from "./stepThree.module.css";
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import { StepTitle } from "../title/SectionTitle";
-import SectionTitle from "../title/SectionTitle";
-import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import React from 'react';
+import styles from './stepThree.module.css';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import { StepTitle } from '../title/SectionTitle';
+import SectionTitle from '../title/SectionTitle';
+import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
+import { useTranslation } from 'react-i18next';
 
 const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
+  const { t } = useTranslation('signup');
+
   const handleInputChange = (section, field, value) => {
     setWhiteLabelData({
       ...whiteLabelData,
       [section]: {
         ...whiteLabelData[section],
-        [field]: { value, error: "" },
+        [field]: { value, error: '' },
       },
     });
   };
@@ -32,7 +35,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
       ...whiteLabelData,
       [section]: {
         ...whiteLabelData[section],
-        [field]: { value: newValues, error: "" },
+        [field]: { value: newValues, error: '' },
       },
     });
   };
@@ -40,14 +43,14 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
   return (
     <div className={styles.container}>
       <StepTitle
-        title="متطلبات النظام"
-        description="شارك تفاصيل الاستخدام لمساعدتنا في تهيئة المنصة بما يناسب احتياجاتك."
+        title={t('signupForm.whiteLabel.requirements.title')}
+        description={t('signupForm.whiteLabel.requirements.description')}
       />
 
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title="الاستخدام المتوقع"
+            title={t('signupForm.whiteLabel.requirements.usage.title')}
             icon="/svg/auth/usage.svg"
             height={24}
             width={24}
@@ -55,16 +58,20 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
 
           <div className={styles.row}>
             <InputGroup
-              label="عدد الفعاليات المتوقعة"
+              label={t(
+                'signupForm.whiteLabel.requirements.fields.events.label'
+              )}
               type="number"
-              placeholder="ادخل عدد الفعاليات "
+              placeholder={t(
+                'signupForm.whiteLabel.requirements.fields.events.placeholder'
+              )}
               required
               name="numberOfEvents"
               value={whiteLabelData.systemRequirements.numberOfEvents.value}
               onChange={(e) =>
                 handleInputChange(
-                  "systemRequirements",
-                  "numberOfEvents",
+                  'systemRequirements',
+                  'numberOfEvents',
                   e.target.value
                 )
               }
@@ -72,9 +79,13 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
               iconPath="auth/calendar.svg"
             />
             <InputGroup
-              label="عدد الضيوف المتوقعة لكل فعالية"
+              label={t(
+                'signupForm.whiteLabel.requirements.fields.guests.label'
+              )}
               type="number"
-              placeholder="ادخل عدد الضيوف "
+              placeholder={t(
+                'signupForm.whiteLabel.requirements.fields.guests.placeholder'
+              )}
               required
               name="numberOfGuestsPerEvent"
               value={
@@ -82,8 +93,8 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
               }
               onChange={(e) =>
                 handleInputChange(
-                  "systemRequirements",
-                  "numberOfGuestsPerEvent",
+                  'systemRequirements',
+                  'numberOfGuestsPerEvent',
                   e.target.value
                 )
               }
@@ -97,7 +108,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="نوع الفعاليات"
+            title={t('signupForm.whiteLabel.requirements.eventTypes.title')}
             icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
@@ -105,19 +116,15 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
 
           <div className={styles.options}>
             <CheckBoxItems
-              items={[
-                "ورش عمل",
-                "مؤتمرات",
-                "مناسبات واحتفالات",
-                "اجتماعات",
-                "دورات تدريبية",
-                "معارض",
-              ]}
+              items={t(
+                'signupForm.whiteLabel.requirements.eventTypes.options',
+                { returnObjects: true }
+              )}
               checkedItems={whiteLabelData.systemRequirements.eventsTypes.value}
               onChange={(item, checked) =>
                 handleCheckboxChange(
-                  "systemRequirements",
-                  "eventsTypes",
+                  'systemRequirements',
+                  'eventsTypes',
                   item,
                   checked
                 )
@@ -128,7 +135,9 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="التكامل مع الأنظمة الداخلية"
+            title={t(
+              'signupForm.whiteLabel.requirements.systemIntegration.title'
+            )}
             icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
@@ -136,19 +145,15 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
 
           <div className={styles.options}>
             <CheckBoxItems
-              items={[
-                "نظام إدارة العملاء (CRM)",
-                "بوابة الرسائل النصية (SMS)",
-                "البريد الإلكتروني",
-                "التقويم (Google/Outlook)",
-                "بوابات الدفع",
-                "أدوات التحليل",
-              ]}
+              items={t(
+                'signupForm.whiteLabel.requirements.systemIntegration.options',
+                { returnObjects: true }
+              )}
               checkedItems={whiteLabelData.systemRequirements.services.value}
               onChange={(item, checked) =>
                 handleCheckboxChange(
-                  "systemRequirements",
-                  "services",
+                  'systemRequirements',
+                  'services',
                   item,
                   checked
                 )

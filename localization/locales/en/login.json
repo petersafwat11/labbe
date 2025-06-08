@@ -1,0 +1,28 @@
+{
+  "loginForm": {
+    "greeting": "Welcome",
+    "emailLogin": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "forgotPassword": "Forgot Password",
+      "rememberMe": "Remember Me",
+      "loginWithOTP": "Login with temporary password"
+    },
+    "otpLogin": {
+      "phoneNumber": "Phone Number",
+      "verification": "Verification",
+      "editPhone": "Edit phone number",
+      "loginWithEmail": "Login with email"
+    },
+    "buttons": {
+      "login": "Login",
+      "verify": "Verify"
+    }
+  }
+}

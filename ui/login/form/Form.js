@@ -1,33 +1,37 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import styles from "./form.module.css";
-import FormHeader from "../../commen/formHeader/FormHeader";
-import FormBottom from "./formBottom/FormBottom";
-import Greating from "./Greating/Greating";
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
-import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
-import OtpInput from "./otpInput/OtpInput";
-import { useRouter } from "next/navigation";
+'use client';
+import React, { useEffect, useState } from 'react';
+import styles from './form.module.css';
+import { useTranslation } from 'react-i18next';
+import FormHeader from '../../commen/formHeader/FormHeader';
+import FormBottom from './formBottom/FormBottom';
+import Greating from './Greating/Greating';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
+import MobileInputGroup from '@/ui/commen/inputs/mobileInputGroup/MobileInputGroup';
+import OtpInput from './otpInput/OtpInput';
+import { useRouter } from 'next/navigation';
 
 const Form = () => {
   const router = useRouter();
+  const { t } = useTranslation('login');
+  console.log("t('loginForm.greeting')..", t('loginForm.greeting'));
+
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
-    email: "",
-    password: "",
-    number: "",
-    type: "email",
+    email: '',
+    password: '',
+    number: '',
+    type: 'email',
   });
   const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-    number: "",
-    otp: "",
+    email: '',
+    password: '',
+    number: '',
+    otp: '',
   });
   const [verificationCode, setVerificationCode] = useState({
-    value: ["", "", "", "", "", ""],
-    error: "",
+    value: ['', '', '', '', '', ''],
+    error: '',
     show: false,
   });
 
@@ -36,29 +40,29 @@ const Form = () => {
   };
 
   const toggleLoginMethod = () => {
-    setData({ ...data, type: data.type === "otp" ? "email" : "otp" });
+    setData({ ...data, type: data.type === 'otp' ? 'email' : 'otp' });
   };
 
   const handleLogin = () => {
-    if (data.type === "otp") {
-      console.log("otp");
+    if (data.type === 'otp') {
+      console.log('otp');
     } else {
-      console.log("login");
+      console.log('login');
     }
   };
 
   const confirmBtnHandler = () => {
-    console.log("clicked");
+    console.log('clicked');
     if (verificationCode.show === true) {
       // Handle OTP verification
-      if (verificationCode.value.every((digit) => digit !== "")) {
-        console.log("OTP verification:", verificationCode.value.join(""));
+      if (verificationCode.value.every((digit) => digit !== '')) {
+        console.log('OTP verification:', verificationCode.value.join(''));
         handleLogin();
       }
-    } else if (data.type === "email" && data.email && data.password) {
+    } else if (data.type === 'email' && data.email && data.password) {
       handleLogin();
     } else if (
-      data.type === "otp" &&
+      data.type === 'otp' &&
       data.number &&
       verificationCode.show === false
     ) {
@@ -70,7 +74,7 @@ const Form = () => {
     setVerificationCode({
       ...verificationCode,
       show: false,
-      value: ["", "", "", "", "", ""],
+      value: ['', '', '', '', '', ''],
     });
   };
 
@@ -92,10 +96,10 @@ const Form = () => {
             setVerificationCode={setVerificationCode}
             onGoBack={goBackToMobileInput}
           />
-        ) : data.type === "otp" ? (
+        ) : data.type === 'otp' ? (
           <div className={styles.otp}>
             <MobileInputGroup
-              label="رقم الهاتف"
+              label={t('loginForm.otpLogin.phoneNumber')}
               type="text"
               name="number"
               value={data.number}
@@ -107,9 +111,9 @@ const Form = () => {
           <div className={styles.email_login}>
             <div className={styles.inputs}>
               <InputGroup
-                label="البريد اللإلكترونى"
+                label={t('loginForm.emailLogin.email.label')}
                 type="email"
-                placeholder="ادخل البريد اللإلكترونى"
+                placeholder={t('loginForm.emailLogin.email.placeholder')}
                 required
                 name="email"
                 value={data.email}
@@ -118,55 +122,58 @@ const Form = () => {
                 iconPath="auth/email.svg"
               />
               <InputGroup
-                label="كلمة المرور"
-                type={showPassword ? "text" : "password"}
-                placeholder="ادخل كلمة المرور"
+                label={t('loginForm.emailLogin.password.label')}
+                type={showPassword ? 'text' : 'password'}
+                placeholder={t('loginForm.emailLogin.password.placeholder')}
                 required
                 name="password"
                 value={data.password}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
                 error={errors.password}
                 iconPath="auth/password.svg"
-                iconPath2={showPassword ? "auth/eye-off.svg" : "auth/eye.svg"}
+                iconPath2={showPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'}
                 onIconClick={togglePasswordVisibility}
               />
             </div>
             <div className={styles.buttons}>
               <button
-                onClick={() => router.push("/change-password")}
+                onClick={() => router.push('/change-password')}
                 className={styles.forgot_password}
               >
-                نسيت كلمة المرور
+                {t('loginForm.emailLogin.forgotPassword')}
               </button>
 
               <div className={styles.remember_me}>
-                <p>تذكرنى</p>
-
+                <p>{t('loginForm.emailLogin.rememberMe')}</p>
                 <input type="checkbox" />
               </div>
             </div>
           </div>
         )}
         <ConfirmBtn
-          text={verificationCode.show === true ? "التحقق" : "تسجيل الدخول"}
+          text={
+            verificationCode.show === true
+              ? t('loginForm.buttons.verify')
+              : t('loginForm.buttons.login')
+          }
           active={
             verificationCode.show === true
-              ? verificationCode.value.every((digit) => digit !== "")
+              ? verificationCode.value.every((digit) => digit !== '')
               : (data.email && data.password) ||
-                (data.type === "otp" && data.number)
+                (data.type === 'otp' && data.number)
           }
           clickHandler={confirmBtnHandler}
         />
         {verificationCode.show === true ? (
           <button className={styles.edit_phone} onClick={goBackToMobileInput}>
-            تعديل رقم الهاتف
+            {t('loginForm.otpLogin.editPhone')}
           </button>
         ) : (
           <FormBottom
             text={
-              data.type === "otp"
-                ? "تسجيل الدخول بالبريد اللإلكترونى"
-                : "تسجيل الدخول بكلمة مرور مؤقتة"
+              data.type === 'otp'
+                ? t('loginForm.otpLogin.loginWithEmail')
+                : t('loginForm.emailLogin.loginWithOTP')
             }
             clickHandler={toggleLoginMethod}
           />

@@ -1,27 +1,29 @@
-import React, { useState } from "react";
-import styles from "./stepOne.module.css";
-import Image from "next/image";
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import { StepTitle } from "../title/SectionTitle";
-import SectionTitle from "../title/SectionTitle";
+import React, { useState } from 'react';
+import styles from './stepOne.module.css';
+import Image from 'next/image';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import { StepTitle } from '../title/SectionTitle';
+import SectionTitle from '../title/SectionTitle';
+import { useTranslation } from 'react-i18next';
 
 const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
+  const { t } = useTranslation('signup');
   const [logoFile, setLogoFile] = useState(null);
 
   // Predefined color options
   const colorOptions = [
-    "#c28e5c",
-    "#d6b392",
-    "#8b6f47",
-    "#a0845c",
-    "#e74c3c",
-    "#3498db",
-    "#2ecc71",
-    "#f39c12",
-    "#9b59b6",
-    "#1abc9c",
-    "#34495e",
-    "#95a5a6",
+    '#c28e5c',
+    '#d6b392',
+    '#8b6f47',
+    '#a0845c',
+    '#e74c3c',
+    '#3498db',
+    '#2ecc71',
+    '#f39c12',
+    '#9b59b6',
+    '#1abc9c',
+    '#34495e',
+    '#95a5a6',
   ];
 
   const handleInputChange = (section, field, value) => {
@@ -29,60 +31,64 @@ const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
       ...whiteLabelData,
       [section]: {
         ...whiteLabelData[section],
-        [field]: { value, error: "" },
+        [field]: { value, error: '' },
       },
     });
   };
 
   const handleColorSelect = (color, colorType) => {
-    handleInputChange("identity", colorType, color);
+    handleInputChange('identity', colorType, color);
   };
 
   const handleLogoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       setLogoFile(file);
-      handleInputChange("identity", "logo", file.name);
+      handleInputChange('identity', 'logo', file.name);
     }
   };
 
   return (
     <div className={styles.container}>
       <StepTitle
-        title="الهوية البصرية"
-        description="أدخل بيانات العلامة التجارية الخاصة بك بدقة ليتم عرضها على منصتك."
+        title={t('signupForm.whiteLabel.identity.title')}
+        description={t('signupForm.whiteLabel.identity.description')}
       />
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title="المعلومات الشخصية"
+            title={t('signupForm.personalInfo.title')}
             icon="/svg/auth/personal-info.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالعربية)"
+              label={t('signupForm.whiteLabel.identity.arabicName.label')}
               type="text"
-              placeholder="أدخل اسم المنظمة بالعربية"
+              placeholder={t(
+                'signupForm.whiteLabel.identity.arabicName.placeholder'
+              )}
               required
               name="arabic_name"
               value={whiteLabelData.identity.arabic_name.value}
               onChange={(e) =>
-                handleInputChange("identity", "arabic_name", e.target.value)
+                handleInputChange('identity', 'arabic_name', e.target.value)
               }
               error={whiteLabelData.identity.arabic_name.error}
               iconPath="auth/building.svg"
             />
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالانجليزية)"
+              label={t('signupForm.whiteLabel.identity.englishName.label')}
               type="text"
-              placeholder="أدخل اسم المنظمة بالانجليزية"
+              placeholder={t(
+                'signupForm.whiteLabel.identity.englishName.placeholder'
+              )}
               required
               name="english_name"
               value={whiteLabelData.identity.english_name.value}
               onChange={(e) =>
-                handleInputChange("identity", "english_name", e.target.value)
+                handleInputChange('identity', 'english_name', e.target.value)
               }
               error={whiteLabelData.identity.english_name.error}
               iconPath="auth/building.svg"
@@ -92,7 +98,7 @@ const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="الشعار"
+            title={t('signupForm.whiteLabel.identity.logo.label')}
             icon="/svg/auth/logo.svg"
             height={24}
             width={24}
@@ -105,26 +111,28 @@ const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
               height={24}
             />
             <p className={styles.section_description}>
-              ارفع الشعار بصيغة عالية الجودة
+              {t('signupForm.whiteLabel.identity.logo.description')}
             </p>
             <label className={styles.upload_button}>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleLogoUpload}
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               />
-              اختر ملف
+              {t('signupForm.whiteLabel.identity.logo.button')}
             </label>
             {logoFile && (
-              <p className={styles.file_selected}>تم اختيار: {logoFile.name}</p>
+              <p className={styles.file_selected}>
+                {t('selected')}: {logoFile.name}
+              </p>
             )}
           </div>
         </div>
 
         <div className={styles.section}>
           <SectionTitle
-            title="الوان العلامة التجارية"
+            title={t('signupForm.whiteLabel.identity.colors.title')}
             icon="/svg/auth/color.svg"
             height={24}
             width={24}
@@ -133,47 +141,54 @@ const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
           <div className={styles.color_section}>
             {/* Primary Color Selection */}
             <div className={styles.colors}>
-              <h4 className={styles.color_label}>اللون الاساسى</h4>
+              <h4 className={styles.color_label}>
+                {t('signupForm.whiteLabel.identity.primaryColor.label')}
+              </h4>
               <div className={styles.custom_color}>
                 <div className={styles.color_inputs}>
                   <input
                     type="color"
                     value={whiteLabelData.identity.primaryColor.value}
                     onChange={(e) =>
-                      handleColorSelect(e.target.value, "primaryColor")
+                      handleColorSelect(e.target.value, 'primaryColor')
                     }
                     className={styles.color_picker}
                   />
                   <input
-                    placeholder="لون مخصص"
+                    placeholder={t(
+                      'signupForm.whiteLabel.identity.colors.customColor'
+                    )}
                     value={whiteLabelData.identity.primaryColor.value}
                     onChange={(e) =>
-                      handleColorSelect(e.target.value, "primaryColor")
+                      handleColorSelect(e.target.value, 'primaryColor')
                     }
                     className={styles.color_picker_input}
                   />
                 </div>
-                {/* <span className={styles.custom_color_text}>لون مخصص</span> */}
               </div>
             </div>
 
             {/* Secondary Color Selection */}
             <div className={styles.color_section}>
-              <h4 className={styles.color_label}>اللون الثانوى</h4>
+              <h4 className={styles.color_label}>
+                {t('signupForm.whiteLabel.identity.secondaryColor.label')}
+              </h4>
               <div className={styles.custom_color}>
                 <input
                   type="color"
                   value={whiteLabelData.identity.secondaryColor.value}
                   onChange={(e) =>
-                    handleColorSelect(e.target.value, "secondaryColor")
+                    handleColorSelect(e.target.value, 'secondaryColor')
                   }
                   className={styles.color_picker}
                 />
                 <input
-                  placeholder="لون مخصص"
+                  placeholder={t(
+                    'signupForm.whiteLabel.identity.colors.customColor'
+                  )}
                   value={whiteLabelData.identity.secondaryColor.value}
                   onChange={(e) =>
-                    handleColorSelect(e.target.value, "secondaryColor")
+                    handleColorSelect(e.target.value, 'secondaryColor')
                   }
                   className={styles.color_picker_input}
                 />
@@ -184,19 +199,21 @@ const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="نوع الخط"
+            title={t('signupForm.whiteLabel.identity.fontFamily.label')}
             icon="/svg/auth/text.svg"
             height={24}
             width={24}
           />
           <InputGroup
-            label="اسم الخط (اختيارى)"
+            label={t('signupForm.whiteLabel.identity.fontFamily.label')}
             type="text"
-            placeholder="ادخل اسم الفونت مثل : roboto, inter"
+            placeholder={t(
+              'signupForm.whiteLabel.identity.fontFamily.placeholder'
+            )}
             name="fontFamily"
             value={whiteLabelData.identity.fontFamily.value}
             onChange={(e) =>
-              handleInputChange("identity", "fontFamily", e.target.value)
+              handleInputChange('identity', 'fontFamily', e.target.value)
             }
             error={whiteLabelData.identity.fontFamily.error}
             iconPath="auth/smallcaps.svg"

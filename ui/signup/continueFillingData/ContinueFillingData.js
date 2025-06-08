@@ -1,25 +1,28 @@
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import Image from "next/image";
-import React from "react";
-import styles from "./continueFillingData.module.css";
-import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
-import { StepTitle } from "../whiteLabel/title/SectionTitle";
-import SectionTitle from "../whiteLabel/title/SectionTitle";
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import Image from 'next/image';
+import React from 'react';
+import styles from './continueFillingData.module.css';
+import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
+import { StepTitle } from '../whiteLabel/title/SectionTitle';
+import SectionTitle from '../whiteLabel/title/SectionTitle';
+import { useTranslation } from 'react-i18next';
+
 const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
+  const { t } = useTranslation('signup');
+
   return (
     <div className={styles.form_container}>
       <StepTitle
-        title="أكمل ملفك الشخصى"
-        description="أكمل ملفك الشخصى للاستفادة من خدماتنا"
-      />    
+        title={t('signupForm.personalInfo.title')}
+        description={t('signupForm.initialForm.description')}
+      />
       <div className={styles.form}>
         <div className={styles.section}>
-          <SectionTitle title="المعلومات شخصية" />
-
+          <SectionTitle title={t('signupForm.personalInfo.title')} />
           <InputGroup
-            label="اسمك بالكامل"
+            label={t('signupForm.personalInfo.name.label')}
             type="text"
-            placeholder="ادخل الاسم"
+            placeholder={t('signupForm.personalInfo.name.placeholder')}
             required
             name="name"
             value={data.name.value}
@@ -31,35 +34,60 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
           />
         </div>
         <div className={styles.services}>
-          <SectionTitle title="أختر الخدمة المقدمة" />
+          <SectionTitle title={t('signupForm.initialForm.service.label')} />
           <p className={styles.services_description}>
-            ما نوع الحدث الذي تريد تنظيمه؟{" "}
+            {t('signupForm.initialForm.description')}
           </p>
           <div className={styles.services_list}>
             <Service
-              title="دعوتك عبر منصتك"
-              description="حل احترافي للجهات: لوحة تحكم مخصصة ومزايا متعددة."
-              iconPath="svg/auth/plateform.svg"
+              title={t('signupForm.initialForm.service.options.whiteLabel')}
+              description={t(
+                'signupForm.initialForm.service.descriptions.whiteLabel'
+              )}
+              iconPath="/svg/auth/plateform.svg"
               clickHandler={() =>
-                setData({ ...data, service: { value: "دعوتك عبر منصتك" } })
+                setData({
+                  ...data,
+                  service: {
+                    value: t(
+                      'signupForm.initialForm.service.options.whiteLabel'
+                    ),
+                  },
+                })
               }
               selectedService={data.service.value}
             />
             <Service
-              title="دعوتك علينا"
-              description="فريق لبّى يتولى كل شيء من تصميم وإرسال ومتابعة الحضور وتذكير الضيوف."
-              iconPath="svg/auth/invite.svg"
+              title={t('signupForm.initialForm.service.options.hosted')}
+              description={t(
+                'signupForm.initialForm.service.descriptions.hosted'
+              )}
+              iconPath="/svg/auth/invite.svg"
               clickHandler={() =>
-                setData({ ...data, service: { value: "دعوتك علينا" } })
+                setData({
+                  ...data,
+                  service: {
+                    value: t('signupForm.initialForm.service.options.hosted'),
+                  },
+                })
               }
               selectedService={data.service.value}
             />
             <Service
-              title="دعوتك بيدك"
-              description="صمم وارسل دعوتك بسهولة عبر الواتساب مع كود QR خاص لكل ضيف!"
-              iconPath="svg/auth/qrcode.svg"
+              title={t('signupForm.initialForm.service.options.selfService')}
+              description={t(
+                'signupForm.initialForm.service.descriptions.selfService'
+              )}
+              iconPath="/svg/auth/qrcode.svg"
               clickHandler={() =>
-                setData({ ...data, service: { value: "دعوتك بيدك"} })
+                setData({
+                  ...data,
+                  service: {
+                    value: t(
+                      'signupForm.initialForm.service.options.selfService'
+                    ),
+                  },
+                })
               }
               selectedService={data.service.value}
             />
@@ -67,7 +95,7 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
         </div>
         <ConfirmBtn
           clickHandler={showFormsForSignup}
-          text="تأكيد"
+          text={t('signupForm.initialForm.buttons.confirm')}
           active={data.name.value && data.service.value}
         />
       </div>
@@ -76,6 +104,7 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
 };
 
 export default ContinueFillingData;
+
 export const Service = ({
   title,
   description,
@@ -87,13 +116,13 @@ export const Service = ({
     <div
       onClick={clickHandler}
       className={`${styles.service} ${
-        selectedService === title ? styles.selected_service : ""
+        selectedService === title ? styles.selected_service : ''
       }`}
     >
       <div className={styles.service_icon}>
         <Image
           src={iconPath}
-          alt={title || "service icon"}
+          alt={title || 'service icon'}
           width={32}
           height={32}
         />

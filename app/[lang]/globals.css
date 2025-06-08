@@ -1,12 +1,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #6b4e33;
+  --color-primary-bg: #f9f4ef;
+  --color-title: #2c2c2c;
+  --color-description: #656565;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    /* Optionally, you can define dark variants for your custom colors here */
+    /* --color-primary: #...; */
+    /* --color-primary-bg: #...; */
+    /* --color-title: #...; */
+    /* --color-description: #...; */
   }
 }
 

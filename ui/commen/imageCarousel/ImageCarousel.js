@@ -1,8 +1,8 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import styles from "./imageCarousel.module.css";
-import Image from "next/image";
-import { tajawal } from "@/app/fonts";
+'use client';
+import React, { useState, useEffect } from 'react';
+import styles from './imageCarousel.module.css';
+import Image from 'next/image';
+import { tajawal } from '@/app/[lang]/fonts';
 const ImageCarousel = () => {
   const [currentImage, setCurrentImage] = useState(1);
   useEffect(() => {
@@ -18,8 +18,8 @@ const ImageCarousel = () => {
           className={styles.image}
           src={`/login/${currentImage}.png`}
           alt={`image${currentImage}`}
-          width={"100"}
-          height={"100"}
+          width={'100'}
+          height={'100'}
         />
       </div>
       <div className={styles.text_container}>

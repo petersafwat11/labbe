@@ -1,17 +1,20 @@
-import React from "react";
-import styles from "./stepFive.module.css";
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import { StepTitle } from "../title/SectionTitle";
-import SectionTitle from "../title/SectionTitle";
-import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import React from 'react';
+import styles from './stepFive.module.css';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import { StepTitle } from '../title/SectionTitle';
+import SectionTitle from '../title/SectionTitle';
+import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
+import { useTranslation } from 'react-i18next';
 
 const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
+  const { t } = useTranslation('signup');
+
   const handleInputChange = (section, field, value) => {
     setWhiteLabelData({
       ...whiteLabelData,
       [section]: {
         ...whiteLabelData[section],
-        [field]: { value, error: "" },
+        [field]: { value, error: '' },
       },
     });
   };
@@ -30,7 +33,7 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
       ...whiteLabelData,
       paymentData: {
         ...whiteLabelData.paymentData,
-        paymentMethod: { value: newValues, error: "" },
+        paymentMethod: { value: newValues, error: '' },
       },
     });
   };
@@ -38,15 +41,15 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
   return (
     <div className={styles.container}>
       <StepTitle
-        title="أنشئ منصتك بيئتك الخاصة"
-        description="أدخل المعلومات التفصيلية للمنشأة والدفع لتستطيع تلقي الدفعات والعمل القانوني."
+        title={t('signupForm.whiteLabel.payment.title')}
+        description={t('signupForm.whiteLabel.payment.description')}
       />
 
       <div className={styles.sections}>
         {/* Company Information Section */}
         <div className={styles.section}>
           <SectionTitle
-            title="معلومات الشركة"
+            title={t('signupForm.whiteLabel.payment.company.title')}
             icon="/svg/auth/building.svg"
             height={24}
             width={24}
@@ -54,30 +57,38 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
 
           <div className={styles.inputs}>
             <InputGroup
-              label="اسم الجهة/المنشأة الرسمية"
+              label={t(
+                'signupForm.whiteLabel.payment.company.fields.name.label'
+              )}
               type="text"
-              placeholder="الاسم الرسمي للشركة"
+              placeholder={t(
+                'signupForm.whiteLabel.payment.company.fields.name.placeholder'
+              )}
               required
               name="companyName"
               value={whiteLabelData.paymentData.companyName.value}
               onChange={(e) =>
-                handleInputChange("paymentData", "companyName", e.target.value)
+                handleInputChange('paymentData', 'companyName', e.target.value)
               }
               error={whiteLabelData.paymentData.companyName.error}
               iconPath="auth/building.svg"
             />
 
             <InputGroup
-              label="السجل التجاري أو رقم الترخيص"
+              label={t(
+                'signupForm.whiteLabel.payment.company.fields.license.label'
+              )}
               type="text"
-              placeholder="رقم السجل التجارى"
+              placeholder={t(
+                'signupForm.whiteLabel.payment.company.fields.license.placeholder'
+              )}
               required
               name="licenseNumber"
               value={whiteLabelData.paymentData.licenseNumber.value}
               onChange={(e) =>
                 handleInputChange(
-                  "paymentData",
-                  "licenseNumber",
+                  'paymentData',
+                  'licenseNumber',
                   e.target.value
                 )
               }
@@ -85,14 +96,17 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
               iconPath="auth/document.svg"
             />
             <InputGroup
-              label="الرقم الضريبى (optional)"
+              label={t(
+                'signupForm.whiteLabel.payment.company.fields.tax.label'
+              )}
               type="text"
-              placeholder="ادخل الرقم الضريبى"
-              required
+              placeholder={t(
+                'signupForm.whiteLabel.payment.company.fields.tax.placeholder'
+              )}
               name="TaxNumber"
               value={whiteLabelData.paymentData.TaxNumber.value}
               onChange={(e) =>
-                handleInputChange("paymentData", "TaxNumber", e.target.value)
+                handleInputChange('paymentData', 'TaxNumber', e.target.value)
               }
               error={whiteLabelData.paymentData.TaxNumber.error}
               iconPath="auth/document.svg"
@@ -103,7 +117,7 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
         {/* National Address Section */}
         <div className={styles.section}>
           <SectionTitle
-            title="العنوان الوطني"
+            title={t('signupForm.whiteLabel.payment.address.title')}
             icon="/svg/auth/location.svg"
             height={24}
             width={24}
@@ -112,29 +126,37 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
           <div className={styles.inputs}>
             <div className={styles.row}>
               <InputGroup
-                label="المدينة"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.city.label'
+                )}
                 type="text"
-                placeholder="ادخل اسم المدينة"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.city.placeholder'
+                )}
                 required
                 name="city"
                 value={whiteLabelData.paymentData.city.value}
                 onChange={(e) =>
-                  handleInputChange("paymentData", "city", e.target.value)
+                  handleInputChange('paymentData', 'city', e.target.value)
                 }
                 error={whiteLabelData.paymentData.city.error}
                 iconPath="auth/location.svg"
               />
               <InputGroup
-                label="الحي"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.neighborhood.label'
+                )}
                 type="text"
-                placeholder="ادخل اسم الحي"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.neighborhood.placeholder'
+                )}
                 required
                 name="neighborhood"
                 value={whiteLabelData.paymentData.neighborhood.value}
                 onChange={(e) =>
                   handleInputChange(
-                    "paymentData",
-                    "neighborhood",
+                    'paymentData',
+                    'neighborhood',
                     e.target.value
                   )
                 }
@@ -144,14 +166,18 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
             </div>
 
             <InputGroup
-              label="الشارع"
+              label={t(
+                'signupForm.whiteLabel.payment.address.fields.street.label'
+              )}
               type="text"
-              placeholder="ادخل اسم الشارع"
+              placeholder={t(
+                'signupForm.whiteLabel.payment.address.fields.street.placeholder'
+              )}
               required
               name="street"
               value={whiteLabelData.paymentData.street.value}
               onChange={(e) =>
-                handleInputChange("paymentData", "street", e.target.value)
+                handleInputChange('paymentData', 'street', e.target.value)
               }
               error={whiteLabelData.paymentData.street.error}
               iconPath="auth/location.svg"
@@ -159,16 +185,20 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
 
             <div className={styles.row}>
               <InputGroup
-                label="رقم المبنى"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.buildingNumber.label'
+                )}
                 type="text"
-                placeholder="ادخل رقم المبنى"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.buildingNumber.placeholder'
+                )}
                 required
                 name="buildingNumber"
                 value={whiteLabelData.paymentData.buildingNumber.value}
                 onChange={(e) =>
                   handleInputChange(
-                    "paymentData",
-                    "buildingNumber",
+                    'paymentData',
+                    'buildingNumber',
                     e.target.value
                   )
                 }
@@ -176,15 +206,19 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
                 iconPath="auth/location.svg"
               />
               <InputGroup
-                label="الرقم الإضافي"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.additionalNumber.label'
+                )}
                 type="text"
-                placeholder="ادخل الرقم الإضافي"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.additionalNumber.placeholder'
+                )}
                 name="additionalNumber"
                 value={whiteLabelData.paymentData.additionalNumber.value}
                 onChange={(e) =>
                   handleInputChange(
-                    "paymentData",
-                    "additionalNumber",
+                    'paymentData',
+                    'additionalNumber',
                     e.target.value
                   )
                 }
@@ -195,27 +229,35 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
 
             <div className={styles.row}>
               <InputGroup
-                label="نوع الوحدة (اختيارى)"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.placeType.label'
+                )}
                 type="text"
-                placeholder="ادخل نوع الوحدة"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.placeType.placeholder'
+                )}
                 name="placeType"
                 value={whiteLabelData.paymentData.placeType.value}
                 onChange={(e) =>
-                  handleInputChange("paymentData", "placeType", e.target.value)
+                  handleInputChange('paymentData', 'placeType', e.target.value)
                 }
                 error={whiteLabelData.paymentData.placeType.error}
                 iconPath="auth/location.svg"
               />
               <InputGroup
-                label="رقم الوحدة (اختيارى)"
+                label={t(
+                  'signupForm.whiteLabel.payment.address.fields.placeNumber.label'
+                )}
                 type="text"
-                placeholder="ادخل رقم الوحدة"
+                placeholder={t(
+                  'signupForm.whiteLabel.payment.address.fields.placeNumber.placeholder'
+                )}
                 name="placeNumber"
                 value={whiteLabelData.paymentData.placeNumber.value}
                 onChange={(e) =>
                   handleInputChange(
-                    "paymentData",
-                    "placeNumber",
+                    'paymentData',
+                    'placeNumber',
                     e.target.value
                   )
                 }
@@ -229,7 +271,7 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
         {/* Payment Methods Section */}
         <div className={styles.section}>
           <SectionTitle
-            title="طرق الدفع"
+            title={t('signupForm.whiteLabel.payment.paymentMethods.title')}
             icon="/svg/auth/payment.svg"
             height={24}
             width={24}
@@ -237,7 +279,9 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
 
           <div className={styles.options}>
             <CheckBoxItems
-              items={["فاتورة", "مدى", "تحويل بنكى"]}
+              items={t('signupForm.whiteLabel.payment.paymentMethods.options', {
+                returnObjects: true,
+              })}
               checkedItems={whiteLabelData.paymentData.paymentMethod.value}
               onChange={handleCheckboxChange}
               columns={2}

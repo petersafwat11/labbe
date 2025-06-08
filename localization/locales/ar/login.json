@@ -1,0 +1,28 @@
+{
+  "loginForm": {
+    "greeting": "مرحباً بك",
+    "emailLogin": {
+      "email": {
+        "label": "البريد اللإلكترونى",
+        "placeholder": "ادخل البريد اللإلكترونى"
+      },
+      "password": {
+        "label": "كلمة المرور",
+        "placeholder": "ادخل كلمة المرور"
+      },
+      "forgotPassword": "نسيت كلمة المرور",
+      "rememberMe": "تذكرنى",
+      "loginWithOTP": "تسجيل الدخول بكلمة مرور مؤقتة"
+    },
+    "otpLogin": {
+      "phoneNumber": "رقم الهاتف",
+      "verification": "التحقق",
+      "editPhone": "تعديل رقم الهاتف",
+      "loginWithEmail": "تسجيل الدخول بالبريد اللإلكترونى"
+    },
+    "buttons": {
+      "login": "تسجيل الدخول",
+      "verify": "التحقق"
+    }
+  }
+}

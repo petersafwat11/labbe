@@ -1,10 +1,11 @@
-import React from "react";
-import styles from "./title.module.css";
-import Image from "next/image";
+import React from 'react';
+import styles from './title.module.css';
+import Image from 'next/image';
+
 const SectionTitle = ({ title, icon, height, width }) => {
   return (
     <h3 className={styles.section_title}>
-      {icon && <Image src={icon} alt="logo" width={width} height={height} />}
+      {icon && <Image src={icon} alt={title} width={width} height={height} />}
       {title}
     </h3>
   );

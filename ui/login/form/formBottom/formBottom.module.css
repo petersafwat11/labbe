@@ -22,7 +22,7 @@
   border-radius: 1.2rem;
   border: 1px solid #d6b392;
   background: #fff;
-  color: #6b4e33;
+  color: var(--color-primary);
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 2.4rem;
@@ -42,7 +42,7 @@
   cursor: pointer;
 }
 .make_acc {
-  color: #6b4e33;
+  color: var(--color-primary);
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 2rem;

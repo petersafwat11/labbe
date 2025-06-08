@@ -1,21 +1,24 @@
-"use client";
-import React, { useState } from "react";
-import styles from "./changePassword.module.css";
-import FormHeader from "../commen/formHeader/FormHeader";
-import InputGroup from "../commen/inputs/inputGroup/InputGroup";
-import ConfirmBtn from "../commen/confirmButton/ConfirmBtn";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+'use client';
+import React, { useState } from 'react';
+import styles from './changePassword.module.css';
+import FormHeader from '../commen/formHeader/FormHeader';
+import InputGroup from '../commen/inputs/inputGroup/InputGroup';
+import ConfirmBtn from '../commen/confirmButton/ConfirmBtn';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 const ChangePassword = () => {
   const router = useRouter();
+  const { t } = useTranslation('changePassword');
+
   const [formData, setFormData] = useState({
-    newPassword: "",
-    confirmPassword: "",
+    newPassword: '',
+    confirmPassword: '',
   });
   const [errors, setErrors] = useState({
-    newPassword: "",
-    confirmPassword: "",
+    newPassword: '',
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState({
     newPassword: false,
@@ -26,12 +29,12 @@ const ChangePassword = () => {
 
   const validatePassword = (password) => {
     if (password.length < 8) {
-      return "كلمة المرور يجب أن تكون 8 أحرف على الأقل";
+      return t('changePasswordForm.errors.passwordMinLength');
     }
     if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم";
+      return t('changePasswordForm.errors.passwordComplexity');
     }
-    return "";
+    return '';
   };
 
   const handleInputChange = (field, value) => {
@@ -39,7 +42,7 @@ const ChangePassword = () => {
 
     // Clear errors when user starts typing
     if (errors[field]) {
-      setErrors({ ...errors, [field]: "" });
+      setErrors({ ...errors, [field]: '' });
     }
   };
 
@@ -53,16 +56,22 @@ const ChangePassword = () => {
     // Validate new password
     const passwordError = validatePassword(formData.newPassword);
     if (!formData.newPassword) {
-      newErrors.newPassword = "كلمة المرور الجديدة مطلوبة";
+      newErrors.newPassword = t(
+        'changePasswordForm.errors.newPasswordRequired'
+      );
     } else if (passwordError) {
       newErrors.newPassword = passwordError;
     }
 
     // Validate confirm password
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
+      newErrors.confirmPassword = t(
+        'changePasswordForm.errors.confirmPasswordRequired'
+      );
     } else if (formData.newPassword !== formData.confirmPassword) {
-      newErrors.confirmPassword = "كلمات المرور غير متطابقة";
+      newErrors.confirmPassword = t(
+        'changePasswordForm.errors.passwordsNotMatch'
+      );
     }
 
     setErrors(newErrors);
@@ -78,7 +87,7 @@ const ChangePassword = () => {
   };
 
   const handleGoToLogin = () => {
-    router.push("/login");
+    router.push('/login');
   };
 
   const passwordChangedMessage = () => {
@@ -87,21 +96,22 @@ const ChangePassword = () => {
         <div className={styles.image_container}>
           <Image
             className={styles.icon}
-            src={"/svg/auth/forget-password.svg"}
+            src={'/svg/auth/forget-password.svg'}
             alt="password-changed"
             width={115}
             height={116}
           />
         </div>
         <div className={styles.text_container}>
-          <h2 className={styles.title}>تم تعيين كلمة مرور جديدة</h2>
+          <h2 className={styles.title}>
+            {t('changePasswordForm.success.title')}
+          </h2>
           <p className={styles.description}>
-            تم تغيير كلمة المرور بنجاح! يمكنك الآن تسجيل الدخول بكلمة المرور
-            الجديدة.
+            {t('changePasswordForm.success.description')}
           </p>
         </div>
         <ConfirmBtn
-          text="تسجيل الدخول"
+          text={t('changePasswordForm.buttons.login')}
           active={true}
           clickHandler={handleGoToLogin}
         />
@@ -129,54 +139,58 @@ const ChangePassword = () => {
         <div className={styles.image_container}>
           <Image
             className={styles.icon}
-            src={"/svg/auth/forget-password.svg"}
+            src={'/svg/auth/forget-password.svg'}
             alt="change-password"
             width={80}
             height={105}
           />
         </div>
         <div className={styles.text_container}>
-          <h2 className={styles.title}>إعادة تعيين كلمة المرور الخاصة بك</h2>
+          <h2 className={styles.title}>{t('changePasswordForm.title')}</h2>
           <p className={styles.description}>
-            اختر كلمة مرور قوية وآمنة لحسابك الجديد.
+            {t('changePasswordForm.subtitle')}
           </p>
         </div>
         <div className={styles.inputs_container}>
           <InputGroup
-            label="كلمة المرور الجديدة"
-            type={showPassword.newPassword ? "text" : "password"}
-            placeholder="ادخل كلمة المرور الجديدة"
+            label={t('changePasswordForm.newPassword.label')}
+            type={showPassword.newPassword ? 'text' : 'password'}
+            placeholder={t('changePasswordForm.newPassword.placeholder')}
             required
             name="newPassword"
             value={formData.newPassword}
-            onChange={(e) => handleInputChange("newPassword", e.target.value)}
+            onChange={(e) => handleInputChange('newPassword', e.target.value)}
             error={errors.newPassword}
             iconPath="auth/password.svg"
             iconPath2={
-              showPassword.newPassword ? "auth/eye-off.svg" : "auth/eye.svg"
+              showPassword.newPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'
             }
-            onIconClick={() => togglePasswordVisibility("newPassword")}
+            onIconClick={() => togglePasswordVisibility('newPassword')}
           />
           <InputGroup
-            label="تأكيد كلمة المرور"
-            type={showPassword.confirmPassword ? "text" : "password"}
-            placeholder="أعد إدخال كلمة المرور"
+            label={t('changePasswordForm.confirmPassword.label')}
+            type={showPassword.confirmPassword ? 'text' : 'password'}
+            placeholder={t('changePasswordForm.confirmPassword.placeholder')}
             required
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={(e) =>
-              handleInputChange("confirmPassword", e.target.value)
+              handleInputChange('confirmPassword', e.target.value)
             }
             error={errors.confirmPassword}
             iconPath="auth/password.svg"
             iconPath2={
-              showPassword.confirmPassword ? "auth/eye-off.svg" : "auth/eye.svg"
+              showPassword.confirmPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'
             }
-            onIconClick={() => togglePasswordVisibility("confirmPassword")}
+            onIconClick={() => togglePasswordVisibility('confirmPassword')}
           />
         </div>
         <ConfirmBtn
-          text={isLoading ? "جاري التحديث..." : "تأكيد"}
+          text={
+            isLoading
+              ? t('changePasswordForm.buttons.updating')
+              : t('changePasswordForm.buttons.confirm')
+          }
           active={
             formData.newPassword && formData.confirmPassword && !isLoading
           }
