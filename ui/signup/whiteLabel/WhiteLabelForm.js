@@ -7,7 +7,7 @@ import StepOne from "./stepOne/StepOne";
 import StepTwo from "./stepTwo/StepTwo";
 import StepFour from "./stepFour/StepFour";
 import StepFive from "./stepFive/StepFive";
-import StepThree from "./stepThree/StepThree";
+import StepThree from "./stepThreee/StepThree";
 
 const WhiteLabelForm = () => {
   const [step, setStep] = useState(1);
