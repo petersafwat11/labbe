@@ -8,7 +8,11 @@ import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
 import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
 import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
 import OtpInput from "./otpInput/OtpInput";
+import { useRouter } from "next/navigation";
+
 const Form = () => {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -26,9 +30,15 @@ const Form = () => {
     error: "",
     show: false,
   });
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const toggleLoginMethod = () => {
     setData({ ...data, type: data.type === "otp" ? "email" : "otp" });
   };
+
   const handleLogin = () => {
     if (data.type === "otp") {
       console.log("otp");
@@ -36,6 +46,7 @@ const Form = () => {
       console.log("login");
     }
   };
+
   const confirmBtnHandler = () => {
     console.log("clicked");
     if (verificationCode.show === true) {
@@ -66,6 +77,7 @@ const Form = () => {
   useEffect(() => {
     console.log(verificationCode);
   }, [verificationCode]);
+
   return (
     <div className={styles.container}>
       <div className={styles.form_header}>
@@ -107,7 +119,7 @@ const Form = () => {
               />
               <InputGroup
                 label="كلمة المرور"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="ادخل كلمة المرور"
                 required
                 name="password"
@@ -115,11 +127,15 @@ const Form = () => {
                 onChange={(e) => setData({ ...data, password: e.target.value })}
                 error={errors.password}
                 iconPath="auth/password.svg"
-                iconPath2="auth/eye.svg"
+                iconPath2={showPassword ? "auth/eye-off.svg" : "auth/eye.svg"}
+                onIconClick={togglePasswordVisibility}
               />
             </div>
             <div className={styles.buttons}>
-              <button className={styles.forgot_password}>
+              <button
+                onClick={() => router.push("/change-password")}
+                className={styles.forgot_password}
+              >
                 نسيت كلمة المرور
               </button>
 
