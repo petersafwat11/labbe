@@ -2,17 +2,11 @@ import React from "react";
 import styles from "./stepper.module.css";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
-const Stepper = ({ step, setStep }) => {
+const Stepper = ({ step, setStep, steps }) => {
   return (
     <div className={styles.container}>
       <div className={styles.steps}>
-        {[
-          "الهوية البصرية",
-          "بيانات الدخول والتخصص",
-          "متطلبات النظام",
-          "خدمات اضافية",
-          "معلومات الفواتير والدفع",
-        ].map((item, index) => (
+        {steps.map((item, index) => (
           <div style={{ width: "100%" }} key={index}>
             <div className={styles.step}>
               <p className={styles.step_number}>{index + 1}</p>

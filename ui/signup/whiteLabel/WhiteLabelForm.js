@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Stepper from "./stepper/Stepper";
+import Stepper from "../../commen/stepper/Stepper";
 import styles from "./whiteLabelform.module.css";
 import FormHeader from "@/ui/commen/formHeader/FormHeader";
 import StepOne from "./stepOne/StepOne";
@@ -45,7 +45,13 @@ const WhiteLabelForm = () => {
       paymentMethod: { value: [], error: "" },
     },
   });
-
+  const steps = [
+    "الهوية البصرية",
+    "بيانات الدخول والتخصص",
+    "متطلبات النظام",
+    "خدمات اضافية",
+    "معلومات الفواتير والدفع",
+  ];
   return (
     <div>
       {/* <div className={styles.form_header}>
@@ -88,7 +94,7 @@ const WhiteLabelForm = () => {
           ) : null}
         </div>
         <div className={styles.stepper_container}>
-          <Stepper step={step} setStep={setStep} />
+          <Stepper step={step} setStep={setStep} steps={steps} />
         </div>
       </div>
     </div>

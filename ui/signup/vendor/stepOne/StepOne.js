@@ -1,10 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./stepOne.module.css";
-import Image from "next/image";
 import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import { StepTitle } from "../title/SectionTitle";
-import SectionTitle from "../title/SectionTitle";
-const StepOne = () => {
+import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
+import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import { StepTitle } from "../../whiteLabel/title/SectionTitle";
+import SectionTitle from "../../whiteLabel/title/SectionTitle";
+
+const StepOne = ({ vendorData, setVendorData }) => {
+  const handleInputChange = (section, field, value) => {
+    setVendorData({
+      ...vendorData,
+      [section]: {
+        ...vendorData[section],
+        [field]: { value, error: "" },
+      },
+    });
+  };
+
+  const handleCheckboxChange = (item, checked) => {
+    const currentValues = vendorData.identity.serviceType.value;
+    let newValues;
+
+    if (checked) {
+      // Add item if checked
+      newValues = [...currentValues, item];
+    } else {
+      // Remove item if unchecked
+      newValues = currentValues.filter((value) => value !== item);
+    }
+
+    setVendorData({
+      ...vendorData,
+      identity: {
+        ...vendorData.identity,
+        serviceType: { value: newValues, error: "" },
+      },
+    });
+  };
+
   return (
     <div className={styles.container}>
       <StepTitle
@@ -21,61 +54,87 @@ const StepOne = () => {
           />
           <div className={styles.inputs}>
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالعربية)
-"
+              label="اسم العلامة التجارية"
               type="text"
-              placeholder="أدخل اسم المنظمة بالعربية
-"
-              required
-              name="arabic_name"
-              value={whiteLabelData.identity.arabic_name.value}
+              placeholder="أدخل اسم العلامة التجارية"
+              name="brandName"
+              value={vendorData.identity.brandName.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    arabic_name: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("identity", "brandName", e.target.value)
               }
-              error={whiteLabelData.identity.arabic_name.error}
+              error={vendorData.identity.brandName.error}
               iconPath="auth/profile-circle.svg"
             />
             <InputGroup
-              label="اسم الجهة أو العلامة التجارية (بالانجليزية)
-"
+              label="الاسم الكامل لصاحب الحساب"
               type="text"
-              placeholder="أدخل اسم المنظمة بالانجليزية
-"
-              required
-              name="english_name"
-              value={whiteLabelData.identity.english_name.value}
+              placeholder="أدخل الاسم الكامل"
+              name="ownerFullName"
+              value={vendorData.identity.ownerFullName.value}
               onChange={(e) =>
-                setWhiteLabelData({
-                  ...whiteLabelData,
-                  identity: {
-                    ...whiteLabelData.identity,
-                    english_name: { value: e.target.value, error: "" },
-                  },
-                })
+                handleInputChange("identity", "ownerFullName", e.target.value)
               }
-              error={whiteLabelData.identity.english_name.error}
+              error={vendorData.identity.ownerFullName.error}
               iconPath="auth/profile-circle.svg"
             />
           </div>
         </div>
+
         <div className={styles.section}>
           <SectionTitle
-            title="الشعار"
+            title="نوع الخدمة"
+          />
+          <div className={styles.options}>
+            <CheckBoxItems
+              items={[
+                "تنظيم الفعاليات",
+                "الإنتاج الإعلامي",
+                "الهدايا والحقائب الدعائية",
+                "الطعام والمشروبات",
+                "الجمال والأزياء",
+                "اللوجستيات والتوصيل",
+                "الخدمات المؤسسية",
+                "أخرى",
+              ]}
+              checkedItems={vendorData.identity.serviceType.value}
+              onChange={handleCheckboxChange}
+              columns={2}
+            />
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <SectionTitle
+            title="معلومات التواصل"
             icon="/svg/auth/call-calling.svg"
             height={24}
             width={24}
           />
-          <Image src="/svg/auth/logo-2.svg" alt="logo" width={24} height={24} />{" "}
-          <p className={styles.section_description}>
-            ارفع الشعار بصيغة عالية الجودة
-          </p>
-          <button className={styles.upload_button}>اختر ملف </button>
+          <div className={styles.inputs}>
+            <MobileInputGroup
+              label="رقم الجوال"
+              type="tel"
+              placeholder="أدخل رقم الجوال"
+              name="phoneNumber"
+              value={vendorData.identity.phoneNumber.value}
+              onChange={(e) =>
+                handleInputChange("identity", "phoneNumber", e.target.value)
+              }
+              error={vendorData.identity.phoneNumber.error}
+            />
+            <InputGroup
+              label="البريد الإلكتروني"
+              type="email"
+              placeholder="أدخل البريد الإلكتروني"
+              name="email"
+              value={vendorData.identity.email.value}
+              onChange={(e) =>
+                handleInputChange("identity", "email", e.target.value)
+              }
+              error={vendorData.identity.email.error}
+              iconPath="auth/email.svg"
+            />
+          </div>
         </div>
       </div>
     </div>
