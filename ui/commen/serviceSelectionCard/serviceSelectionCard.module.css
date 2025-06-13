@@ -14,8 +14,10 @@
 }
 
 .serviceSelectionCard.selected {
-  border-color: #b0917a;
+  
   box-shadow: 0 0 0 2px #b0917a;
+  border: 1px solid #c28e5c;
+  background: var(--color-primary-bg);
 }
 
 .cardTitle {
@@ -105,7 +107,7 @@
 }
 
 .buttonWrapper {
-  width: ;
+  width: 100%;
   margin-top: auto;
   display: flex;
   justify-content: center;

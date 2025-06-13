@@ -8,9 +8,9 @@
       "fullNameRequired": "الاسم كاملا مطلوب",
       "emailRequired": "البريد الالكتروني مطلوب",
       "invalidEmail": "البريد الالكتروني غير صالح",
-      "passwordMinLength": "كلمة المرور يجب أن لا تقل عن 8 أحرف",
-      "passwordComplexity": "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير",
-      "passwordSpecialChar": "كلمة المرور يجب أن تحتوي على حرف خاص",
+      "passwordMinLength": "على الاقل 8احرف",
+      "passwordComplexity": "  تحتوي على حرف كبير وحرف صغير",
+      "passwordSpecialChar": "ورمز*&^%@",
       "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب"
     },
     "personalInfo": {
