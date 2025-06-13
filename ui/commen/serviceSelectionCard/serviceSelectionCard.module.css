@@ -1,9 +1,10 @@
 .serviceSelectionCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 40px 24px;
+  align-items: flex-start; 
+  text-align: right;      
+  direction: rtl;       
+  padding: 40px 12px;
   cursor: pointer;
   height: 100%;
   justify-content: space-between;
@@ -11,21 +12,24 @@
   border: 1px solid #eee;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease-in-out;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .serviceSelectionCard.selected {
-  
   box-shadow: 0 0 0 2px #b0917a;
   border: 1px solid #c28e5c;
-  background: var(--color-primary-bg);
+   background: var(--color-primary-bg) !important;
 }
 
 .cardTitle {
-  color: #333;
-  font-size: 18px;
+  color: #000000;
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 24px;
-  text-align: center;
+  margin-top:30px;
+  
+  margin-bottom: 5px;
+  text-align: right !important;
 }
 
 .priceContainer {
@@ -34,13 +38,18 @@
   margin-bottom: 16px;
   direction: rtl;
   font-family: 'Cairo', sans-serif;
+  width: 100%;
+  justify-content: flex-start; 
 }
 
 .mainPrice {
   color: #222;
-  font-size: 38px;
+  font-size: 22px;
   font-weight: 700;
   line-height: 1;
+  margin: 0 6px;
+  direction: rtl;
+
 }
 
 .currencyAndPeriod {
@@ -49,6 +58,7 @@
   font-weight: 500;
   margin-right: 4px;
   white-space: nowrap;
+  text-decoration: line-through;
 }
 
 .cardDescription {
@@ -56,33 +66,33 @@
   font-size: 13px;
   line-height: 1.6;
   margin-bottom: 24px;
-  text-align: center;
-  max-width: 200px;
+  text-align: right;
+  max-width: 100%;
 }
 
 .featuresList {
   list-style: none;
-  padding: 0;
-  margin: 0 0 20px 0;
+  padding: 16px 0 0 0;     
   text-align: right;
   width: 100%;
-  align-items: center;
+  border-top: 1px solid #d6d4d4;
 }
 
 .featureItem {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  margin-bottom: 12px;
-  color: #444;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 3px;
+  margin-bottom: 4px;
+  color: #242222;
   font-size: 14px;
   direction: rtl;
 }
 
+
 .checkIconContainer {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border: none;
   display: flex;
   justify-content: center;
@@ -91,7 +101,7 @@
 }
 
 .checkIcon {
-  width: 14px;
+  width: 19px;
   height: 19px;
   object-fit: contain;
 }
@@ -104,6 +114,7 @@
   font-weight: 500;
   text-decoration: underline;
   cursor: pointer;
+  text-align: right;
 }
 
 .buttonWrapper {
@@ -115,18 +126,19 @@
 }
 
 .buttonWrapper .confirmBtn {
-  background-color: white !important;
+  background-color: white;
   color: #a38c73;
   border: 1px solid #b0917a;
-  padding: 10px 20px;
+  padding: 8px 76px;
   border-radius: 6px;
   font-size: 15px;
   font-weight: 600;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .buttonWrapper .confirmBtn.active {
   background-color: transparent;
   color: #6b5a45;
   border: none;
-} 
+}

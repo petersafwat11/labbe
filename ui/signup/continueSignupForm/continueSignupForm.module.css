@@ -1,8 +1,10 @@
 .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: white;
+  max-width: 950px;
+  margin: 40px auto;
+  padding: 2rem 3rem;
+  
+  border-radius: 12px;
+
 }
 
 .mainTitle {
@@ -62,6 +64,31 @@
   justify-content: center;
   width: 100%;
   margin-top: 1.5rem;
+
+}
+
+/* Custom button size for continue signup page */
+.buttonContainer :global(.confirmBtn-module__RKHMLq__confirm_btn),
+.buttonContainer :global(.confirmBtn-module__RKHMLq__confirm_btn_disabled) {
+  min-height: 4.8rem; 
+  padding: 0rem 19rem; 
+  font-size: 1.8rem; 
+  border-radius: 1.2rem; 
+}
+
+.section {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  gap: 1.6rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.section:last-of-type {
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {

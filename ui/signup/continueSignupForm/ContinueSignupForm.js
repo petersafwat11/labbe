@@ -134,7 +134,7 @@ const ContinueSignupForm = () => {
           <h1 className={styles.mainTitle}>{t('continueSignup.title')}</h1>
           <p className={styles.mainDescription}>{t('continueSignup.description')}</p>
 
-          <div>
+          <div className={styles.section}>
             <h2 className={styles.sectionTitle}>{t('continueSignup.personalInfo.title')}</h2>
             <div className={styles.inputsGroup}>
               <InputGroup
@@ -185,7 +185,7 @@ const ContinueSignupForm = () => {
             </div>
           </div>
 
-          <div>
+          <div className={styles.section}>
             <h2 className={styles.sectionTitle}>{t('continueSignup.serviceSelection.title')}</h2>
             <p className={styles.serviceQuestion}>{t('continueSignup.serviceSelection.question')}</p>
             <div className={styles.serviceCards}>
