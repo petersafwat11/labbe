@@ -8,6 +8,7 @@
   background-color: #fff;
   border-bottom: #f0f0f0 solid 1px;
   margin-bottom: 1.6rem;
+  z-index: 2;
 }
 .step_title {
   color: var(--color-title);
@@ -17,6 +18,34 @@
   font-style: normal;
   font-weight: 700;
   line-height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.step_arrow_icon {
+  font-size: 1.8rem;
+  color: var(--color-primary-bg);
+  cursor: pointer;
+  margin-inline-start: 1rem;
+}
+.step_arrow_button {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+.step_arrow_button .step_arrow_icon {
+  color: black;
+  font-size: 2rem;
+  margin: 0;
 }
 .step_description {
   color: var(--color-description);
@@ -29,10 +58,6 @@
   letter-spacing: 0.08px;
 }
 .section_title {
-  display: flex;
-  gap: 0.5rem;
-}
-.section_title {
   color: var(--color-title);
   text-align: right;
   font-size: 1.6rem;
@@ -40,6 +65,14 @@
   font-weight: 700;
   line-height: 2.4rem;
   letter-spacing: 0.024rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.arrow_icon {
+  margin-inline-start: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-primary-bg);
 }
 
 @media screen and (max-width: 768px) {

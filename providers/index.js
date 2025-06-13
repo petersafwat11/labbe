@@ -7,6 +7,7 @@ const i18nNamespaces = [
   'forgetPassword',
   'changePassword',
   'signup',
+  'continueSignup',
 ];
 
 export default async function GlobalProvider({ children, lang }) {

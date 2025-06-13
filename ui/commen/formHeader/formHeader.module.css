@@ -1,10 +1,12 @@
 .form_header {
   padding: 2rem 4rem;
+    background-color:#faf5f1
 }
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
 }
 .languages {
   display: flex;

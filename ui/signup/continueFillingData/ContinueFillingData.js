@@ -6,9 +6,46 @@ import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
 import { StepTitle } from '../whiteLabel/title/SectionTitle';
 import SectionTitle from '../whiteLabel/title/SectionTitle';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
   const { t } = useTranslation('signup');
+
+  // Define validation schema
+  const signupSchema = z.object({
+    name: z.string()
+      .min(2, t('signupForm.personalInfo.errors.nameMinLength'))
+      .max(50, t('signupForm.personalInfo.errors.nameMaxLength')),
+    service: z.string()
+      .min(1, t('signupForm.initialForm.service.errors.serviceRequired'))
+  });
+
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    setValue,
+    watch
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+    mode: 'onChange',
+    defaultValues: {
+      name: data.name.value,
+      service: data.service.value
+    }
+  });
+
+  // Watch form values
+  const formValues = watch();
+
+  const onSubmit = () => {
+    // The handleSubmit function from useForm will automatically prevent onSubmit from being called if there are validation errors.
+    // So, we just need to call showFormsForSignup directly here.
+    showFormsForSignup(formValues);
+  };
 
   return (
     <div className={styles.form_container}>
@@ -25,11 +62,15 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
             placeholder={t('signupForm.personalInfo.name.placeholder')}
             required
             name="name"
-            value={data.name.value}
-            onChange={(e) =>
-              setData({ ...data, name: { value: e.target.value } })
-            }
-            error={data.name.error}
+            value={formValues.name}
+            onChange={(e) => {
+              setValue('name', e.target.value);
+              setData((prevData) => ({
+                ...prevData,
+                name: { value: e.target.value, error: errors.name?.message || '' },
+              }));
+            }}
+            error={errors.name?.message}
             iconPath="auth/profile.svg"
           />
         </div>
@@ -45,17 +86,14 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
                 'signupForm.initialForm.service.descriptions.whiteLabel'
               )}
               iconPath="/svg/auth/plateform.svg"
-              clickHandler={() =>
-                setData({
-                  ...data,
-                  service: {
-                    value: t(
-                      'signupForm.initialForm.service.options.whiteLabel'
-                    ),
-                  },
-                })
-              }
-              selectedService={data.service.value}
+              clickHandler={() => {
+                setValue('service', t('signupForm.initialForm.service.options.whiteLabel'));
+                setData((prevData) => ({
+                  ...prevData,
+                  service: { value: t('signupForm.initialForm.service.options.whiteLabel'), error: errors.service?.message || '' },
+                }));
+              }}
+              selectedService={formValues.service}
             />
             <Service
               title={t('signupForm.initialForm.service.options.hosted')}
@@ -63,15 +101,14 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
                 'signupForm.initialForm.service.descriptions.hosted'
               )}
               iconPath="/svg/auth/invite.svg"
-              clickHandler={() =>
-                setData({
-                  ...data,
-                  service: {
-                    value: t('signupForm.initialForm.service.options.hosted'),
-                  },
-                })
-              }
-              selectedService={data.service.value}
+              clickHandler={() => {
+                setValue('service', t('signupForm.initialForm.service.options.hosted'));
+                setData((prevData) => ({
+                  ...prevData,
+                  service: { value: t('signupForm.initialForm.service.options.hosted'), error: errors.service?.message || '' },
+                }));
+              }}
+              selectedService={formValues.service}
             />
             <Service
               title={t('signupForm.initialForm.service.options.selfService')}
@@ -79,25 +116,27 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
                 'signupForm.initialForm.service.descriptions.selfService'
               )}
               iconPath="/svg/auth/qrcode.svg"
-              clickHandler={() =>
-                setData({
-                  ...data,
-                  service: {
-                    value: t(
-                      'signupForm.initialForm.service.options.selfService'
-                    ),
-                  },
-                })
-              }
-              selectedService={data.service.value}
+              clickHandler={() => {
+                setValue('service', t('signupForm.initialForm.service.options.selfService'));
+                setData((prevData) => ({
+                  ...prevData,
+                  service: { value: t('signupForm.initialForm.service.options.selfService'), error: errors.service?.message || '' },
+                }));
+              }}
+              selectedService={formValues.service}
             />
           </div>
+          {errors.service && (
+            <p className={styles.error}>{errors.service.message}</p>
+          )}
         </div>
-        <ConfirmBtn
-          clickHandler={showFormsForSignup}
-          text={t('signupForm.initialForm.buttons.confirm')}
-          active={data.name.value && data.service.value}
-        />
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <ConfirmBtn
+            text={t('signupForm.initialForm.buttons.confirm')}
+            active={formValues.name.length > 0 && formValues.service.length > 0}
+            type="submit"
+          />
+        </form>
       </div>
     </div>
   );

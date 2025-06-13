@@ -10,11 +10,13 @@ import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
 import MobileInputGroup from '@/ui/commen/inputs/mobileInputGroup/MobileInputGroup';
 import OtpInput from './otpInput/OtpInput';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const Form = () => {
   const router = useRouter();
   const { t } = useTranslation('login');
-  console.log("t('loginForm.greeting')..", t('loginForm.greeting'));
 
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
@@ -23,17 +25,59 @@ const Form = () => {
     number: '',
     type: 'otp',
   });
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-    number: '',
-    otp: '',
-  });
+
   const [verificationCode, setVerificationCode] = useState({
     value: ['', '', '', '', '', ''],
     error: '',
     show: false,
   });
+
+  // Define validation schemas
+  const emailLoginSchema = z.object({
+    email: z.string()
+      .min(1, t('loginForm.errors.emailRequired'))
+      .email(t('loginForm.errors.invalidEmail')),
+    password: z.string()
+      .min(8, t('loginForm.errors.invalidPassword'))
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        t('loginForm.errors.invalidPassword')
+      ),
+  });
+
+  const otpLoginSchema = z.object({
+    number: z.string()
+      .min(10, t('loginForm.errors.phoneNumberInvalid'))
+      .max(15, t('loginForm.errors.phoneNumberInvalid'))
+      .regex(/^[0-9]+$/, t('loginForm.errors.phoneNumberInvalid')),
+  });
+
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formErrors },
+    setValue,
+    watch,
+    reset
+  } = useForm({
+    resolver: zodResolver(data.type === 'otp' ? otpLoginSchema : emailLoginSchema),
+    mode: 'onChange',
+    defaultValues: {
+      email: data.email,
+      password: data.password,
+      number: data.number,
+    },
+  });
+
+  useEffect(() => {
+    // Reset form values when data.type changes to ensure correct schema is applied
+    reset({
+      email: data.email,
+      password: data.password,
+      number: data.number,
+    });
+  }, [data.type, data.email, data.password, data.number, reset]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -41,34 +85,35 @@ const Form = () => {
 
   const toggleLoginMethod = () => {
     setData({ ...data, type: data.type === 'otp' ? 'email' : 'otp' });
+    reset();
   };
 
-  const handleLogin = () => {
+  const handleLogin = (formData) => {
     if (data.type === 'otp') {
-      console.log('otp');
+      console.log('OTP Login data:', formData.number);
+      // Add your OTP login logic here
     } else {
-      console.log('login');
+      console.log('Email Login data:', formData.email, formData.password);
+      // Add your email/password login logic here
     }
   };
 
-  const confirmBtnHandler = () => {
-    console.log('clicked');
+  const confirmBtnHandler = handleSubmit(async (formData) => {
     if (verificationCode.show === true) {
       // Handle OTP verification
       if (verificationCode.value.every((digit) => digit !== '')) {
         console.log('OTP verification:', verificationCode.value.join(''));
-        handleLogin();
+        handleLogin(formData);
       }
-    } else if (data.type === 'email' && data.email && data.password) {
-      handleLogin();
+    } else if (data.type === 'email') {
+      handleLogin(formData);
     } else if (
       data.type === 'otp' &&
-      data.number &&
       verificationCode.show === false
     ) {
       setVerificationCode({ ...verificationCode, show: true });
     }
-  };
+  });
 
   const goBackToMobileInput = () => {
     setVerificationCode({
@@ -76,11 +121,8 @@ const Form = () => {
       show: false,
       value: ['', '', '', '', '', ''],
     });
+    reset();
   };
-
-  useEffect(() => {
-    console.log(verificationCode);
-  }, [verificationCode]);
 
   return (
     <div className={styles.container}>
@@ -103,8 +145,11 @@ const Form = () => {
               type="text"
               name="number"
               value={data.number}
-              onChange={(e) => setData({ ...data, number: e.target.value })}
-              error={errors.number}
+              onChange={(e) => {
+                setData({ ...data, number: e.target.value });
+                setValue('number', e.target.value, { shouldValidate: true });
+              }}
+              error={formErrors.number?.message}
             />
           </div>
         ) : (
@@ -117,8 +162,11 @@ const Form = () => {
                 required
                 name="email"
                 value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                error={errors.email}
+                onChange={(e) => {
+                  setData({ ...data, email: e.target.value });
+                  setValue('email', e.target.value, { shouldValidate: true });
+                }}
+                error={formErrors.email?.message}
                 iconPath="auth/email.svg"
               />
               <InputGroup
@@ -128,10 +176,13 @@ const Form = () => {
                 required
                 name="password"
                 value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                error={errors.password}
+                onChange={(e) => {
+                  setData({ ...data, password: e.target.value });
+                  setValue('password', e.target.value, { shouldValidate: true });
+                }}
+                error={formErrors.password?.message}
                 iconPath="auth/password.svg"
-                iconPath2={showPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'}
+                iconPath2="auth/eye.svg"
                 onIconClick={togglePasswordVisibility}
               />
             </div>
@@ -179,7 +230,6 @@ const Form = () => {
           />
         )}
       </div>
-      {/* <OtpInput /> */}
     </div>
   );
 };

@@ -84,3 +84,50 @@
     padding: 0 2.1rem;
   }
 }
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4rem;
+  width: 100%;
+}
+
+.confirm_button {
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  letter-spacing: 0.056rem;
+  display: flex;
+  width: 25rem;
+  height: 6rem;
+  padding: 1.6rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  border-radius: 1.2rem;
+  background: #f5ece4;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.confirm_button:not([disabled]) {
+  cursor: pointer;
+}
+
+.confirm_button.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.confirm_button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.arrow_icon {
+  font-size: 1.6rem;
+}

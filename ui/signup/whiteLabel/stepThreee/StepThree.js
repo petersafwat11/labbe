@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './stepThree.module.css';
 import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
 import { StepTitle } from '../title/SectionTitle';
@@ -6,45 +6,70 @@ import SectionTitle from '../title/SectionTitle';
 import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
 import { useTranslation } from 'react-i18next';
 
-const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
+const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, goToPreviousStep }) => {
   const { t } = useTranslation('signup');
 
+  const validateStepThree = (data) => {
+    const { numberOfEvents, numberOfGuestsPerEvent, eventsTypes, services } = data.systemRequirements;
+    
+    const isNumberOfEventsValid = numberOfEvents.value !== '' && !isNaN(Number(numberOfEvents.value));
+    const isNumberOfGuestsValid = numberOfGuestsPerEvent.value !== '' && !isNaN(Number(numberOfGuestsPerEvent.value));
+    const areEventTypesSelected = eventsTypes.value.length > 0;
+    const areServicesSelected = services.value.length > 0;
+
+    return isNumberOfEventsValid && isNumberOfGuestsValid && areEventTypesSelected && areServicesSelected;
+  };
+
   const handleInputChange = (section, field, value) => {
-    setWhiteLabelData({
-      ...whiteLabelData,
-      [section]: {
-        ...whiteLabelData[section],
-        [field]: { value, error: '' },
-      },
+    setWhiteLabelData((prevData) => {
+      const newData = {
+        ...prevData,
+        [section]: {
+          ...prevData[section],
+          [field]: { value, error: '' },
+        },
+      };
+      onStepValidationChange(validateStepThree(newData));
+      return newData;
     });
   };
 
   const handleCheckboxChange = (section, field, item, checked) => {
-    const currentValues = whiteLabelData[section][field].value;
-    let newValues;
+    setWhiteLabelData((prevData) => {
+      const currentValues = prevData[section][field].value;
+      let newValues;
 
-    if (checked) {
-      // Add item if checked
-      newValues = [...currentValues, item];
-    } else {
-      // Remove item if unchecked
-      newValues = currentValues.filter((value) => value !== item);
-    }
+      if (checked) {
+        newValues = [...currentValues, item];
+      } else {
+        newValues = currentValues.filter((value) => value !== item);
+      }
 
-    setWhiteLabelData({
-      ...whiteLabelData,
-      [section]: {
-        ...whiteLabelData[section],
-        [field]: { value: newValues, error: '' },
-      },
+      const newData = {
+        ...prevData,
+        [section]: {
+          ...prevData[section],
+          [field]: { value: newValues, error: '' },
+        },
+      };
+      onStepValidationChange(validateStepThree(newData));
+      return newData;
     });
   };
+
+  useEffect(() => {
+    onStepValidationChange(validateStepThree(whiteLabelData));
+  }, [whiteLabelData, onStepValidationChange]);
 
   return (
     <div className={styles.container}>
       <StepTitle
         title={t('signupForm.whiteLabel.requirements.title')}
         description={t('signupForm.whiteLabel.requirements.description')}
+        onArrowClick={() => {
+          console.log('StepThree previous arrow clicked!');
+          goToPreviousStep();
+        }}
       />
 
       <div className={styles.sections}>
@@ -59,7 +84,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
           <div className={styles.row}>
             <InputGroup
               label={t(
-                'signupForm.whiteLabel.requirements.fields.events.label'
+                'signupForm.whiteLabel.requirements.fields.numberOfEvents.label'
               )}
               type="number"
               placeholder={t(
@@ -80,7 +105,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData }) => {
             />
             <InputGroup
               label={t(
-                'signupForm.whiteLabel.requirements.fields.guests.label'
+                'signupForm.whiteLabel.requirements.fields.numberOfGuestsPerEvent.label'
               )}
               type="number"
               placeholder={t(

@@ -26,19 +26,35 @@ const ChangePassword = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [passwordChanged, setPasswordChanged] = useState(false);
+  const [passwordValidations, setPasswordValidations] = useState([]);
 
   const validatePassword = (password) => {
-    if (password.length < 8) {
-      return t('changePasswordForm.errors.passwordMinLength');
-    }
-    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      return t('changePasswordForm.errors.passwordComplexity');
-    }
-    return '';
+    const validations = [
+      {
+        text: t('changePasswordForm.errors.passwordMinLength'),
+        isValid: password.length >= 8,
+      },
+      {
+        text: t('changePasswordForm.errors.passwordComplexity'),
+        isValid: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password),
+      },
+      {
+        text: t('changePasswordForm.errors.passwordSpecialChar'),
+        isValid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+      },
+    ];
+    setPasswordValidations(validations);
+
+    // Return true if all validations pass, false otherwise
+    return validations.every((v) => v.isValid);
   };
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
+
+    if (field === 'newPassword') {
+      validatePassword(value);
+    }
 
     // Clear errors when user starts typing
     if (errors[field]) {
@@ -59,8 +75,8 @@ const ChangePassword = () => {
       newErrors.newPassword = t(
         'changePasswordForm.errors.newPasswordRequired'
       );
-    } else if (passwordError) {
-      newErrors.newPassword = passwordError;
+    } else if (!passwordError) {
+      newErrors.newPassword = t('changePasswordForm.errors.passwordComplexity');
     }
 
     // Validate confirm password
@@ -166,6 +182,7 @@ const ChangePassword = () => {
               showPassword.newPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'
             }
             onIconClick={() => togglePasswordVisibility('newPassword')}
+            validations={passwordValidations}
           />
           <InputGroup
             label={t('changePasswordForm.confirmPassword.label')}

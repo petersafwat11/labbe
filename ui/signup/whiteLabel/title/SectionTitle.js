@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './title.module.css';
 import Image from 'next/image';
+import { FaArrowRightLong } from 'react-icons/fa6';
 
 const SectionTitle = ({ title, icon, height, width }) => {
   return (
     <h3 className={styles.section_title}>
-      {icon && <Image src={icon} alt={title} width={width} height={height} />}
+      {icon && <Image src={icon} alt="" width={width} height={height} />}
       {title}
     </h3>
   );
@@ -13,10 +14,16 @@ const SectionTitle = ({ title, icon, height, width }) => {
 
 export default SectionTitle;
 
-export const StepTitle = ({ title, description }) => {
+export const StepTitle = ({ title, description, onArrowClick }) => {
+  console.log('onArrowClick prop in StepTitle:', onArrowClick);
   return (
     <div className={styles.step_text}>
-      <h3 className={styles.step_title}>{title}</h3>
+      <h3 className={styles.step_title}>
+        <button className={styles.step_arrow_button} onClick={onArrowClick}>
+          <FaArrowRightLong className={styles.step_arrow_icon} />
+        </button>
+        {title}
+      </h3>
       <p className={styles.step_description}>{description}</p>
     </div>
   );

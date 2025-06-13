@@ -10,3 +10,22 @@
   flex-direction: column;
   gap: 3.2rem;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 2rem;
+  }
+
+  .sections {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+}

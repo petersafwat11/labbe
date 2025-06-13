@@ -1,0 +1,65 @@
+{
+  "continueSignup": {
+    "title": "متابعة التسجيل",
+    "description": "يرجى إكمال بياناتك الشخصية واختيار الخدمة المناسبة",
+    "errors": {
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+      "fullNameMinLength": "الاسم كاملا يجب أن لا يقل عن حرفين",
+      "fullNameRequired": "الاسم كاملا مطلوب",
+      "emailRequired": "البريد الالكتروني مطلوب",
+      "invalidEmail": "البريد الالكتروني غير صالح",
+      "passwordMinLength": "كلمة المرور يجب أن لا تقل عن 8 أحرف",
+      "passwordComplexity": "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير",
+      "passwordSpecialChar": "كلمة المرور يجب أن تحتوي على حرف خاص",
+      "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب"
+    },
+    "personalInfo": {
+      "title": "معلومات شخصية",
+      "fullName": {
+        "label": "الاسم كاملا",
+        "placeholder": "ادخل اسمك كاملا"
+      },
+      "email": {
+        "label": "البريد الالكتروني",
+        "placeholder": "ادخل بريدك الالكتروني"
+      },
+      "newPassword": {
+        "label": "كلمة مرور جديدة",
+        "placeholder": "ادخل كلمة مرور جديدة"
+      },
+      "confirmPassword": {
+        "label": "تأكيد كلمة المرور",
+        "placeholder": "أعد ادخال كلمة المرور الجديدة"
+      }
+    },
+    "serviceSelection": {
+      "title": "اختر الخدمة المقدمة",
+      "question": "ما نوع الحدث الذي تريد تنظيمه؟",
+      "organizerInvitation": {
+        "title": "دعوتك عبر منظمك",
+        "description": "حل احترافي للجهات، لوحة تحكم مخصصة ومزايا متعددة"
+      },
+      "onUsInvitation": {
+        "title": "دعوتك علينا",
+        "description": "تطبيق ليتحمل كل ما يلي من تصميم إرسال ومتابعة الحضور وخدم الضيوف"
+      },
+      "inYourHandsInvitation": {
+        "title": "دعوتك بيدك",
+        "description": "صمم وارسل دعواتك بسهولة عبر الواتساب مع كود QR خاص لكل ضيف!"
+      },
+      "features": {
+        "largeScaleCompetitivePricing": "أسعار تنافسية للتجار ذوي الحجم الكبير",
+        "customReportsAnalytics": "تقارير وتحليلات مخصصة",
+        "phoneSupportPriority": "أولوية دعم الهاتف 24/7",
+        "globalLocalSales": "البيع العالمي المحلي (50 سوقا)",
+        "designSendGuestTracking": "تصميم إرسال ومتابعة الحضور",
+        "designSendWhatsappQRCodes": "صمم وارسل دعواتك بسهولة عبر الواتساب مع كود QR خاص لكل ضيف!",
+        "additional": "20+ مزايا إضافية إضغط للمزيد"
+      }
+    },
+    "nextButton": "التالي",
+    "selectButton": "اختر الباقة"
+  },
+  "currency": "ر.س.",
+  "perMonth": "/شهريا"
+} 

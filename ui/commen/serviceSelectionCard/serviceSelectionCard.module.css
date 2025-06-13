@@ -1,0 +1,129 @@
+.serviceSelectionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+  cursor: pointer;
+  height: 100%; /* Ensure cards are same height */
+  justify-content: space-between;
+  border-radius: 8px; /* Matching the card overall border radius */
+  border: 1px solid #eee; /* Light border matching the image */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.serviceSelectionCard.selected {
+  border-color: #b0917a; /* A specific light brown for selected border */
+  box-shadow: 0 0 0 2px #b0917a; /* Matching the selected border shadow */
+}
+
+.cardTitle {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif; /* Assuming Cairo font for numbers */
+}
+
+.mainPrice {
+  color: #222;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.currencyAndPeriod {
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.cardDescription {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  text-align: center;
+  max-width: 200px;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  text-align: right;
+  width: 100%;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #444;
+  font-size: 14px;
+  direction: rtl;
+}
+
+.checkIconContainer {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #f7ede0; /* Light brown/beige background from image */
+  border: 1px solid #e0d0c0; /* Slightly darker border for the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.checkIcon {
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) saturate(100%) invert(100%); /* Make the checkmark white */
+  object-fit: contain;
+}
+
+.additionalFeaturesText {
+  color: #a38c73; /* Light brown color from image */
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.buttonWrapper {
+  width: 100%;
+  margin-top: auto;
+}
+
+.buttonWrapper .confirmBtn {
+  background-color: transparent; /* Transparent background initially */
+  color: #a38c73; /* Light brown text color */
+  border: 1px solid #a38c73; /* Light brown border */
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.buttonWrapper .confirmBtn:hover,
+.buttonWrapper .confirmBtn.active {
+  background-color: #a38c73; /* Solid light brown on hover/active */
+  color: #fff; /* White text on hover/active */
+} 

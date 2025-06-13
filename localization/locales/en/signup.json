@@ -5,7 +5,11 @@
       "title": "Personal Information",
       "name": {
         "label": "Full Name",
-        "placeholder": "Enter your name"
+        "placeholder": "Enter Name"
+      },
+      "errors": {
+        "nameMinLength": "Name must be at least 2 characters",
+        "nameMaxLength": "Name must be less than 50 characters"
       }
     },
     "initialForm": {
@@ -23,6 +27,9 @@
           "whiteLabel": "Professional solution: Custom dashboard and multiple features.",
           "hosted": "Labbe team handles everything from design to sending and tracking attendance.",
           "selfService": "Design and send your invitation easily via WhatsApp with a unique QR code for each guest!"
+        },
+        "errors": {
+          "serviceRequired": "Please select a service type"
         }
       },
       "buttons": {
@@ -37,7 +44,8 @@
         "login": "Login Details",
         "requirements": "System Requirements",
         "services": "Additional Services",
-        "payment": "Payment & Billing"
+        "payment": "Payment & Billing",
+        "summary": "Application Summary"
       },
       "identity": {
         "title": "Visual Identity",
@@ -51,6 +59,7 @@
           "placeholder": "Enter organization name in English"
         },
         "logo": {
+          "title": "Logo",
           "label": "Logo",
           "description": "Upload a high-quality logo",
           "button": "Choose File"
@@ -58,7 +67,8 @@
         "colors": {
           "title": "Brand Colors",
           "description": "Select the primary and secondary colors for your platform.",
-          "placeholder": "Choose color"
+          "placeholder": "Choose color",
+          "customColor": "Enter custom color code"
         },
         "primaryColor": {
           "label": "Primary Color"
@@ -77,11 +87,15 @@
         "fields": {
           "email": {
             "label": "Official Email for Admin Account",
-            "placeholder": "Enter email address"
+            "placeholder": "Enter email address",
+            "required": "Email is required",
+            "invalid": "Please enter a valid email address"
           },
           "domain": {
             "label": "Preferred Subdomain",
-            "placeholder": "Enter subdomain"
+            "placeholder": "Enter subdomain",
+            "required": "Domain is required",
+            "invalid": "Please enter a valid domain (e.g., example.com)"
           }
         }
       },
@@ -89,6 +103,14 @@
         "title": "System Requirements",
         "description": "Share usage details to help us configure the platform to suit your needs.",
         "fields": {
+          "numberOfEvents": {
+            "label": "Expected Number of Events",
+            "placeholder": "Enter number of events"
+          },
+          "numberOfGuestsPerEvent": {
+            "label": "Expected Guests per Event",
+            "placeholder": "Enter number of guests"
+          },
           "events": {
             "label": "Expected Number of Events",
             "placeholder": "Enter number of events"
@@ -96,6 +118,14 @@
           "guests": {
             "label": "Expected Guests per Event",
             "placeholder": "Enter number of guests"
+          },
+          "eventsTypes": {
+            "label": "Event Types",
+            "placeholder": "Select event types"
+          },
+          "services": {
+            "label": "System Integration",
+            "placeholder": "Select systems to integrate"
           }
         },
         "usage": {
@@ -135,15 +165,21 @@
           ]
         }
       },
-      "additionalServices": {
+      "services": {
         "title": "Additional Services",
         "description": "Choose suitable settings and complementary options.",
+        "selectedServices": "Selected Services",
         "options": [
           "Enable post-event congratulations/comments page",
           "Enable automatic guest photo uploads",
           "Support for newsletters or promotional campaigns",
           "Support for newsletters or promotional campaigns"
         ]
+      },
+      "summary": {
+        "title": "Application Summary",
+        "description": "Please review all the information you've provided before submitting your application.",
+        "submit": "Submit Application"
       },
       "payment": {
         "title": "Create Your Own Environment",
@@ -202,6 +238,9 @@
           "title": "Payment Methods",
           "options": ["Invoice", "Mada", "Bank Transfer"]
         }
+      },
+      "buttons": {
+        "continue": "Continue"
       }
     },
     "host": {

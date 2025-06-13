@@ -32,8 +32,7 @@
   gap: 3.2rem;
   width: 100%;
 }
-.step_number,
-.active_step_number {
+.step_number {
   display: flex;
   width: 2.4rem;
   height: 2.4rem;
@@ -48,9 +47,13 @@
   background: #e2dbd6;
   color: var(--color-title);
 }
-.active_step_number {
+.current_step_number {
   background: #e3cbb4;
   color: #c28e5c;
+}
+.completed_step_number {
+  background: #2ecc71;
+  color: #fff;
 }
 .step_text {
   display: flex;
@@ -64,8 +67,13 @@
   line-height: 1.6rem;
   letter-spacing: 0.06rem;
 }
-.step_description,
-.active_step_description {
+.current_step_title {
+  color: #c28e5c;
+}
+.completed_step_title {
+  color: #2ecc71;
+}
+.step_description {
   font-size: 1.4rem;
   font-style: normal;
   font-weight: 400;
@@ -73,8 +81,11 @@
   letter-spacing: 0.014rem;
   color: var(--color-description);
 }
-.active_step_description {
+.current_step_description {
   color: #c28e5c;
+}
+.completed_step_description {
+  color: #2ecc71;
 }
 .buttons {
   display: flex;
@@ -100,11 +111,27 @@
 }
 .next_button {
   background: #f5ece4;
+  color: var(--color-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.next_button:not([disabled]) {
+  cursor: pointer;
+}
+
+.next_button.active {
+  background: var(--color-primary-bg);
+  color: #fff;
+}
+
+.next_button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .mobile_container {
   background-color: #fff;
-  max-width: 410px;
+  max-width: 100%;
   margin: 0 auto 4.4rem;
   border-radius: 8px;
   padding: 1.6rem;
@@ -133,6 +160,15 @@
   height: 4rem;
   border: 2px solid #c28e5c;
   font-weight: 500;
+  
+
 }
 .mobile_step_desc_container {
+      max-width: 100%;
+
+}
+
+/* Styles for completed step line */
+.completed_step_line {
+  background: #217343;
 }

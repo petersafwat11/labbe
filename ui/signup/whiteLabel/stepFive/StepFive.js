@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './stepFive.module.css';
 import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
 import { StepTitle } from '../title/SectionTitle';
@@ -6,21 +6,36 @@ import SectionTitle from '../title/SectionTitle';
 import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
 import { useTranslation } from 'react-i18next';
 
-const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
+const StepFive = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, goToPreviousStep }) => {
   const { t } = useTranslation('signup');
 
+  const validateStepFive = (data) => {
+    const { companyName, licenseNumber, TaxNumber, city, neighborhood, street, buildingNumber, paymentMethod } = data.paymentData;
+
+    const isCompanyInfoValid = companyName.value !== '' && licenseNumber.value !== '';
+    const isAddressValid = city.value !== '' && neighborhood.value !== '' && street.value !== '' && buildingNumber.value !== '';
+    const isPaymentMethodSelected = paymentMethod.value.length > 0;
+
+    return isCompanyInfoValid && isAddressValid && isPaymentMethodSelected;
+  };
+
   const handleInputChange = (section, field, value) => {
-    setWhiteLabelData({
-      ...whiteLabelData,
+    setWhiteLabelData((prevData) => {
+      const newData = {
+        ...prevData,
       [section]: {
-        ...whiteLabelData[section],
+          ...prevData[section],
         [field]: { value, error: '' },
       },
+      };
+      onStepValidationChange(validateStepFive(newData));
+      return newData;
     });
   };
 
   const handleCheckboxChange = (item, checked) => {
-    const currentValues = whiteLabelData.paymentData.paymentMethod.value;
+    setWhiteLabelData((prevData) => {
+      const currentValues = prevData.paymentData.paymentMethod.value;
     let newValues;
 
     if (checked) {
@@ -29,20 +44,31 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
       newValues = currentValues.filter((value) => value !== item);
     }
 
-    setWhiteLabelData({
-      ...whiteLabelData,
+      const newData = {
+        ...prevData,
       paymentData: {
-        ...whiteLabelData.paymentData,
+          ...prevData.paymentData,
         paymentMethod: { value: newValues, error: '' },
       },
+      };
+      onStepValidationChange(validateStepFive(newData));
+      return newData;
     });
   };
+
+  useEffect(() => {
+    onStepValidationChange(validateStepFive(whiteLabelData));
+  }, [whiteLabelData, onStepValidationChange]);
 
   return (
     <div className={styles.container}>
       <StepTitle
         title={t('signupForm.whiteLabel.payment.title')}
         description={t('signupForm.whiteLabel.payment.description')}
+        onArrowClick={() => {
+          console.log('StepFive previous arrow clicked!');
+          goToPreviousStep();
+        }}
       />
 
       <div className={styles.sections}>
@@ -255,11 +281,7 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
                 name="placeNumber"
                 value={whiteLabelData.paymentData.placeNumber.value}
                 onChange={(e) =>
-                  handleInputChange(
-                    'paymentData',
-                    'placeNumber',
-                    e.target.value
-                  )
+                  handleInputChange('paymentData', 'placeNumber', e.target.value)
                 }
                 error={whiteLabelData.paymentData.placeNumber.error}
                 iconPath="auth/location.svg"
@@ -284,7 +306,7 @@ const StepFive = ({ whiteLabelData, setWhiteLabelData }) => {
               })}
               checkedItems={whiteLabelData.paymentData.paymentMethod.value}
               onChange={handleCheckboxChange}
-              columns={2}
+              columns={1}
             />
           </div>
         </div>

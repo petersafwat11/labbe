@@ -31,3 +31,50 @@
   display: flex;
   flex-direction: column;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 2rem;
+  }
+
+  .sections {
+    gap: 2rem;
+  }
+
+  .section {
+    padding: 1.6rem;
+    gap: 1.6rem;
+    border-radius: 0;
+  }
+
+  .inputs {
+    gap: 1.6rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+
+  .section {
+    padding: 1.2rem;
+    gap: 1.2rem;
+  }
+
+  .inputs {
+    gap: 1.2rem;
+  }
+
+  .row {
+    gap: 1.2rem;
+  }
+}

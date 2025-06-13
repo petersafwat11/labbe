@@ -12,6 +12,9 @@ const InputGroup = ({
   iconPath,
   iconPath2,
   onIconClick,
+  hintMessage,
+  validations,
+  prefixText,
 }) => {
   return (
     <div className={styles.input_group}>
@@ -23,6 +26,7 @@ const InputGroup = ({
         <div className={styles.input_container}></div>
       ) : (
         <div className={styles.input_container}>
+          {prefixText && <span className={styles.prefix_text}>{prefixText}</span>}
           <input
             className={error ? styles.input_error : styles.input}
             type={type}
@@ -30,6 +34,7 @@ const InputGroup = ({
             name={name}
             value={value}
             onChange={onChange}
+            style={prefixText ? { paddingLeft: '9rem' } : {}}
           />
           {iconPath && (
             <Image
@@ -52,7 +57,34 @@ const InputGroup = ({
           )}
         </div>
       )}
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <div className={styles.error_container}>
+          <p className={styles.error}>{error}</p>
+        </div>
+      )}
+
+      {hintMessage && <p className={styles.hint}>{hintMessage}</p>}
+
+      {validations && validations.length > 0 && (
+        <div className={styles.validation_rules}>
+          {validations.map((rule, index) => (
+            <p
+              key={index}
+              className={`${styles.validation_rule} ${
+                rule.isValid ? styles.valid : ''
+              }`}
+            >
+              {/* <Image
+                src={rule.isValid ? '/svg/checked.svg' : '/svg/unchecked.svg'}
+                alt="validation status"
+                width={16}
+                height={16}
+              /> */}
+              {rule.text}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
