@@ -62,7 +62,8 @@
           "title": "Logo",
           "label": "Logo",
           "description": "Upload a high-quality logo",
-          "button": "Choose File"
+          "button": "Choose File",
+          "dragAndDropHint": "Drag images here or click to select"
         },
         "colors": {
           "title": "Brand Colors",

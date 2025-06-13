@@ -156,39 +156,41 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
             </div>
           </div>
 
-          <div className={styles.section}>
-            <SectionTitle
-              title={(() => {
-                const logoTitle = t('signupForm.whiteLabel.identity.logo.title');
-                console.log('StepOne - Logo Title passed to SectionTitle:', logoTitle);
-                return logoTitle;
-              })()}
-              icon="/svg/auth/logo.svg"
-              height={24}
-              width={24}
-            />
-            <div className={styles.logo_upload}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-                className={styles.file_input}
-              />
-              {logoFile && (
-                <div className={styles.preview}>
-                  <Image
-                    src={URL.createObjectURL(logoFile)}
-                    alt="Logo preview"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-              )}
-              {errors.logo && (
-                <p className={styles.error}>{errors.logo.message}</p>
-              )}
-            </div>
-          </div>
+        <div className={styles.section}>
+  <SectionTitle
+    title={t('signupForm.whiteLabel.identity.logo.label')}
+    icon="/svg/auth/logo.svg"
+    height={24}
+    width={24}
+  />
+  <div className={styles.logo_upload}>
+    <Image
+      src="/svg/auth/logo-2.svg"
+      alt="logo"
+      width={24}
+      height={24}
+    />
+    <p className={styles.section_description}>
+      {t('signupForm.whiteLabel.identity.logo.description')}
+    </p>
+
+    <label className={styles.upload_button}>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleLogoUpload}
+        style={{ display: 'none' }}
+      />
+      {t('signupForm.whiteLabel.identity.logo.button')}
+    </label>
+
+    {logoFile && (
+      <p className={styles.file_selected}>
+        {t('selected')}: {logoFile.name}
+      </p>
+    )}
+  </div>
+</div>
 
           <div className={styles.section}>
             <SectionTitle

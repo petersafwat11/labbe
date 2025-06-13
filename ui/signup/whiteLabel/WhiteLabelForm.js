@@ -203,18 +203,21 @@ const WhiteLabelForm = () => {
                     whiteLabelData={whiteLabelData}
                     setWhiteLabelData={setWhiteLabelData}
                     onStepValidationChange={handleStepValidationChange}
+                    goToPreviousStep={goToPreviousStep}
                   />
                 ) : step === 5 ? (
                   <StepFive
                     whiteLabelData={whiteLabelData}
                     setWhiteLabelData={setWhiteLabelData}
                     onStepValidationChange={handleStepValidationChange}
+                    goToPreviousStep={goToPreviousStep}
                   />
                 ) : step === 6 ? (
                   <StepSix
                     whiteLabelData={whiteLabelData}
                     setWhiteLabelData={setWhiteLabelData}
                     onStepValidationChange={handleStepValidationChange}
+                    goToPreviousStep={goToPreviousStep}
                   />
                 ) : null}
               </div>

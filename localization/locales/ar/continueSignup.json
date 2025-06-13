@@ -1,13 +1,13 @@
 {
   "continueSignup": {
-    "title": "متابعة التسجيل",
-    "description": "يرجى إكمال بياناتك الشخصية واختيار الخدمة المناسبة",
+    "title": "اكمل ملفك الشخصي",
+    "description": "بعض المعلومات الأساسية لنتمكن من خدمتك بأفضل شكل ",
     "errors": {
       "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
       "fullNameMinLength": "الاسم كاملا يجب أن لا يقل عن حرفين",
       "fullNameRequired": "الاسم كاملا مطلوب",
       "emailRequired": "البريد الالكتروني مطلوب",
-      "invalidEmail": "البريد الالكتروني غير صالح",
+      "invalidEmail": "قم بإدخال بريد إلكتروني صحيح مثال example@domain.com",
       "passwordMinLength": "على الاقل 8احرف",
       "passwordComplexity": "  تحتوي على حرف كبير وحرف صغير",
       "passwordSpecialChar": "ورمز*&^%@",
@@ -16,12 +16,12 @@
     "personalInfo": {
       "title": "معلومات شخصية",
       "fullName": {
-        "label": "الاسم كاملا",
-        "placeholder": "ادخل اسمك كاملا"
+        "label": "اسمك بالكامل",
+        "placeholder": "احمد كامل عبد ربه"
       },
       "email": {
         "label": "البريد الالكتروني",
-        "placeholder": "ادخل بريدك الالكتروني"
+        "placeholder": "davd@dffr.com"
       },
       "newPassword": {
         "label": "كلمة مرور جديدة",
@@ -34,14 +34,15 @@
     },
     "serviceSelection": {
       "title": "اختر الخدمة المقدمة",
-      "question": "ما نوع الحدث الذي تريد تنظيمه؟",
+      "question": "ما نوع الحدث الذي تريد تنظيمه ",
       "organizerInvitation": {
-        "title": "دعوتك عبر منظمك",
-        "description": "حل احترافي للجهات، لوحة تحكم مخصصة ومزايا متعددة"
+        "title": "دعوتك عبر منصتك",
+        "description": " متعددة"
       },
       "onUsInvitation": {
         "title": "دعوتك علينا",
-        "description": "تطبيق ليتحمل كل ما يلي من تصميم إرسال ومتابعة الحضور وخدم الضيوف"
+               "description": "فريق لبى يتولى كل شيء من تصميم وارسال ومتابعة الحضور وتذكير الضيوف"
+
       },
       "inYourHandsInvitation": {
         "title": "دعوتك بيدك",
