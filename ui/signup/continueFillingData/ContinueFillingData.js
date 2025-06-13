@@ -42,8 +42,7 @@ const ContinueFillingData = ({ data, setData, showFormsForSignup }) => {
   const formValues = watch();
 
   const onSubmit = () => {
-    // The handleSubmit function from useForm will automatically prevent onSubmit from being called if there are validation errors.
-    // So, we just need to call showFormsForSignup directly here.
+   
     showFormsForSignup(formValues);
   };
 

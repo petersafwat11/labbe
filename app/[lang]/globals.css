@@ -11,11 +11,6 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    /* Optionally, you can define dark variants for your custom colors here */
-    /* --color-primary: #...; */
-    /* --color-primary-bg: #...; */
-    /* --color-title: #...; */
-    /* --color-description: #...; */
   }
 }
 

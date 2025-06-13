@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '@/ui/commen/card/Card';
-import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
 import styles from './serviceSelectionCard.module.css';
 import { useTranslation } from 'react-i18next';
 
@@ -45,11 +44,12 @@ const ServiceSelectionCard = ({
         <p className={styles.additionalFeaturesText}>{additionalFeaturesText}</p>
       )}
       <div className={styles.buttonWrapper}>
-        <ConfirmBtn
-          text={buttonText}
-          active={isSelected}
-          clickHandler={onClick}
-        />
+        <button
+          className={`${styles.confirmBtn} ${isSelected ? styles.active : ''}`}
+          onClick={onClick}
+        >
+          {isSelected ? 'الغاء الاختيار' : buttonText}
+        </button>
       </div>
     </Card>
   );

@@ -160,15 +160,11 @@
   height: 4rem;
   border: 2px solid #c28e5c;
   font-weight: 500;
-  
-
 }
 .mobile_step_desc_container {
       max-width: 100%;
-
 }
 
-/* Styles for completed step line */
 .completed_step_line {
   background: #217343;
 }
