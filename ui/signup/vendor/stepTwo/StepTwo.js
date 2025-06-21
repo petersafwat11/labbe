@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./stepTwo.module.css";
 import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
 import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
-import { StepTitle } from "../../whiteLabel/title/SectionTitle";
-import SectionTitle from "../../whiteLabel/title/SectionTitle";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
 
 const StepTwo = ({ vendorData, setVendorData }) => {
   const handleInputChange = (section, field, value) => {

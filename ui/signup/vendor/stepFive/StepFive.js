@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./stepFive.module.css";
 import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
-import { StepTitle } from "../../whiteLabel/title/SectionTitle";
-import SectionTitle from "../../whiteLabel/title/SectionTitle";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
 
 const StepFive = ({ vendorData, setVendorData }) => {
   const handlePaymentMethodChange = (item, checked) => {

@@ -1,41 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import styles from './stepOne.module.css';
-import Image from 'next/image';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import { StepTitle } from '../title/SectionTitle';
-import SectionTitle from '../title/SectionTitle';
-import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState, useEffect } from "react";
+import styles from "./stepOne.module.css";
+import Image from "next/image";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
+import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation("signup");
   const [logoFile, setLogoFile] = useState(null);
 
   // Define validation schema
   const identitySchema = z.object({
-    arabic_name: z.string()
-      .min(2, t('signupForm.whiteLabel.identity.errors.arabicNameMinLength'))
-      .max(50, t('signupForm.whiteLabel.identity.errors.arabicNameMaxLength'))
-      .regex(/^[\u0600-\u06FF\s]+$/, t('signupForm.whiteLabel.identity.errors.arabicNameFormat')),
-    english_name: z.string()
-      .min(2, t('signupForm.whiteLabel.identity.errors.englishNameMinLength'))
-      .max(50, t('signupForm.whiteLabel.identity.errors.englishNameMaxLength'))
-      .regex(/^[a-zA-Z\s]+$/, t('signupForm.whiteLabel.identity.errors.englishNameFormat')),
-    logo: z.string()
-      .min(1, t('signupForm.whiteLabel.identity.errors.logoRequired')),
-    primaryColor: z.string()
-      .min(1, t('signupForm.whiteLabel.identity.errors.primaryColorRequired'))
-      .regex(/^#[0-9A-Fa-f]{6}$/, t('signupForm.whiteLabel.identity.errors.invalidColorFormat')),
-    secondaryColor: z.string()
-      .min(1, t('signupForm.whiteLabel.identity.errors.secondaryColorRequired'))
-      .regex(/^#[0-9A-Fa-f]{6}$/, t('signupForm.whiteLabel.identity.errors.invalidColorFormat')),
-    fontFamily: z.string()
+    arabic_name: z
+      .string()
+      .min(2, t("signupForm.whiteLabel.identity.errors.arabicNameMinLength"))
+      .max(50, t("signupForm.whiteLabel.identity.errors.arabicNameMaxLength"))
+      .regex(
+        /^[\u0600-\u06FF\s]+$/,
+        t("signupForm.whiteLabel.identity.errors.arabicNameFormat")
+      ),
+    english_name: z
+      .string()
+      .min(2, t("signupForm.whiteLabel.identity.errors.englishNameMinLength"))
+      .max(50, t("signupForm.whiteLabel.identity.errors.englishNameMaxLength"))
+      .regex(
+        /^[a-zA-Z\s]+$/,
+        t("signupForm.whiteLabel.identity.errors.englishNameFormat")
+      ),
+    logo: z
+      .string()
+      .min(1, t("signupForm.whiteLabel.identity.errors.logoRequired")),
+    primaryColor: z
+      .string()
+      .min(1, t("signupForm.whiteLabel.identity.errors.primaryColorRequired"))
+      .regex(
+        /^#[0-9A-Fa-f]{6}$/,
+        t("signupForm.whiteLabel.identity.errors.invalidColorFormat")
+      ),
+    secondaryColor: z
+      .string()
+      .min(1, t("signupForm.whiteLabel.identity.errors.secondaryColorRequired"))
+      .regex(
+        /^#[0-9A-Fa-f]{6}$/,
+        t("signupForm.whiteLabel.identity.errors.invalidColorFormat")
+      ),
+    fontFamily: z
+      .string()
       .optional()
       .refine((val) => !val || /^[a-zA-Z\s]+$/.test(val), {
-        message: t('signupForm.whiteLabel.identity.errors.invalidFontFamily')
-      })
+        message: t("signupForm.whiteLabel.identity.errors.invalidFontFamily"),
+      }),
   });
 
   // Initialize React Hook Form
@@ -45,11 +63,11 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
     formState: { errors, isValid },
     setValue,
     watch,
-    trigger
+    trigger,
   } = useForm({
     resolver: zodResolver(identitySchema),
-    mode: 'onChange',
-    defaultValues: initialData
+    mode: "onChange",
+    defaultValues: initialData,
   });
 
   // Watch form values
@@ -62,18 +80,18 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
 
   // Predefined color options
   const colorOptions = [
-    '#c28e5c',
-    '#d6b392',
-    '#8b6f47',
-    '#a0845c',
-    '#e74c3c',
-    '#3498db',
-    '#2ecc71',
-    '#f39c12',
-    '#9b59b6',
-    '#1abc9c',
-    '#34495e',
-    '#95a5a6',
+    "#c28e5c",
+    "#d6b392",
+    "#8b6f47",
+    "#a0845c",
+    "#e74c3c",
+    "#3498db",
+    "#2ecc71",
+    "#f39c12",
+    "#9b59b6",
+    "#1abc9c",
+    "#34495e",
+    "#95a5a6",
   ];
 
   const handleInputChange = async (field, value) => {
@@ -89,17 +107,17 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
     const file = event.target.files[0];
     if (file) {
       // Validate file type
-      if (!file.type.startsWith('image/')) {
-        setValue('logo', '');
+      if (!file.type.startsWith("image/")) {
+        setValue("logo", "");
         return;
       }
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setValue('logo', '');
+        setValue("logo", "");
         return;
       }
       setLogoFile(file);
-      await handleInputChange('logo', file.name);
+      await handleInputChange("logo", file.name);
     }
   };
 
@@ -111,92 +129,105 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
         onStepComplete(data);
       }
     } catch (error) {
-      console.error('Form validation error:', error);
+      console.error("Form validation error:", error);
     }
   };
 
   return (
     <div className={styles.container}>
       <StepTitle
-        title={t('signupForm.whiteLabel.identity.title')}
-        description={t('signupForm.whiteLabel.identity.description')}
+        title={t("signupForm.whiteLabel.identity.title")}
+        description={t("signupForm.whiteLabel.identity.description")}
       />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.sections}>
           <div className={styles.section}>
             <SectionTitle
-              title={t('signupForm.personalInfo.title')}
+              title={t("signupForm.personalInfo.title")}
               icon="/svg/auth/personal-info.svg"
               height={24}
               width={24}
             />
             <div className={styles.inputs}>
               <InputGroup
-                label={t('signupForm.whiteLabel.identity.arabicName.label')}
+                label={t("signupForm.whiteLabel.identity.arabicName.label")}
                 type="text"
-                placeholder={t('signupForm.whiteLabel.identity.arabicName.placeholder')}
+                placeholder={t(
+                  "signupForm.whiteLabel.identity.arabicName.placeholder"
+                )}
                 required
                 name="arabic_name"
                 value={formValues.arabic_name}
-                onChange={(e) => handleInputChange('arabic_name', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("arabic_name", e.target.value)
+                }
                 error={errors.arabic_name?.message}
                 iconPath="auth/building.svg"
               />
               <InputGroup
-                label={t('signupForm.whiteLabel.identity.englishName.label')}
+                label={t("signupForm.whiteLabel.identity.englishName.label")}
                 type="text"
-                placeholder={t('signupForm.whiteLabel.identity.englishName.placeholder')}
+                placeholder={t(
+                  "signupForm.whiteLabel.identity.englishName.placeholder"
+                )}
                 required
                 name="english_name"
                 value={formValues.english_name}
-                onChange={(e) => handleInputChange('english_name', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("english_name", e.target.value)
+                }
                 error={errors.english_name?.message}
                 iconPath="auth/building.svg"
               />
             </div>
           </div>
 
-        <div className={styles.section}>
-  <SectionTitle
-    title={t('signupForm.whiteLabel.identity.logo.label')}
-    icon="/svg/auth/logo.svg"
-    height={24}
-    width={24}
-  />
-  <div className={styles.logo_upload}>
-    <Image
-      src="/svg/auth/logo-2.svg"
-      alt="logo"
-      width={24}
-      height={24}
-    />
-    <p className={styles.section_description}>
-      {t('signupForm.whiteLabel.identity.logo.description')}
-    </p>
+          <div className={styles.section}>
+            <SectionTitle
+              title={t("signupForm.whiteLabel.identity.logo.label")}
+              icon="/svg/auth/logo.svg"
+              height={24}
+              width={24}
+            />
+            <div className={styles.logo_upload}>
+              <Image
+                src="/svg/auth/logo-2.svg"
+                alt="logo"
+                width={24}
+                height={24}
+              />
+              <p className={styles.section_description}>
+                {t("signupForm.whiteLabel.identity.logo.description")}
+              </p>
 
-    <label className={styles.upload_button}>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleLogoUpload}
-        style={{ display: 'none' }}
-      />
-      {t('signupForm.whiteLabel.identity.logo.button')}
-    </label>
+              <label className={styles.upload_button}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoUpload}
+                  style={{ display: "none" }}
+                />
+                {t("signupForm.whiteLabel.identity.logo.button")}
+              </label>
 
-    {logoFile && (
-      <p className={styles.file_selected}>
-        {t('selected')}: {logoFile.name}
-      </p>
-    )}
-  </div>
-</div>
+              {logoFile && (
+                <p className={styles.file_selected}>
+                  {t("selected")}: {logoFile.name}
+                </p>
+              )}
+            </div>
+          </div>
 
           <div className={styles.section}>
             <SectionTitle
               title={(() => {
-                const colorsTitle = t('signupForm.whiteLabel.identity.colors.title');
-                console.log('StepOne - Colors Title passed to SectionTitle:', colorsTitle);
+                const colorsTitle = t(
+                  "signupForm.whiteLabel.identity.colors.title"
+                );
+                console.log(
+                  "StepOne - Colors Title passed to SectionTitle:",
+                  colorsTitle
+                );
                 return colorsTitle;
               })()}
               icon="/svg/auth/color.svg"
@@ -206,7 +237,7 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
             <div className={styles.colors}>
               <div className={styles.color_section}>
                 <h4 className={styles.color_label}>
-                  {t('signupForm.whiteLabel.identity.primaryColor.label')}
+                  {t("signupForm.whiteLabel.identity.primaryColor.label")}
                 </h4>
                 <div className={styles.color_options}>
                   {colorOptions.map((color) => (
@@ -214,10 +245,10 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
                       key={color}
                       type="button"
                       className={`${styles.color_option} ${
-                        formValues.primaryColor === color ? styles.selected : ''
+                        formValues.primaryColor === color ? styles.selected : ""
                       }`}
                       style={{ backgroundColor: color }}
-                      onClick={() => handleColorSelect(color, 'primaryColor')}
+                      onClick={() => handleColorSelect(color, "primaryColor")}
                     />
                   ))}
                 </div>
@@ -225,13 +256,19 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
                   <input
                     type="color"
                     value={formValues.primaryColor}
-                    onChange={(e) => handleColorSelect(e.target.value, 'primaryColor')}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "primaryColor")
+                    }
                     className={styles.color_picker}
                   />
                   <input
-                    placeholder={t('signupForm.whiteLabel.identity.colors.customColor')}
+                    placeholder={t(
+                      "signupForm.whiteLabel.identity.colors.customColor"
+                    )}
                     value={formValues.primaryColor}
-                    onChange={(e) => handleColorSelect(e.target.value, 'primaryColor')}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "primaryColor")
+                    }
                     className={styles.color_picker_input}
                   />
                 </div>
@@ -242,7 +279,7 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
 
               <div className={styles.color_section}>
                 <h4 className={styles.color_label}>
-                  {t('signupForm.whiteLabel.identity.secondaryColor.label')}
+                  {t("signupForm.whiteLabel.identity.secondaryColor.label")}
                 </h4>
                 <div className={styles.color_options}>
                   {colorOptions.map((color) => (
@@ -250,10 +287,12 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
                       key={color}
                       type="button"
                       className={`${styles.color_option} ${
-                        formValues.secondaryColor === color ? styles.selected : ''
+                        formValues.secondaryColor === color
+                          ? styles.selected
+                          : ""
                       }`}
                       style={{ backgroundColor: color }}
-                      onClick={() => handleColorSelect(color, 'secondaryColor')}
+                      onClick={() => handleColorSelect(color, "secondaryColor")}
                     />
                   ))}
                 </div>
@@ -261,18 +300,26 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
                   <input
                     type="color"
                     value={formValues.secondaryColor}
-                    onChange={(e) => handleColorSelect(e.target.value, 'secondaryColor')}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "secondaryColor")
+                    }
                     className={styles.color_picker}
                   />
                   <input
-                    placeholder={t('signupForm.whiteLabel.identity.colors.customColor')}
+                    placeholder={t(
+                      "signupForm.whiteLabel.identity.colors.customColor"
+                    )}
                     value={formValues.secondaryColor}
-                    onChange={(e) => handleColorSelect(e.target.value, 'secondaryColor')}
+                    onChange={(e) =>
+                      handleColorSelect(e.target.value, "secondaryColor")
+                    }
                     className={styles.color_picker_input}
                   />
                 </div>
                 {errors.secondaryColor && (
-                  <p className={styles.error}>{errors.secondaryColor.message}</p>
+                  <p className={styles.error}>
+                    {errors.secondaryColor.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -280,25 +327,25 @@ const StepOne = ({ initialData, onStepComplete, onStepValidationChange }) => {
 
           <div className={styles.section}>
             <SectionTitle
-              title={t('signupForm.whiteLabel.identity.fontFamily.label')}
+              title={t("signupForm.whiteLabel.identity.fontFamily.label")}
               icon="/svg/auth/text.svg"
               height={24}
               width={24}
             />
             <InputGroup
-              label={t('signupForm.whiteLabel.identity.fontFamily.label')}
+              label={t("signupForm.whiteLabel.identity.fontFamily.label")}
               type="text"
-              placeholder={t('signupForm.whiteLabel.identity.fontFamily.placeholder')}
+              placeholder={t(
+                "signupForm.whiteLabel.identity.fontFamily.placeholder"
+              )}
               name="fontFamily"
               value={formValues.fontFamily}
-              onChange={(e) => handleInputChange('fontFamily', e.target.value)}
+              onChange={(e) => handleInputChange("fontFamily", e.target.value)}
               error={errors.fontFamily?.message}
               iconPath="auth/smallcaps.svg"
             />
           </div>
         </div>
-
-        
       </form>
     </div>
   );

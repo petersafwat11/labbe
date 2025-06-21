@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./stepSix.module.css";
 import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import { StepTitle } from "../../whiteLabel/title/SectionTitle";
-import SectionTitle from "../../whiteLabel/title/SectionTitle";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
 
 const StepSix = ({ vendorData, setVendorData }) => {
   const handleInputChange = (section, field, value) => {

@@ -2,7 +2,6 @@
 import React, { useState, useCallback } from 'react';
 import Stepper from '../../commen/stepper/Stepper';
 import styles from './whiteLabelform.module.css';
-import FormHeader from '@/ui/commen/formHeader/FormHeader';
 import StepOne from './stepOne/StepOne';
 import StepTwo from './stepTwo/StepTwo';
 import StepFour from './stepFour/StepFour';
@@ -11,7 +10,6 @@ import StepThree from './stepThreee/StepThree';
 import StepSix from './stepSix/StepSix';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useTranslation } from 'react-i18next';
-import { FaArrowLeftLong } from 'react-icons/fa6';
 
 const WhiteLabelForm = () => {
   const { t } = useTranslation('signup');

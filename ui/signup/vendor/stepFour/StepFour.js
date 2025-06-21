@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./stepFour.module.css";
-import { StepTitle } from "../../whiteLabel/title/SectionTitle";
+import { StepTitle } from "../../../commen/title/SectionTitle";
 
 const StepFour = ({ vendorData, setVendorData }) => {
   return (

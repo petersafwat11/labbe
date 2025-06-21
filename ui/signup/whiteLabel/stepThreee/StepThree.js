@@ -1,23 +1,37 @@
-import React, { useEffect } from 'react';
-import styles from './stepThree.module.css';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import { StepTitle } from '../title/SectionTitle';
-import SectionTitle from '../title/SectionTitle';
-import CheckBoxItems from '@/ui/commen/checkboxItems/CheckBoxItems';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from "react";
+import styles from "./stepThree.module.css";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
+import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import { useTranslation } from "react-i18next";
 
-const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, goToPreviousStep }) => {
-  const { t } = useTranslation('signup');
+const StepThree = ({
+  whiteLabelData,
+  setWhiteLabelData,
+  onStepValidationChange,
+  goToPreviousStep,
+}) => {
+  const { t } = useTranslation("signup");
 
   const validateStepThree = (data) => {
-    const { numberOfEvents, numberOfGuestsPerEvent, eventsTypes, services } = data.systemRequirements;
-    
-    const isNumberOfEventsValid = numberOfEvents.value !== '' && !isNaN(Number(numberOfEvents.value));
-    const isNumberOfGuestsValid = numberOfGuestsPerEvent.value !== '' && !isNaN(Number(numberOfGuestsPerEvent.value));
+    const { numberOfEvents, numberOfGuestsPerEvent, eventsTypes, services } =
+      data.systemRequirements;
+
+    const isNumberOfEventsValid =
+      numberOfEvents.value !== "" && !isNaN(Number(numberOfEvents.value));
+    const isNumberOfGuestsValid =
+      numberOfGuestsPerEvent.value !== "" &&
+      !isNaN(Number(numberOfGuestsPerEvent.value));
     const areEventTypesSelected = eventsTypes.value.length > 0;
     const areServicesSelected = services.value.length > 0;
 
-    return isNumberOfEventsValid && isNumberOfGuestsValid && areEventTypesSelected && areServicesSelected;
+    return (
+      isNumberOfEventsValid &&
+      isNumberOfGuestsValid &&
+      areEventTypesSelected &&
+      areServicesSelected
+    );
   };
 
   const handleInputChange = (section, field, value) => {
@@ -26,7 +40,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
         ...prevData,
         [section]: {
           ...prevData[section],
-          [field]: { value, error: '' },
+          [field]: { value, error: "" },
         },
       };
       onStepValidationChange(validateStepThree(newData));
@@ -49,7 +63,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
         ...prevData,
         [section]: {
           ...prevData[section],
-          [field]: { value: newValues, error: '' },
+          [field]: { value: newValues, error: "" },
         },
       };
       onStepValidationChange(validateStepThree(newData));
@@ -64,10 +78,10 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
   return (
     <div className={styles.container}>
       <StepTitle
-        title={t('signupForm.whiteLabel.requirements.title')}
-        description={t('signupForm.whiteLabel.requirements.description')}
+        title={t("signupForm.whiteLabel.requirements.title")}
+        description={t("signupForm.whiteLabel.requirements.description")}
         onArrowClick={() => {
-          console.log('StepThree previous arrow clicked!');
+          console.log("StepThree previous arrow clicked!");
           goToPreviousStep();
         }}
       />
@@ -75,7 +89,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.whiteLabel.requirements.usage.title')}
+            title={t("signupForm.whiteLabel.requirements.usage.title")}
             icon="/svg/auth/usage.svg"
             height={24}
             width={24}
@@ -84,19 +98,19 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
           <div className={styles.row}>
             <InputGroup
               label={t(
-                'signupForm.whiteLabel.requirements.fields.numberOfEvents.label'
+                "signupForm.whiteLabel.requirements.fields.numberOfEvents.label"
               )}
               type="number"
               placeholder={t(
-                'signupForm.whiteLabel.requirements.fields.events.placeholder'
+                "signupForm.whiteLabel.requirements.fields.events.placeholder"
               )}
               required
               name="numberOfEvents"
               value={whiteLabelData.systemRequirements.numberOfEvents.value}
               onChange={(e) =>
                 handleInputChange(
-                  'systemRequirements',
-                  'numberOfEvents',
+                  "systemRequirements",
+                  "numberOfEvents",
                   e.target.value
                 )
               }
@@ -105,11 +119,11 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
             />
             <InputGroup
               label={t(
-                'signupForm.whiteLabel.requirements.fields.numberOfGuestsPerEvent.label'
+                "signupForm.whiteLabel.requirements.fields.numberOfGuestsPerEvent.label"
               )}
               type="number"
               placeholder={t(
-                'signupForm.whiteLabel.requirements.fields.guests.placeholder'
+                "signupForm.whiteLabel.requirements.fields.guests.placeholder"
               )}
               required
               name="numberOfGuestsPerEvent"
@@ -118,8 +132,8 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
               }
               onChange={(e) =>
                 handleInputChange(
-                  'systemRequirements',
-                  'numberOfGuestsPerEvent',
+                  "systemRequirements",
+                  "numberOfGuestsPerEvent",
                   e.target.value
                 )
               }
@@ -133,7 +147,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
 
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.whiteLabel.requirements.eventTypes.title')}
+            title={t("signupForm.whiteLabel.requirements.eventTypes.title")}
             icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
@@ -142,14 +156,14 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.whiteLabel.requirements.eventTypes.options',
+                "signupForm.whiteLabel.requirements.eventTypes.options",
                 { returnObjects: true }
               )}
               checkedItems={whiteLabelData.systemRequirements.eventsTypes.value}
               onChange={(item, checked) =>
                 handleCheckboxChange(
-                  'systemRequirements',
-                  'eventsTypes',
+                  "systemRequirements",
+                  "eventsTypes",
                   item,
                   checked
                 )
@@ -161,7 +175,7 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
         <div className={styles.section}>
           <SectionTitle
             title={t(
-              'signupForm.whiteLabel.requirements.systemIntegration.title'
+              "signupForm.whiteLabel.requirements.systemIntegration.title"
             )}
             icon="/svg/auth/calendar.svg"
             height={24}
@@ -171,14 +185,14 @@ const StepThree = ({ whiteLabelData, setWhiteLabelData, onStepValidationChange, 
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.whiteLabel.requirements.systemIntegration.options',
+                "signupForm.whiteLabel.requirements.systemIntegration.options",
                 { returnObjects: true }
               )}
               checkedItems={whiteLabelData.systemRequirements.services.value}
               onChange={(item, checked) =>
                 handleCheckboxChange(
-                  'systemRequirements',
-                  'services',
+                  "systemRequirements",
+                  "services",
                   item,
                   checked
                 )

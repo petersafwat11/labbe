@@ -1,223 +1,140 @@
-import React, { useState } from 'react';
-import styles from './stepOne.module.css';
-import Image from 'next/image';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import { StepTitle } from '../title/SectionTitle';
-import SectionTitle from '../title/SectionTitle';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import styles from "./stepOne.module.css";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
+import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
 
-const StepOne = ({ whiteLabelData, setWhiteLabelData }) => {
-  const { t } = useTranslation('signup');
-  const [logoFile, setLogoFile] = useState(null);
-
-  // Predefined color options
-  const colorOptions = [
-    '#c28e5c',
-    '#d6b392',
-    '#8b6f47',
-    '#a0845c',
-    '#e74c3c',
-    '#3498db',
-    '#2ecc71',
-    '#f39c12',
-    '#9b59b6',
-    '#1abc9c',
-    '#34495e',
-    '#95a5a6',
-  ];
-
+const StepOne = ({ vendorData, setVendorData }) => {
   const handleInputChange = (section, field, value) => {
-    setWhiteLabelData({
-      ...whiteLabelData,
+    setVendorData({
+      ...vendorData,
       [section]: {
-        ...whiteLabelData[section],
-        [field]: { value, error: '' },
+        ...vendorData[section],
+        [field]: { value, error: "" },
       },
     });
   };
 
-  const handleColorSelect = (color, colorType) => {
-    handleInputChange('identity', colorType, color);
-  };
+  const handleCheckboxChange = (item, checked) => {
+    const currentValues = vendorData.identity.serviceType.value;
+    let newValues;
 
-  const handleLogoUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setLogoFile(file);
-      handleInputChange('identity', 'logo', file.name);
+    if (checked) {
+      // Add item if checked
+      newValues = [...currentValues, item];
+    } else {
+      // Remove item if unchecked
+      newValues = currentValues.filter((value) => value !== item);
     }
+
+    setVendorData({
+      ...vendorData,
+      identity: {
+        ...vendorData.identity,
+        serviceType: { value: newValues, error: "" },
+      },
+    });
   };
 
   return (
     <div className={styles.container}>
       <StepTitle
-        title={t('signupForm.whiteLabel.identity.title')}
-        description={t('signupForm.whiteLabel.identity.description')}
+        title="معلومات الحساب الأساسية"
+        description="أدخل بياناتك الشخصية والتجارية لبدء إنشاء حسابك كمزود خدمة."
       />
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.personalInfo.title')}
-            icon="/svg/auth/personal-info.svg"
+            title="معلومات النشاط"
+            icon="/svg/auth/info-circle.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <InputGroup
-              label={t('signupForm.whiteLabel.identity.arabicName.label')}
+              label="اسم العلامة التجارية"
               type="text"
-              placeholder={t(
-                'signupForm.whiteLabel.identity.arabicName.placeholder'
-              )}
-              required
-              name="arabic_name"
-              value={whiteLabelData.identity.arabic_name.value}
+              placeholder="أدخل اسم العلامة التجارية"
+              name="brandName"
+              value={vendorData.identity.brandName.value}
               onChange={(e) =>
-                handleInputChange('identity', 'arabic_name', e.target.value)
+                handleInputChange("identity", "brandName", e.target.value)
               }
-              error={whiteLabelData.identity.arabic_name.error}
-              iconPath="auth/building.svg"
+              error={vendorData.identity.brandName.error}
+              iconPath="auth/profile-circle.svg"
             />
             <InputGroup
-              label={t('signupForm.whiteLabel.identity.englishName.label')}
+              label="الاسم الكامل لصاحب الحساب"
               type="text"
-              placeholder={t(
-                'signupForm.whiteLabel.identity.englishName.placeholder'
-              )}
-              required
-              name="english_name"
-              value={whiteLabelData.identity.english_name.value}
+              placeholder="أدخل الاسم الكامل"
+              name="ownerFullName"
+              value={vendorData.identity.ownerFullName.value}
               onChange={(e) =>
-                handleInputChange('identity', 'english_name', e.target.value)
+                handleInputChange("identity", "ownerFullName", e.target.value)
               }
-              error={whiteLabelData.identity.english_name.error}
-              iconPath="auth/building.svg"
+              error={vendorData.identity.ownerFullName.error}
+              iconPath="auth/profile-circle.svg"
             />
           </div>
         </div>
 
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.whiteLabel.identity.logo.title')}
-            icon="/svg/auth/logo.svg"
-            height={24}
-            width={24}
+            title="نوع الخدمة"
           />
-          <div className={styles.logo_upload}>
-            <Image
-              src="/svg/auth/logo.svg"
-              alt="logo"
-              width={24}
-              height={24}
+          <div className={styles.options}>
+            <CheckBoxItems
+              items={[
+                "تنظيم الفعاليات",
+                "الإنتاج الإعلامي",
+                "الهدايا والحقائب الدعائية",
+                "الطعام والمشروبات",
+                "الجمال والأزياء",
+                "اللوجستيات والتوصيل",
+                "الخدمات المؤسسية",
+                "أخرى",
+              ]}
+              checkedItems={vendorData.identity.serviceType.value}
+              onChange={handleCheckboxChange}
+              columns={2}
             />
-            <p className={styles.section_description}>
-              {t('signupForm.whiteLabel.identity.logo.description')}
-            </p>
-            <label className={styles.upload_button}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-                style={{ display: 'none' }}
-              />
-              {t('signupForm.whiteLabel.identity.logo.button')}
-            </label>
-            {logoFile && (
-              <p className={styles.file_selected}>
-                {t('selected')}: {logoFile.name}
-              </p>
-            )}
           </div>
         </div>
 
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.whiteLabel.identity.colors.title')}
-            icon="/svg/auth/color.svg"
+            title="معلومات التواصل"
+            icon="/svg/auth/call-calling.svg"
             height={24}
             width={24}
           />
-
-          <div className={styles.color_section}>
-            {/* Primary Color Selection */}
-            <div className={styles.colors}>
-              <h4 className={styles.color_label}>
-                {t('signupForm.whiteLabel.identity.primaryColor.label')}
-              </h4>
-              <div className={styles.custom_color}>
-                <div className={styles.color_inputs}>
-                  <input
-                    type="color"
-                    value={whiteLabelData.identity.primaryColor.value}
-                    onChange={(e) =>
-                      handleColorSelect(e.target.value, 'primaryColor')
-                    }
-                    className={styles.color_picker}
-                  />
-                  <input
-                    placeholder={t(
-                      'signupForm.whiteLabel.identity.colors.customColor'
-                    )}
-                    value={whiteLabelData.identity.primaryColor.value}
-                    onChange={(e) =>
-                      handleColorSelect(e.target.value, 'primaryColor')
-                    }
-                    className={styles.color_picker_input}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Secondary Color Selection */}
-            <div className={styles.color_section}>
-              <h4 className={styles.color_label}>
-                {t('signupForm.whiteLabel.identity.secondaryColor.label')}
-              </h4>
-              <div className={styles.custom_color}>
-                <input
-                  type="color"
-                  value={whiteLabelData.identity.secondaryColor.value}
-                  onChange={(e) =>
-                    handleColorSelect(e.target.value, 'secondaryColor')
-                  }
-                  className={styles.color_picker}
-                />
-                <input
-                  placeholder={t(
-                    'signupForm.whiteLabel.identity.colors.customColor'
-                  )}
-                  value={whiteLabelData.identity.secondaryColor.value}
-                  onChange={(e) =>
-                    handleColorSelect(e.target.value, 'secondaryColor')
-                  }
-                  className={styles.color_picker_input}
-                />
-              </div>
-            </div>
+          <div className={styles.inputs}>
+            <MobileInputGroup
+              label="رقم الجوال"
+              type="tel"
+              placeholder="أدخل رقم الجوال"
+              name="phoneNumber"
+              value={vendorData.identity.phoneNumber.value}
+              onChange={(e) =>
+                handleInputChange("identity", "phoneNumber", e.target.value)
+              }
+              error={vendorData.identity.phoneNumber.error}
+            />
+            <InputGroup
+              label="البريد الإلكتروني"
+              type="email"
+              placeholder="أدخل البريد الإلكتروني"
+              name="email"
+              value={vendorData.identity.email.value}
+              onChange={(e) =>
+                handleInputChange("identity", "email", e.target.value)
+              }
+              error={vendorData.identity.email.error}
+              iconPath="auth/email.svg"
+            />
           </div>
-        </div>
-
-        <div className={styles.section}>
-          <SectionTitle
-            title={t('signupForm.whiteLabel.identity.fontFamily.label')}
-            icon="/svg/auth/text.svg"
-            height={24}
-            width={24}
-          />
-          <InputGroup
-            label={t('signupForm.whiteLabel.identity.fontFamily.label')}
-            type="text"
-            placeholder={t(
-              'signupForm.whiteLabel.identity.fontFamily.placeholder'
-            )}
-            name="fontFamily"
-            value={whiteLabelData.identity.fontFamily.value}
-            onChange={(e) =>
-              handleInputChange('identity', 'fontFamily', e.target.value)
-            }
-            error={whiteLabelData.identity.fontFamily.error}
-            iconPath="auth/smallcaps.svg"
-          />
         </div>
       </div>
     </div>

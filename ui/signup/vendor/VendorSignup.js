@@ -9,7 +9,7 @@ import StepThree from "./stepThree/StepThree";
 import StepFour from "./stepFour/StepFour";
 import StepFive from "./stepFive/StepFive";
 import StepSix from "./stepSix/StepSix";
-import { StepTitle } from "../whiteLabel/title/SectionTitle";
+import { StepTitle } from "../../commen/title/SectionTitle";
 
 const VendorSignup = () => {
   const [step, setStep] = useState(1);
@@ -70,83 +70,13 @@ const VendorSignup = () => {
     },
   });
 
-  const initialStepOneData = React.useMemo(() => ({
-    brandName: vendorData.identity.brandName.value,
-    ownerFullName: vendorData.identity.ownerFullName.value,
-    serviceType: vendorData.identity.serviceType.value || [],
-    phoneNumber: vendorData.identity.phoneNumber.value,
-    email: vendorData.identity.email.value
-  }), [vendorData.identity]);
-
-  const handleStepOneComplete = (data) => {
-    setVendorData((prevData) => {
-      let identityChanged = false;
-      const newIdentity = {};
-
-      // Check each field in 'data' against the current 'prevData.identity'
-      // to see if its value has actually changed. If not changed, reuse the old object reference.
-      // If changed, create a new object for that field.
-
-      if (data.brandName !== prevData.identity.brandName.value) {
-        newIdentity.brandName = { value: data.brandName, error: '' };
-        identityChanged = true;
-      } else {
-        newIdentity.brandName = prevData.identity.brandName;
-      }
-
-      if (data.ownerFullName !== prevData.identity.ownerFullName.value) {
-        newIdentity.ownerFullName = { value: data.ownerFullName, error: '' };
-        identityChanged = true;
-      } else {
-        newIdentity.ownerFullName = prevData.identity.ownerFullName;
-      }
-
-      // For serviceType, need to compare arrays
-      const newServiceType = data.serviceType || [];
-      const oldServiceType = prevData.identity.serviceType.value || [];
-      if (newServiceType.length !== oldServiceType.length || !newServiceType.every((val, idx) => val === oldServiceType[idx])) {
-        newIdentity.serviceType = { value: newServiceType, error: '' };
-        identityChanged = true;
-      } else {
-        newIdentity.serviceType = prevData.identity.serviceType;
-      }
-
-      if (data.phoneNumber !== prevData.identity.phoneNumber.value) {
-        newIdentity.phoneNumber = { value: data.phoneNumber, error: '' };
-        identityChanged = true;
-      } else {
-        newIdentity.phoneNumber = prevData.identity.phoneNumber;
-      }
-
-      if (data.email !== prevData.identity.email.value) {
-        newIdentity.email = { value: data.email, error: '' };
-        identityChanged = true;
-      } else {
-        newIdentity.email = prevData.identity.email;
-      }
-
-      // If identity has actually changed (based on content), return a new state object.
-      // Otherwise, return the previous state object to prevent unnecessary re-renders.
-      if (identityChanged) {
-        return {
-          ...prevData,
-          identity: newIdentity,
-        };
-      } else {
-        return prevData;
-      }
-    });
-    // Optionally move to the next step here
-    // setStep(2);
-  };
-
   const steps = [
     { id: 1, desc: "معلومات الحساب الأساسية" },
     { id: 2, desc: "تفاصيل الخدمة أو المتجر" },
     { id: 3, desc: "الصور والعروض والأسعار" },
     { id: 4, desc: "التحقق التجاري" },
     { id: 5, desc: "سياسة التعامل والدفع" },
-    { id: 6, desc: "روابط إضافية (اختياري)" }
+    { id: 6, desc: "روابط إضافية (اختياري)" },
   ];
 
   return (
@@ -159,10 +89,7 @@ const VendorSignup = () => {
       <div className={styles.form_container}>
         <div className={styles.step_container}>
           {step === 1 ? (
-            <StepOne
-              initialData={initialStepOneData}
-              onStepComplete={handleStepOneComplete}
-            />
+            <StepOne vendorData={vendorData} setVendorData={setVendorData} />
           ) : step === 2 ? (
             <StepTwo vendorData={vendorData} setVendorData={setVendorData} />
           ) : step === 3 ? (
