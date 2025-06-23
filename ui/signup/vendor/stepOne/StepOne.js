@@ -51,7 +51,6 @@ const StepOne = () => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.identity.serviceType.title')}
-            icon="/svg/auth/services.svg"
             height={24}
             width={24}
           />
@@ -83,6 +82,7 @@ const StepOne = () => {
               required
               name="identity.phoneNumber"
             />
+
             <InputGroup
               label={t('signupForm.vendor.identity.email.label')}
               type="email"

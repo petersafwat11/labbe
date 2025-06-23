@@ -1,0 +1,161 @@
+.container,
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  background: #fff;
+  padding: 2rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  padding: 2.4rem 1.6rem;
+  border-radius: 1.2rem;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.summary_content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.summary_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.summary_item:last-child {
+  border-bottom: none;
+}
+
+.summary_label {
+  font-weight: 600;
+  color: #333;
+  min-width: 200px;
+  margin-right: 1.6rem;
+  font-size: 1.6rem;
+}
+
+.summary_value {
+  flex: 1;
+  color: #666;
+  text-align: right;
+  word-break: break-word;
+  font-size: 1.6rem;
+}
+
+.color_preview {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.color_swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.4rem;
+  border: 1px solid #ddd;
+}
+
+.logo_preview {
+  max-width: 8rem;
+  max-height: 4rem;
+  object-fit: contain;
+  border-radius: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    gap: 2rem;
+  }
+
+  .sections {
+    gap: 2rem;
+    padding: 0 2.4rem 2.4rem;
+    background: #fff;
+  }
+
+  .section {
+    padding: 1.6rem;
+    gap: 1.6rem;
+    border-radius: 1.2rem;
+  }
+
+  .options {
+    gap: 1.6rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  .summary_item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .summary_label {
+    min-width: auto;
+    margin-right: 0;
+    font-size: 1.6rem;
+  }
+
+  .summary_value {
+    text-align: left;
+    width: 100%;
+    font-size: 1.6rem;
+  }
+
+  .color_preview {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+
+  .section {
+    padding: 1.2rem;
+    gap: 1.2rem;
+    border-radius: 1.2rem;
+  }
+
+  .options {
+    gap: 1.2rem;
+  }
+
+  .row {
+    gap: 1.2rem;
+  }
+
+  .summary_label,
+  .summary_value {
+    font-size: 1.4rem;
+  }
+}

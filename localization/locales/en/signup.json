@@ -45,8 +45,10 @@
         "serviceData": "Service or Store Details",
         "samplesAndPackages": "Images, Offers & Prices",
         "commercialVerification": "Commercial Verification",
+        "commercialVerificationDescription": "Upload required documents for commercial verification.",
         "paymentData": "Dealing & Payment Policy",
-        "otherLinksAndData": "Additional Links (Optional)"
+        "otherLinksAndData": "Additional Links (Optional)",
+        "summary": "Application Summary"
       },
       "identity": {
         "title": "Basic Account Information",
@@ -342,6 +344,15 @@
           "label": "National ID or Residency ID",
           "placeholder": "Upload national ID or residency ID"
         },
+        "commercialRecord": {
+          "title": "Commercial Record",
+          "placeholder": "Upload commercial record"
+        },
+        "nationalId": {
+          "title": "National ID",
+          "label": "National ID Number",
+          "placeholder": "Enter your national ID number"
+        },
         "otherData": {
           "label": "Other Documents",
           "placeholder": "Upload any other required documents"
@@ -608,23 +619,59 @@
         "eventTypes": {
           "title": "Event Types",
           "options": [
-            "Workshops",
-            "Conferences",
-            "Celebrations",
-            "Meetings",
-            "Training Courses",
-            "Exhibitions"
+            {
+              "value": "Workshops",
+              "label": "Workshops"
+            },
+            {
+              "value": "Conferences",
+              "label": "Conferences"
+            },
+            {
+              "value": "Celebrations",
+              "label": "Celebrations"
+            },
+            {
+              "value": "Meetings",
+              "label": "Meetings"
+            },
+            {
+              "value": "Training Courses",
+              "label": "Training Courses"
+            },
+            {
+              "value": "Exhibitions",
+              "label": "Exhibitions"
+            }
           ]
         },
         "systemIntegration": {
           "title": "Internal Systems Integration",
           "options": [
-            "CRM System",
-            "SMS Gateway",
-            "Email",
-            "Calendar (Google/Outlook)",
-            "Payment Gateways",
-            "Analytics Tools"
+            {
+              "value": "CRM System",
+              "label": "CRM System"
+            },
+            {
+              "value": "SMS Gateway",
+              "label": "SMS Gateway"
+            },
+            {
+              "value": "Email",
+              "label": "Email"
+            },
+            {
+              "value": "Calendar (Google/Outlook)",
+              "label": "Calendar (Google/Outlook)"
+            },
+            {
+              "value": "Payment Gateways",
+              "label": "Payment Gateways"
+            },
+            {
+              "value": "Analytics Tools",
+              "label": "Analytics Tools"
+            }
           ]
         },
         "errors": {
@@ -641,10 +688,18 @@
         "description": "Choose suitable settings and complementary options.",
         "selectedServices": "Selected Services",
         "options": [
-          "Enable post-event congratulations/comments page",
-          "Enable automatic guest photo uploads",
-          "Support for newsletters or promotional campaigns",
-          "Support for newsletters or promotional campaigns"
+          {
+            "value": "Enable post-event congratulations/comments page",
+            "label": "Enable post-event congratulations/comments page"
+          },
+          {
+            "value": "Enable automatic guest photo uploads",
+            "label": "Enable automatic guest photo uploads"
+          },
+          {
+            "value": "Support for newsletters or promotional campaigns",
+            "label": "Support for newsletters or promotional campaigns"
+          }
         ]
       },
       "summary": {
@@ -707,7 +762,20 @@
         },
         "paymentMethods": {
           "title": "Payment Methods",
-          "options": ["Invoice", "Mada", "Bank Transfer"]
+          "options": [
+            {
+              "value": "Invoice",
+              "label": "Invoice"
+            },
+            {
+              "value": "Bank Transfer",
+              "label": "Bank Transfer"
+            },
+            {
+              "value": "Credit Card",
+              "label": "Credit Card"
+            }
+          ]
         },
         "errors": {
           "companyNameRequired": "Company name is required",
@@ -785,6 +853,107 @@
     "language": {
       "label": "Platform Language",
       "options": ["Arabic", "English"]
+    },
+    "hostSignup": {
+      "title": "Create Your Account",
+      "description": "Sign up to start organizing your events with Labbe",
+      "emailLogin": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password"
+        },
+        "forgotPassword": "Forgot Password",
+        "rememberMe": "Remember Me",
+        "loginWithOTP": "Login with temporary password"
+      },
+      "otpLogin": {
+        "phoneNumber": "Phone Number",
+        "verification": "Verification",
+        "editPhone": "Edit phone number",
+        "loginWithEmail": "Login with email"
+      },
+      "buttons": {
+        "login": "Sign Up",
+        "verify": "Verify"
+      },
+      "formBottom": {
+        "orContinueWith": "Or continue using",
+        "noAccount": "Already have an account?",
+        "createAccount": "Sign In"
+      },
+      "errors": {
+        "emailRequired": "Email is required",
+        "invalidEmail": "Invalid email address",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+        "invalidPassword": "Password is incorrect, check it and try again.",
+        "phoneNumberInvalid": "Phone number is incorrect, please check and try again"
+      }
+    },
+    "continueSignup": {
+      "title": "Complete Your Profile",
+      "description": "Some basic information to help us provide the best service",
+      "personalInfo": {
+        "title": "Personal Information",
+        "fullName": {
+          "label": "Full Name",
+          "placeholder": "Ahmed Kamal Abd Rabbo"
+        },
+        "email": {
+          "label": "Email Address",
+          "placeholder": "david@dffr.com"
+        },
+        "newPassword": {
+          "label": "New Password",
+          "placeholder": "**********"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password",
+          "placeholder": "**********"
+        }
+      },
+      "serviceSelection": {
+        "title": "Choose the Service Provided",
+        "question": "What type of event do you want to organize?",
+        "organizerInvitation": {
+          "title": "Your Invitation through Your Organizer",
+          "description": "Professional solution for entities, custom control panel with multiple features"
+        },
+        "onUsInvitation": {
+          "title": "Your Invitation is On Us",
+          "description": "Labbe application provides everything from design, sending, and tracking attendance, and serving guests"
+        },
+        "inYourHandsInvitation": {
+          "title": "Your Invitation in Your Hands",
+          "description": "Design and send your invitations easily via WhatsApp with a special QR code for each guest!"
+        },
+        "features": {
+          "largeScaleCompetitivePricing": "Large-scale competitive pricing",
+          "customReportsAnalytics": "Custom reports and analytics",
+          "phoneSupportPriority": "24/7 phone support priority",
+          "globalLocalSales": "Global and local sales (50 markets)",
+          "designSendGuestTracking": "Design, send, and guest tracking",
+          "designSendWhatsappQRCodes": "Design and send invitations easily via WhatsApp with QR codes for each guest!",
+          "additional": "20+ additional features - click for more"
+        }
+      },
+      "nextButton": "Next",
+      "selectButton": "Select Package",
+      "errors": {
+        "fullNameRequired": "Full name is required",
+        "fullNameMinLength": "Full name must be at least 2 characters",
+        "emailRequired": "Email is required",
+        "invalidEmail": "Please enter a valid email address",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+        "passwordSpecialChar": "Password must contain a special character",
+        "confirmPasswordRequired": "Confirm password is required",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
     }
   }
 }

@@ -6,14 +6,14 @@ import { FaArrowRightLong } from 'react-icons/fa6';
 const SectionTitle = ({ title, icon, height, width }) => {
   return (
     <h3 className={styles.section_title}>
-      {
+      {icon && (
         <Image
           src={icon ?? '/svg/auth/document-copy.svg'}
           alt=""
           width={width}
           height={height}
         />
-      }
+      )}
       {title}
     </h3>
   );

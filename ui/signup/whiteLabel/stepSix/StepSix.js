@@ -34,7 +34,7 @@ const StepSix = ({
         {/* Identity Summary */}
         <SummarySection
           title={t('signupForm.whiteLabel.identity.title')}
-          icon="/svg/auth/user.svg"
+          // icon="/svg/auth/user.svg"
           data={whiteLabelData.identity}
           fields={[
             {
@@ -73,7 +73,7 @@ const StepSix = ({
         {/* Login Data Summary */}
         <SummarySection
           title={t('signupForm.whiteLabel.login.title')}
-          icon="/svg/auth/email.svg"
+          // icon="/svg/auth/email.svg"
           data={whiteLabelData.loginData}
           fields={[
             {
@@ -92,7 +92,7 @@ const StepSix = ({
         {/* System Requirements Summary */}
         <SummarySection
           title={t('signupForm.whiteLabel.requirements.title')}
-          icon="/svg/auth/settings.svg"
+          // icon="/svg/auth/settings.svg"
           data={whiteLabelData.systemRequirements}
           fields={[
             {
@@ -131,7 +131,7 @@ const StepSix = ({
           whiteLabelData.additionalServices.length > 0 && (
             <SummarySection
               title={t('signupForm.whiteLabel.services.title')}
-              icon="/svg/auth/services.svg"
+              // icon="/svg/auth/services.svg"
               data={{ additionalServices: whiteLabelData.additionalServices }}
               fields={[
                 {
@@ -146,7 +146,7 @@ const StepSix = ({
         {/* Payment Data Summary */}
         <SummarySection
           title={t('signupForm.whiteLabel.payment.title')}
-          icon="/svg/auth/payment.svg"
+          //    icon="/svg/auth/payment.svg"
           data={whiteLabelData.paymentData}
           fields={[
             {

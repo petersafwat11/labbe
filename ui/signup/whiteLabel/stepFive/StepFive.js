@@ -177,7 +177,7 @@ const StepFive = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.whiteLabel.payment.paymentMethods.title')}
-            icon="/svg/auth/payment.svg"
+            // icon="/svg/auth/payment-method.svg"
             height={24}
             width={24}
           />

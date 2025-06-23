@@ -47,25 +47,27 @@
         "serviceData": "تفاصيل الخدمة أو المتجر",
         "samplesAndPackages": "الصور والعروض والأسعار",
         "commercialVerification": "التحقق التجاري",
+        "commercialVerificationDescription": "يرجى رفع المستندات المطلوبة للتحقق التجاري.",
         "paymentData": "سياسة التعامل والدفع",
-        "otherLinksAndData": "روابط وبيانات إضافية (اختياري)"
+        "otherLinksAndData": "روابط وبيانات إضافية (اختياري)",
+        "summary": "ملخص التسجيل"
       },
       "identity": {
         "title": "معلومات الحساب الأساسية",
         "description": "أدخل معلوماتك الشخصية والتجارية لبدء إنشاء حسابك كمقدم خدمة.",
         "businessInfo": {
-          "title": "معلومات العمل"
+          "title": "معلومات النشاط"
         },
         "brandName": {
           "label": "اسم العلامة التجارية",
           "placeholder": "أدخل اسم العلامة التجارية"
         },
         "ownerFullName": {
-          "label": "الاسم الكامل لمالك الحساب",
+          "label": "الاسم الكامل لصاحب النشاط",
           "placeholder": "أدخل الاسم الكامل"
         },
         "serviceType": {
-          "title": "نوع الخدمة",
+          "title": "نوع النشاط",
           "options": [
             { "value": "eventPlanning", "label": "تخطيط الفعاليات" },
             { "value": "mediaProduction", "label": "الإنتاج الإعلامي" },
@@ -340,6 +342,15 @@
         "nationalOrResidencyId": {
           "label": "الهوية الوطنية أو الإقامة",
           "placeholder": "ارفع الهوية الوطنية أو الإقامة"
+        },
+        "commercialRecord": {
+          "title": "السجل التجاري",
+          "placeholder": "ارفع السجل التجاري"
+        },
+        "nationalId": {
+          "title": "الهوية الوطنية",
+          "label": "رقم الهوية الوطنية",
+          "placeholder": "أدخل رقم الهوية الوطنية"
         },
         "otherData": {
           "label": "مستندات أخرى",
@@ -636,23 +647,59 @@
         "eventTypes": {
           "title": "نوع الفعاليات",
           "options": [
-            "ورش عمل",
-            "مؤتمرات",
-            "مناسبات واحتفالات",
-            "اجتماعات",
-            "دورات تدريبية",
-            "معارض"
+            {
+              "value": "Workshops",
+              "label": "ورش عمل"
+            },
+            {
+              "value": "Conferences",
+              "label": "مؤتمرات"
+            },
+            {
+              "value": "Celebrations",
+              "label": "مناسبات"
+            },
+            {
+              "value": "Meetings",
+              "label": "اجتماعات"
+            },
+            {
+              "value": "Training Courses",
+              "label": "دورات تدريبية"
+            },
+            {
+              "value": "Exhibitions",
+              "label": "معارض"
+            }
           ]
         },
         "systemIntegration": {
           "title": "التكامل مع الأنظمة الداخلية",
           "options": [
-            "نظام إدارة العملاء (CRM)",
-            "بوابة الرسائل النصية (SMS)",
-            "البريد الإلكتروني",
-            "التقويم (Google/Outlook)",
-            "بوابات الدفع",
-            "أدوات التحليل"
+            {
+              "value": "CRM System",
+              "label": "نظام إدارة العملاء (CRM)"
+            },
+            {
+              "value": "SMS Gateway",
+              "label": "بوابة الرسائل النصية (SMS)"
+            },
+            {
+              "value": "Email",
+              "label": "البريد الإلكتروني"
+            },
+            {
+              "value": "Calendar (Google/Outlook)",
+              "label": "التقويم (Google/Outlook)"
+            },
+            {
+              "value": "Payment Gateways",
+              "label": "بوابات الدفع"
+            },
+            {
+              "value": "Analytics Tools",
+              "label": "أدوات التحليل"
+            }
           ]
         },
         "errors": {
@@ -669,10 +716,18 @@
         "description": "اختر ما يناسبك من الإعدادات والخيارات التكميلية",
         "selectedServices": "الخدمات المختارة",
         "options": [
-          "تفعيل صفحة تهنئة/تعليقات بعد الفعالية",
-          "تمكين التحميل التلقائي لصور الضيوف",
-          "دعم النشرات البريدية أو الحملات الترويجية",
-          "دعم النشرات البريدية أو الحملات الترويجية"
+          {
+            "value": "Enable post-event congratulations/comments page",
+            "label": "تفعيل صفحة تهنئة/تعليقات بعد الفعالية"
+          },
+          {
+            "value": "Enable automatic guest photo uploads",
+            "label": "تمكين التحميل التلقائي لصور الضيوف"
+          },
+          {
+            "value": "Support for newsletters or promotional campaigns",
+            "label": "دعم النشرات البريدية أو الحملات الترويجية"
+          }
         ]
       },
       "summary": {
@@ -735,7 +790,20 @@
         },
         "paymentMethods": {
           "title": "طرق الدفع",
-          "options": ["فاتورة", "مدى", "تحويل بنكي"]
+          "options": [
+            {
+              "value": "Invoice",
+              "label": "فاتورة"
+            },
+            {
+              "value": "Bank Transfer",
+              "label": "تحويل بنكي"
+            },
+            {
+              "value": "Credit Card",
+              "label": "بطاقة ائتمان"
+            }
+          ]
         },
         "errors": {
           "companyNameRequired": "اسم الشركة مطلوب",
@@ -782,6 +850,107 @@
           "label": "اسم الشركة",
           "placeholder": "ادخل اسم الشركة"
         }
+      }
+    },
+    "hostSignup": {
+      "title": "إنشاء حسابك",
+      "description": "سجل للبدء في تنظيم فعالياتك مع لبّى",
+      "emailLogin": {
+        "email": {
+          "label": "البريد الإلكتروني",
+          "placeholder": "أدخل بريدك الإلكتروني"
+        },
+        "password": {
+          "label": "كلمة المرور",
+          "placeholder": "أدخل كلمة المرور"
+        },
+        "forgotPassword": "نسيت كلمة المرور",
+        "rememberMe": "تذكرني",
+        "loginWithOTP": "تسجيل الدخول بكلمة مرور مؤقتة"
+      },
+      "otpLogin": {
+        "phoneNumber": "رقم الهاتف",
+        "verification": "التحقق",
+        "editPhone": "تعديل رقم الهاتف",
+        "loginWithEmail": "تسجيل الدخول بالبريد الإلكتروني"
+      },
+      "buttons": {
+        "login": "إنشاء حساب",
+        "verify": "تحقق"
+      },
+      "formBottom": {
+        "orContinueWith": "أو استمر باستخدام",
+        "noAccount": "لديك حساب بالفعل؟",
+        "createAccount": "تسجيل الدخول"
+      },
+      "errors": {
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "invalidEmail": "عنوان بريد إلكتروني غير صحيح",
+        "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+        "passwordComplexity": "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير ورقم",
+        "invalidPassword": "كلمة المرور غير صحيحة، تحقق منها وحاول مرة أخرى.",
+        "phoneNumberInvalid": "رقم الهاتف غير صحيح، يرجى التحقق والمحاولة مرة أخرى"
+      }
+    },
+    "continueSignup": {
+      "title": "اكمل ملفك الشخصي",
+      "description": "بعض المعلومات الأساسية لنتمكن من خدمتك بأفضل شكل",
+      "personalInfo": {
+        "title": "معلومات شخصية",
+        "fullName": {
+          "label": "اسمك بالكامل",
+          "placeholder": "احمد كامل عبد ربه"
+        },
+        "email": {
+          "label": "البريد الالكتروني",
+          "placeholder": "davd@dffr.com"
+        },
+        "newPassword": {
+          "label": "كلمة مرور جديدة",
+          "placeholder": "ادخل كلمة مرور جديدة"
+        },
+        "confirmPassword": {
+          "label": "تأكيد كلمة المرور",
+          "placeholder": "أعد ادخال كلمة المرور الجديدة"
+        }
+      },
+      "serviceSelection": {
+        "title": "اختر الخدمة المقدمة",
+        "question": "ما نوع الحدث الذي تريد تنظيمه",
+        "organizerInvitation": {
+          "title": "دعوتك عبر منصتك",
+          "description": "حل احترافي للكيانات، لوحة تحكم مخصصة مع ميزات متعددة"
+        },
+        "onUsInvitation": {
+          "title": "دعوتك علينا",
+          "description": "فريق لبى يتولى كل شيء من تصميم وارسال ومتابعة الحضور وتذكير الضيوف"
+        },
+        "inYourHandsInvitation": {
+          "title": "دعوتك بيدك",
+          "description": "صمم وارسل دعواتك بسهولة عبر الواتساب مع كود QR خاص لكل ضيف!"
+        },
+        "features": {
+          "largeScaleCompetitivePricing": "أسعار تنافسية للتجار ذوي الحجم الكبير",
+          "customReportsAnalytics": "تقارير وتحليلات مخصصة",
+          "phoneSupportPriority": "أولوية دعم الهاتف 24/7",
+          "globalLocalSales": "البيع العالمي المحلي (50 سوقا)",
+          "designSendGuestTracking": "تصميم إرسال ومتابعة الحضور",
+          "designSendWhatsappQRCodes": "صمم وارسل دعواتك بسهولة عبر الواتساب مع كود QR خاص لكل ضيف!",
+          "additional": "20+ مزايا إضافية إضغط للمزيد"
+        }
+      },
+      "nextButton": "التالي",
+      "selectButton": "اختر الباقة",
+      "errors": {
+        "fullNameRequired": "الاسم كاملا مطلوب",
+        "fullNameMinLength": "الاسم كاملا يجب أن لا يقل عن حرفين",
+        "emailRequired": "البريد الالكتروني مطلوب",
+        "invalidEmail": "قم بإدخال بريد إلكتروني صحيح مثال example@domain.com",
+        "passwordMinLength": "على الاقل 8احرف",
+        "passwordComplexity": "تحتوي على حرف كبير وحرف صغير",
+        "passwordSpecialChar": "ورمز*&^%@",
+        "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
+        "passwordsDoNotMatch": "كلمات المرور غير متطابقة"
       }
     }
   }

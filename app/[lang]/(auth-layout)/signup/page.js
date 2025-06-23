@@ -1,6 +1,6 @@
 import React from 'react';
-import Form from '@/ui/login/form/Form';
 import initTranslations from '@/localization/i18n';
+import Form from '@/ui/signup/host/Form';
 
 async function Page(params) {
   const { lang } = await params;
@@ -10,4 +10,4 @@ async function Page(params) {
   return <Form />;
 }
 
-export default Page; 
+export default Page;

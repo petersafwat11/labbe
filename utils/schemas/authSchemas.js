@@ -20,3 +20,13 @@ export const otpLoginSchema = (t) => {
       .regex(/^[0-9]+$/, t('loginForm.errors.phoneNumberInvalid')),
   });
 };
+
+export const otpSignupSchema = (t) => {
+  return z.object({
+    number: z
+      .string()
+      .min(10, t('signupForm.hostSignup.errors.phoneNumberInvalid'))
+      .max(15, t('signupForm.hostSignup.errors.phoneNumberInvalid'))
+      .regex(/^[0-9]+$/, t('signupForm.hostSignup.errors.phoneNumberInvalid')),
+  });
+};

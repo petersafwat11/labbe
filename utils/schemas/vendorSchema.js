@@ -23,7 +23,11 @@ export const vendorSchema = (t) =>
           t('signupForm.vendor.identity.errors.ownerFullNameMaxLength')
         ),
       serviceType: z
-        .array(z.string())
+        .array(z.string(), {
+          required_error: t(
+            'signupForm.vendor.identity.errors.serviceTypeRequired'
+          ),
+        })
         .min(1, t('signupForm.vendor.identity.errors.serviceTypeRequired')),
       phoneNumber: z
         .string({
@@ -70,9 +74,11 @@ export const vendorSchema = (t) =>
           ),
         })
         .min(2, t('signupForm.vendor.serviceData.errors.cityMinLength')),
-      coverageArea: z
-        .array(z.string())
-        .min(1, t('signupForm.vendor.serviceData.errors.coverageAreaRequired')),
+      coverageArea: z.string({
+        required_error: t(
+          'signupForm.vendor.serviceData.errors.coverageAreaRequired'
+        ),
+      }),
       otherData: z.string().optional(),
     }),
 
@@ -95,62 +101,68 @@ export const vendorSchema = (t) =>
     }),
 
     commercialVerification: z.object({
-      company: z.object({
-        name: z
-          .string()
-          .min(
-            1,
-            t('signupForm.vendor.paymentData.errors.companyNameRequired')
-          ),
-        license: z
-          .string()
-          .min(
-            1,
-            t('signupForm.vendor.paymentData.errors.licenseNumberRequired')
-          ),
-        tax: z.string().optional(),
-      }),
-      address: z.object({
-        city: z
-          .string()
-          .min(1, t('signupForm.vendor.paymentData.errors.cityRequired')),
-        neighborhood: z
-          .string()
-          .min(
-            1,
-            t('signupForm.vendor.paymentData.errors.neighborhoodRequired')
-          ),
-        street: z
-          .string()
-          .min(1, t('signupForm.vendor.paymentData.errors.streetRequired')),
-        buildingNumber: z
-          .string()
-          .min(
-            1,
-            t('signupForm.vendor.paymentData.errors.buildingNumberRequired')
-          ),
-        additionalNumber: z
-          .string()
-          .min(
-            1,
-            t('signupForm.vendor.paymentData.errors.additionalNumberRequired')
-          ),
-        postalCode: z
-          .string()
-          .min(1, t('signupForm.vendor.paymentData.errors.postalCodeRequired')),
-        unitType: z.string().optional(),
-        unitNumber: z.string().optional(),
-      }),
-      paymentMethods: z
-        .array(z.string())
-        .min(
-          1,
-          t('signupForm.vendor.paymentData.errors.paymentMethodRequired')
+      // company: z.object({
+      //   name: z
+      //     .string()
+      //     .min(
+      //       1,
+      //       t('signupForm.vendor.paymentData.errors.companyNameRequired')
+      //     ),
+      //   license: z
+      //     .string()
+      //     .min(
+      //       1,
+      //       t('signupForm.vendor.paymentData.errors.licenseNumberRequired')
+      //     ),
+      //   tax: z.string().optional(),
+      // }),
+      // address: z.object({
+      //   city: z
+      //     .string()
+      //     .min(1, t('signupForm.vendor.paymentData.errors.cityRequired')),
+      //   neighborhood: z
+      //     .string()
+      //     .min(
+      //       1,
+      //       t('signupForm.vendor.paymentData.errors.neighborhoodRequired')
+      //     ),
+      //   street: z
+      //     .string()
+      //     .min(1, t('signupForm.vendor.paymentData.errors.streetRequired')),
+      //   buildingNumber: z
+      //     .string()
+      //     .min(
+      //       1,
+      //       t('signupForm.vendor.paymentData.errors.buildingNumberRequired')
+      //     ),
+      //   additionalNumber: z
+      //     .string()
+      //     .min(
+      //       1,
+      //       t('signupForm.vendor.paymentData.errors.additionalNumberRequired')
+      //     ),
+      //   postalCode: z
+      //     .string()
+      //     .min(1, t('signupForm.vendor.paymentData.errors.postalCodeRequired')),
+      //   unitType: z.string().optional(),
+      //   unitNumber: z.string().optional(),
+      // }),
+      // paymentMethods: z
+      //   .array(z.string())
+      //   .min(
+      //     1,
+      //     t('signupForm.vendor.paymentData.errors.paymentMethodRequired')
+      //   ),
+      commercialRecord: z.any().optional(),
+      nationalId: z.string({
+        required_error: t(
+          'signupForm.vendor.commercialVerification.errors.nationalIdRequired'
         ),
+      }),
     }),
 
     paymentData: z.object({
-      payment_type: z.string(),
+      // payment_type: z.string(),
       termsForRefund: z.string().optional(),
       paymentOptions: z.array(z.string()),
     }),

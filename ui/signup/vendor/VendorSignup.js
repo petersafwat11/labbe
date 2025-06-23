@@ -17,6 +17,7 @@ import { vendorSchema } from '@/utils/schemas/vendorSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createStepHandler, validateStep } from '@/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
+import StepSeven from './stepSeven/StepSeven';
 
 const VendorSignup = () => {
   const { t } = useTranslation('signup');
@@ -32,7 +33,8 @@ const VendorSignup = () => {
     { id: 3, desc: t('signupForm.vendor.steps.samplesAndPackages') },
     { id: 4, desc: t('signupForm.vendor.steps.paymentData') },
     { id: 5, desc: t('signupForm.vendor.steps.commercialVerification') },
-    { id: 6, desc: t('signupForm.vendor.summary.title') },
+    { id: 6, desc: t('signupForm.vendor.steps.otherLinksAndData') },
+    { id: 7, desc: t('signupForm.vendor.steps.summary') },
   ];
 
   const methods = useForm({
@@ -58,6 +60,7 @@ const VendorSignup = () => {
     4: ['paymentData'],
     5: ['commercialVerification'],
     6: ['otherLinksAndData'],
+    7: ['summary'],
   };
 
   const handleSetStep = useCallback(
@@ -154,6 +157,8 @@ const VendorSignup = () => {
                     <StepFive goToPreviousStep={goToPreviousStep} />
                   ) : step === 6 ? (
                     <StepSix goToPreviousStep={goToPreviousStep} />
+                  ) : step === 7 ? (
+                    <StepSeven goToPreviousStep={goToPreviousStep} />
                   ) : null}
                 </div>
                 <div className={styles.buttons}>

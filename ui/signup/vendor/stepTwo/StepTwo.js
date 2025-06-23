@@ -5,6 +5,7 @@ import CheckBoxItems from '@/ui/commen/inputs/checkboxItems/CheckBoxItems';
 import { StepTitle } from '../../../commen/title/SectionTitle';
 import SectionTitle from '../../../commen/title/SectionTitle';
 import { useTranslation } from 'react-i18next';
+import UploadFile from '@/ui/commen/inputs/uploadFile/UploadFile';
 
 const StepTwo = ({ goToPreviousStep }) => {
   const { t } = useTranslation('signup');
@@ -28,17 +29,14 @@ const StepTwo = ({ goToPreviousStep }) => {
             width={24}
           />
           <div className={styles.inputs}>
-            <InputGroup
-              label={t(
-                'signupForm.vendor.serviceData.commercialRegister.label'
-              )}
-              type="text"
+            <UploadFile
+              name="serviceData.commercialRegister"
+              multiple={false}
               placeholder={t(
                 'signupForm.vendor.serviceData.commercialRegister.placeholder'
               )}
-              name="serviceData.commercialRegister"
-              iconPath="auth/document-text.svg"
             />
+
             <InputGroup
               label={t('signupForm.vendor.serviceData.idNumber.label')}
               type="text"
@@ -55,7 +53,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.serviceDescription.title')}
-            icon="/svg/auth/setting.svg"
+            icon="/svg/auth/setting-2.svg"
             height={24}
             width={24}
           />
@@ -79,7 +77,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.eventPlanning.title')}
-            icon="/svg/auth/calendar.svg"
+            // icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
           />
@@ -98,7 +96,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.mediaProduction.title')}
-            icon="/svg/auth/video.svg"
+            // icon="/svg/auth/video.svg"
             height={24}
             width={24}
           />
@@ -118,7 +116,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.giftsAndGiveaways.title')}
-            icon="/svg/auth/gift.svg"
+            // icon="/svg/auth/gift.svg"
             height={24}
             width={24}
           />
@@ -138,7 +136,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.foodAndBeverages.title')}
-            icon="/svg/auth/coffee.svg"
+            // icon="/svg/auth/coffee.svg"
             height={24}
             width={24}
           />
@@ -158,7 +156,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.beautyAndFashion.title')}
-            icon="/svg/auth/star.svg"
+            //  icon="/svg/auth/star.svg"
             height={24}
             width={24}
           />
@@ -180,7 +178,7 @@ const StepTwo = ({ goToPreviousStep }) => {
             title={t(
               'signupForm.vendor.serviceData.logisticsAndDelivery.title'
             )}
-            icon="/svg/auth/truck.svg"
+            // icon="/svg/auth/truck.svg"
             height={24}
             width={24}
           />
@@ -200,7 +198,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.corporateServices.title')}
-            icon="/svg/auth/briefcase.svg"
+            // icon="/svg/auth/briefcase.svg"
             height={24}
             width={24}
           />
@@ -220,7 +218,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.location.title')}
-            icon="/svg/auth/location.svg"
+            // icon="/svg/auth/location.svg"
             height={24}
             width={24}
           />
@@ -241,6 +239,7 @@ const StepTwo = ({ goToPreviousStep }) => {
                 })}
                 name="serviceData.coverageArea"
                 columns={2}
+                singleMode
               />
             </div>
           </div>
@@ -250,7 +249,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.serviceData.otherInfo.title')}
-            icon="/svg/auth/note-text.svg"
+            // icon="/svg/auth/note-text.svg"
             height={24}
             width={24}
           />
@@ -262,7 +261,6 @@ const StepTwo = ({ goToPreviousStep }) => {
                 'signupForm.vendor.serviceData.otherData.placeholder'
               )}
               name="serviceData.otherData"
-              iconPath="auth/note-text.svg"
             />
           </div>
         </div>

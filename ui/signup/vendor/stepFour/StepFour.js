@@ -26,7 +26,7 @@ const StepFour = ({ goToPreviousStep }) => {
         onArrowClick={goToPreviousStep}
       />
       <div className={styles.sections}>
-        <div className={styles.section}>
+        {/* <div className={styles.section}>
           <SectionTitle
             title={t('signupForm.vendor.paymentData.paymentMechanism.title')}
             icon="/svg/auth/calendar-2.svg"
@@ -41,6 +41,8 @@ const StepFour = ({ goToPreviousStep }) => {
               singleMode={true}
             />
           </div>
+
+
           <InputGroup
             name="paymentData.termsForRefund"
             placeholder={t(
@@ -49,7 +51,7 @@ const StepFour = ({ goToPreviousStep }) => {
             iconPath="/auth/location-2.svg"
             type="text"
           />
-        </div>
+        </div> */}
 
         <div className={styles.section}>
           <SectionTitle
@@ -65,6 +67,15 @@ const StepFour = ({ goToPreviousStep }) => {
               columns={1}
             />
           </div>
+
+          <InputGroup
+            name="paymentData.termsForRefund"
+            placeholder={t(
+              'signupForm.vendor.paymentData.termsForRefund.placeholder'
+            )}
+            iconPath="/auth/location-2.svg"
+            type="text"
+          />
         </div>
       </div>
     </div>

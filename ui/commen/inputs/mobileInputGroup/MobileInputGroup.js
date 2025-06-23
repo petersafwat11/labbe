@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './inputGroup.module.css';
 import Image from 'next/image';
-import { useFormContext } from 'react-hook-form';
+import { get, useFormContext } from 'react-hook-form';
 
 const MobileInputGroup = ({ label, placeholder, type, name }) => {
   const {
@@ -10,7 +10,7 @@ const MobileInputGroup = ({ label, placeholder, type, name }) => {
     watch,
   } = useFormContext();
   const value = watch(name);
-  const error = errors[name]?.message;
+  const error = get(errors, name)?.message;
 
   return (
     <div className={styles.input_group}>

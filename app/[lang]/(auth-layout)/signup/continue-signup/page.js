@@ -1,5 +1,5 @@
 import React from 'react';
-import ContinueSignupForm from '@/ui/signup/continueSignupForm/ContinueSignupForm';
+import ContinueSignupForm from '@/ui/signup/host/continueSignupForm/ContinueSignupForm';
 import initTranslations from '@/localization/i18n';
 
 async function Page(params) {
@@ -8,4 +8,4 @@ async function Page(params) {
   return <ContinueSignupForm />;
 }
 
-export default Page; 
+export default Page;

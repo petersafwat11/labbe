@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionTitle from '../../../commen/title/SectionTitle';
-import styles from './stepSix.module.css';
+import styles from './stepSeven.module.css';
 
 const SummarySection = ({ title, icon, data, fields }) => {
   if (!data) {
