@@ -1,5 +1,5 @@
-import React from "react";
-import WhiteLabelForm from "@/ui/signup/whiteLabel/WhiteLabelForm";
+import React from 'react';
+import WhiteLabelForm from '@/ui/signup/whiteLabel/WhiteLabelForm';
 
 const page = () => {
   return (

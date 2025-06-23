@@ -1,80 +1,48 @@
-import React from "react";
-import styles from "./stepOne.module.css";
-import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
-import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
-import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
-import { StepTitle } from "../../../commen/title/SectionTitle";
-import SectionTitle from "../../../commen/title/SectionTitle";
+import React from 'react';
+import styles from './stepOne.module.css';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import MobileInputGroup from '@/ui/commen/inputs/mobileInputGroup/MobileInputGroup';
+import CheckBoxItems from '@/ui/commen/inputs/checkboxItems/CheckBoxItems';
+import { StepTitle } from '../../../commen/title/SectionTitle';
+import SectionTitle from '../../../commen/title/SectionTitle';
+import { useTranslation } from 'react-i18next';
 
-const StepOne = ({ vendorData, setVendorData }) => {
-  const handleInputChange = (section, field, value) => {
-    setVendorData({
-      ...vendorData,
-      [section]: {
-        ...vendorData[section],
-        [field]: { value, error: "" },
-      },
-    });
-  };
-
-  const handleCheckboxChange = (item, checked) => {
-    const currentValues = vendorData.identity.serviceType.value;
-    let newValues;
-
-    if (checked) {
-      // Add item if checked
-      newValues = [...currentValues, item];
-    } else {
-      // Remove item if unchecked
-      newValues = currentValues.filter((value) => value !== item);
-    }
-
-    setVendorData({
-      ...vendorData,
-      identity: {
-        ...vendorData.identity,
-        serviceType: { value: newValues, error: "" },
-      },
-    });
-  };
+const StepOne = () => {
+  const { t } = useTranslation('signup');
 
   return (
     <div className={styles.container}>
       <StepTitle
-        title="معلومات الحساب الأساسية"
-        description="أدخل بياناتك الشخصية والتجارية لبدء إنشاء حسابك كمزود خدمة."
+        title={t('signupForm.vendor.identity.title')}
+        description={t('signupForm.vendor.identity.description')}
       />
       <div className={styles.sections}>
         <div className={styles.section}>
           <SectionTitle
-            title="معلومات النشاط"
+            title={t('signupForm.vendor.identity.businessInfo.title')}
             icon="/svg/auth/info-circle.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <InputGroup
-              label="اسم العلامة التجارية"
+              label={t('signupForm.vendor.identity.brandName.label')}
               type="text"
-              placeholder="أدخل اسم العلامة التجارية"
-              name="brandName"
-              value={vendorData.identity.brandName.value}
-              onChange={(e) =>
-                handleInputChange("identity", "brandName", e.target.value)
-              }
-              error={vendorData.identity.brandName.error}
+              placeholder={t(
+                'signupForm.vendor.identity.brandName.placeholder'
+              )}
+              required
+              name="identity.brandName"
               iconPath="auth/profile-circle.svg"
             />
             <InputGroup
-              label="الاسم الكامل لصاحب الحساب"
+              label={t('signupForm.vendor.identity.ownerFullName.label')}
               type="text"
-              placeholder="أدخل الاسم الكامل"
-              name="ownerFullName"
-              value={vendorData.identity.ownerFullName.value}
-              onChange={(e) =>
-                handleInputChange("identity", "ownerFullName", e.target.value)
-              }
-              error={vendorData.identity.ownerFullName.error}
+              placeholder={t(
+                'signupForm.vendor.identity.ownerFullName.placeholder'
+              )}
+              required
+              name="identity.ownerFullName"
               iconPath="auth/profile-circle.svg"
             />
           </div>
@@ -82,22 +50,17 @@ const StepOne = ({ vendorData, setVendorData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="نوع الخدمة"
+            title={t('signupForm.vendor.identity.serviceType.title')}
+            icon="/svg/auth/services.svg"
+            height={24}
+            width={24}
           />
           <div className={styles.options}>
             <CheckBoxItems
-              items={[
-                "تنظيم الفعاليات",
-                "الإنتاج الإعلامي",
-                "الهدايا والحقائب الدعائية",
-                "الطعام والمشروبات",
-                "الجمال والأزياء",
-                "اللوجستيات والتوصيل",
-                "الخدمات المؤسسية",
-                "أخرى",
-              ]}
-              checkedItems={vendorData.identity.serviceType.value}
-              onChange={handleCheckboxChange}
+              items={t('signupForm.vendor.identity.serviceType.options', {
+                returnObjects: true,
+              })}
+              name="identity.serviceType"
               columns={2}
             />
           </div>
@@ -105,33 +68,27 @@ const StepOne = ({ vendorData, setVendorData }) => {
 
         <div className={styles.section}>
           <SectionTitle
-            title="معلومات التواصل"
+            title={t('signupForm.vendor.identity.contactInfo.title')}
             icon="/svg/auth/call-calling.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <MobileInputGroup
-              label="رقم الجوال"
+              label={t('signupForm.vendor.identity.phoneNumber.label')}
               type="tel"
-              placeholder="أدخل رقم الجوال"
-              name="phoneNumber"
-              value={vendorData.identity.phoneNumber.value}
-              onChange={(e) =>
-                handleInputChange("identity", "phoneNumber", e.target.value)
-              }
-              error={vendorData.identity.phoneNumber.error}
+              placeholder={t(
+                'signupForm.vendor.identity.phoneNumber.placeholder'
+              )}
+              required
+              name="identity.phoneNumber"
             />
             <InputGroup
-              label="البريد الإلكتروني"
+              label={t('signupForm.vendor.identity.email.label')}
               type="email"
-              placeholder="أدخل البريد الإلكتروني"
-              name="email"
-              value={vendorData.identity.email.value}
-              onChange={(e) =>
-                handleInputChange("identity", "email", e.target.value)
-              }
-              error={vendorData.identity.email.error}
+              placeholder={t('signupForm.vendor.identity.email.placeholder')}
+              required
+              name="identity.email"
               iconPath="auth/email.svg"
             />
           </div>

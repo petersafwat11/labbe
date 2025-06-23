@@ -1,15 +1,17 @@
-import React from "react";
-import styles from "./inputGroup.module.css";
-import Image from "next/image";
-const MobileInputGroup = ({
-  label,
-  placeholder,
-  type,
-  name,
-  value,
-  onChange,
-  error,
-}) => {
+import React from 'react';
+import styles from './inputGroup.module.css';
+import Image from 'next/image';
+import { useFormContext } from 'react-hook-form';
+
+const MobileInputGroup = ({ label, placeholder, type, name }) => {
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = useFormContext();
+  const value = watch(name);
+  const error = errors[name]?.message;
+
   return (
     <div className={styles.input_group}>
       <label className={styles.label}>{label}</label>
@@ -19,8 +21,8 @@ const MobileInputGroup = ({
           type={type}
           placeholder={placeholder}
           name={name}
-          value={value}
-          onChange={onChange}
+          {...register(name)}
+          value={value || ''}
         />
         <div className={styles.code}>
           <p className={styles.code_text}>+966</p>
@@ -33,7 +35,6 @@ const MobileInputGroup = ({
           />
         </div>
       </div>
-
       {error && <p className={styles.error}>{error}</p>}
     </div>
   );

@@ -5,25 +5,20 @@ import { useTranslation } from 'react-i18next';
 import FormHeader from '../../commen/formHeader/FormHeader';
 import FormBottom from './formBottom/FormBottom';
 import Greating from './Greating/Greating';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
 import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
-import MobileInputGroup from '@/ui/commen/inputs/mobileInputGroup/MobileInputGroup';
 import OtpInput from './otpInput/OtpInput';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { emailLoginSchema, otpLoginSchema } from '@/utils/schemas/authSchemas'; //
+import EmailSection from './EmailForm';
+import PhoneSection from './PhoneForm';
 const Form = () => {
-  const router = useRouter();
   const { t } = useTranslation('login');
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [loginType, setLoginType] = useState('otp');
   const [data, setData] = useState({
     email: '',
     password: '',
     number: '',
-    type: 'otp',
   });
 
   const [verificationCode, setVerificationCode] = useState({
@@ -32,37 +27,14 @@ const Form = () => {
     show: false,
   });
 
-  // Define validation schemas
-  const emailLoginSchema = z.object({
-    email: z.string()
-      .min(1, t('loginForm.errors.emailRequired'))
-      .email(t('loginForm.errors.invalidEmail')),
-    password: z.string()
-      .min(8, t('loginForm.errors.invalidPassword'))
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        t('loginForm.errors.invalidPassword')
-      ),
-  });
-
-  const otpLoginSchema = z.object({
-    number: z.string()
-      .min(10, t('loginForm.errors.phoneNumberInvalid'))
-      .max(15, t('loginForm.errors.phoneNumberInvalid'))
-      .regex(/^[0-9]+$/, t('loginForm.errors.phoneNumberInvalid')),
-  });
-
+  const schema = loginType === 'otp' ? otpLoginSchema(t) : emailLoginSchema(t);
   // Initialize React Hook Form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors: formErrors },
-    setValue,
-    watch,
-    reset
-  } = useForm({
-    resolver: zodResolver(data.type === 'otp' ? otpLoginSchema : emailLoginSchema),
-    mode: 'onChange',
+  // console.log('schema...', schema);
+  const methods = useForm({
+    resolver: zodResolver(schema),
+    reValidateMode: 'onSubmit',
+    shouldFocusError: false,
+    mode: 'onTouched',
     defaultValues: {
       email: data.email,
       password: data.password,
@@ -70,26 +42,26 @@ const Form = () => {
     },
   });
 
+  const { handleSubmit, watch, reset } = methods;
+
+  const formValues = watch();
+
   useEffect(() => {
-    // Reset form values when data.type changes to ensure correct schema is applied
+    // Reset form values when loginType or data changes to ensure correct schema is applied
     reset({
       email: data.email,
       password: data.password,
       number: data.number,
     });
-  }, [data.type, data.email, data.password, data.number, reset]);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  }, [loginType, data.email, data.password, data.number, reset]);
 
   const toggleLoginMethod = () => {
-    setData({ ...data, type: data.type === 'otp' ? 'email' : 'otp' });
+    setLoginType(loginType === 'otp' ? 'email' : 'otp');
     reset();
   };
 
   const handleLogin = (formData) => {
-    if (data.type === 'otp') {
+    if (loginType === 'otp') {
       console.log('OTP Login data:', formData.number);
       // Add your OTP login logic here
     } else {
@@ -105,12 +77,9 @@ const Form = () => {
         console.log('OTP verification:', verificationCode.value.join(''));
         handleLogin(formData);
       }
-    } else if (data.type === 'email') {
+    } else if (loginType === 'email') {
       handleLogin(formData);
-    } else if (
-      data.type === 'otp' &&
-      verificationCode.show === false
-    ) {
+    } else if (loginType === 'otp' && verificationCode.show === false) {
       setVerificationCode({ ...verificationCode, show: true });
     }
   });
@@ -124,112 +93,61 @@ const Form = () => {
     reset();
   };
 
+  console.log(
+    'create-update Values errors',
+    methods.watch(),
+    // methods.formState.
+    methods.formState.errors
+  );
   return (
     <div className={styles.container}>
       <div className={styles.form_header}>
         <FormHeader />
       </div>
-
-      <div className={`${styles.form} `}>
-        {verificationCode.show === false && <Greating />}
-        {verificationCode.show === true ? (
-          <OtpInput
-            verificationCode={verificationCode}
-            setVerificationCode={setVerificationCode}
-            onGoBack={goBackToMobileInput}
-          />
-        ) : data.type === 'otp' ? (
-          <div className={styles.otp}>
-            <MobileInputGroup
-              label={t('loginForm.otpLogin.phoneNumber')}
-              type="text"
-              name="number"
-              value={data.number}
-              onChange={(e) => {
-                setData({ ...data, number: e.target.value });
-                setValue('number', e.target.value, { shouldValidate: true });
-              }}
-              error={formErrors.number?.message}
+      <FormProvider {...methods}>
+        <div className={`${styles.form} `}>
+          {!verificationCode.show && <Greating />}
+          {verificationCode.show ? (
+            <OtpInput
+              verificationCode={verificationCode}
+              setVerificationCode={setVerificationCode}
+              onGoBack={goBackToMobileInput}
             />
-          </div>
-        ) : (
-          <div className={styles.email_login}>
-            <div className={styles.inputs}>
-              <InputGroup
-                label={t('loginForm.emailLogin.email.label')}
-                type="email"
-                placeholder={t('loginForm.emailLogin.email.placeholder')}
-                required
-                name="email"
-                value={data.email}
-                onChange={(e) => {
-                  setData({ ...data, email: e.target.value });
-                  setValue('email', e.target.value, { shouldValidate: true });
-                }}
-                error={formErrors.email?.message}
-                iconPath="auth/email.svg"
-              />
-              <InputGroup
-                label={t('loginForm.emailLogin.password.label')}
-                type={showPassword ? 'text' : 'password'}
-                placeholder={t('loginForm.emailLogin.password.placeholder')}
-                required
-                name="password"
-                value={data.password}
-                onChange={(e) => {
-                  setData({ ...data, password: e.target.value });
-                  setValue('password', e.target.value, { shouldValidate: true });
-                }}
-                error={formErrors.password?.message}
-                iconPath="auth/password.svg"
-                iconPath2="auth/eye.svg"
-                onIconClick={togglePasswordVisibility}
-              />
-            </div>
-            <div className={styles.buttons}>
-              <button
-                onClick={() => router.push('/change-password')}
-                className={styles.forgot_password}
-              >
-                {t('loginForm.emailLogin.forgotPassword')}
-              </button>
-
-              <div className={styles.remember_me}>
-                <p>{t('loginForm.emailLogin.rememberMe')}</p>
-                <input type="checkbox" />
-              </div>
-            </div>
-          </div>
-        )}
-        <ConfirmBtn
-          text={
-            verificationCode.show === true
-              ? t('loginForm.buttons.verify')
-              : t('loginForm.buttons.login')
-          }
-          active={
-            verificationCode.show === true
-              ? verificationCode.value.every((digit) => digit !== '')
-              : (data.email && data.password) ||
-                (data.type === 'otp' && data.number)
-          }
-          clickHandler={confirmBtnHandler}
-        />
-        {verificationCode.show === true ? (
-          <button className={styles.edit_phone} onClick={goBackToMobileInput}>
-            {t('loginForm.otpLogin.editPhone')}
-          </button>
-        ) : (
-          <FormBottom
+          ) : loginType === 'otp' ? (
+            <PhoneSection />
+          ) : (
+            <EmailSection />
+          )}
+          <ConfirmBtn
             text={
-              data.type === 'otp'
-                ? t('loginForm.otpLogin.loginWithEmail')
-                : t('loginForm.emailLogin.loginWithOTP')
+              verificationCode.show
+                ? t('loginForm.buttons.verify')
+                : t('loginForm.buttons.login')
             }
-            clickHandler={toggleLoginMethod}
+            active={
+              verificationCode.show
+                ? verificationCode.value.every((digit) => digit !== '')
+                : (formValues.email && formValues.password) ||
+                  (loginType === 'otp' && formValues.number)
+            }
+            clickHandler={confirmBtnHandler}
           />
-        )}
-      </div>
+          {verificationCode.show ? (
+            <button className={styles.edit_phone} onClick={goBackToMobileInput}>
+              {t('loginForm.otpLogin.editPhone')}
+            </button>
+          ) : (
+            <FormBottom
+              text={
+                loginType === 'otp'
+                  ? t('loginForm.otpLogin.loginWithEmail')
+                  : t('loginForm.emailLogin.loginWithOTP')
+              }
+              clickHandler={toggleLoginMethod}
+            />
+          )}
+        </div>
+      </FormProvider>
     </div>
   );
 };

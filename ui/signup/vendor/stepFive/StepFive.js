@@ -1,104 +1,180 @@
-import React from "react";
-import styles from "./stepFive.module.css";
-import CheckBoxItems from "@/ui/commen/checkboxItems/CheckBoxItems";
-import { StepTitle } from "../../../commen/title/SectionTitle";
-import SectionTitle from "../../../commen/title/SectionTitle";
+import React from 'react';
+import styles from './stepFive.module.css';
+import SectionTitle, { StepTitle } from '@/ui/commen/title/SectionTitle';
+import { useTranslation } from 'react-i18next';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
+import CheckBoxItems from '@/ui/commen/inputs/checkboxItems/CheckBoxItems';
 
-const StepFive = ({ vendorData, setVendorData }) => {
-  const handlePaymentMethodChange = (item, checked) => {
-    const currentValues = Array.isArray(
-      vendorData.paymentData.paymentMethod?.value
-    )
-      ? vendorData.paymentData.paymentMethod.value
-      : [];
-    let newValues;
-
-    if (checked) {
-      newValues = [...currentValues, item];
-    } else {
-      newValues = currentValues.filter((value) => value !== item);
-    }
-
-    setVendorData({
-      ...vendorData,
-      paymentData: {
-        ...vendorData.paymentData,
-        paymentMethod: { value: newValues, error: "" },
-      },
-    });
-  };
-
-  const handleRefundTermsChange = (e) => {
-    setVendorData({
-      ...vendorData,
-      paymentData: {
-        ...vendorData.paymentData,
-        termsForRefund: { value: e.target.checked, error: "" },
-      },
-    });
-  };
-
+const StepFive = ({ goToPreviousStep }) => {
+  const { t } = useTranslation('signup');
+  const paymentMethodOptions = t(
+    'signupForm.vendor.paymentData.paymentMethods.options',
+    { returnObjects: true }
+  );
   return (
     <div className={styles.container}>
       <StepTitle
-        title="سياسة التعامل والدفع"
-        description="حدد طرق الدفع المقبولة وسياسة الاسترداد."
+        title={t('signupForm.vendor.paymentData.title')}
+        description={t('signupForm.vendor.paymentData.description')}
+        onArrowClick={goToPreviousStep}
       />
       <div className={styles.sections}>
-        {/* Payment Methods Section */}
         <div className={styles.section}>
           <SectionTitle
-            title="طرق الدفع المقبولة"
-            icon="/svg/auth/card.svg"
+            title={t('signupForm.vendor.paymentData.company.title')}
+            icon="/svg/auth/building-1.svg"
             height={24}
             width={24}
           />
-          <div className={styles.options}>
-            <CheckBoxItems
-              items={[
-                "نقدي",
-                "تحويل بنكي",
-                "مدى",
-                "فيزا / ماستر كارد",
-                "أبل باي",
-                "ستكى باي",
-              ]}
-              checkedItems={vendorData.paymentData.paymentMethod?.value || []}
-              onChange={handlePaymentMethodChange}
-              columns={2}
+          <div className={styles.inputs}>
+            <InputGroup
+              name="commercialVerification.company.name"
+              label={t(
+                'signupForm.vendor.paymentData.company.fields.name.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.company.fields.name.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/building.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.company.license"
+              label={t(
+                'signupForm.vendor.paymentData.company.fields.license.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.company.fields.license.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/document.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.company.tax"
+              label={t(
+                'signupForm.vendor.paymentData.company.fields.tax.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.company.fields.tax.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/document.svg'}
             />
           </div>
         </div>
 
-        {/* Refund Policy Section */}
         <div className={styles.section}>
           <SectionTitle
-            title="سياسة الاسترداد"
-            icon="/svg/auth/refresh.svg"
+            title={t('signupForm.vendor.paymentData.address.title')}
+            icon="/svg/auth/location-2.svg"
             height={24}
             width={24}
           />
-          <div className={styles.refund_policy}>
-            <div className={styles.policy_text}>
-              <p>
-                في حالة الإلغاء أو عدم إمكانية تقديم الخدمة، سيتم استرداد المبلغ
-                كاملاً خلال 3-5 أيام عمل. يحق للعميل إلغاء الطلب قبل 48 ساعة من
-                موعد الفعالية مع استرداد 70% من قيمة المبلغ.
-              </p>
-            </div>
-            <div className={styles.terms_checkbox}>
-              <input
-                type="checkbox"
-                id="refundTerms"
-                checked={vendorData.paymentData.termsForRefund.value}
-                onChange={handleRefundTermsChange}
-                className={styles.checkbox}
-              />
-              <label htmlFor="refundTerms" className={styles.checkbox_label}>
-                أوافق على سياسة الاسترداد والشروط والأحكام
-              </label>
-            </div>
+          <div className={styles.grid_inputs}>
+            <InputGroup
+              name="commercialVerification.address.city"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.city.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.city.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.neighborhood"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.neighborhood.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.neighborhood.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.street"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.street.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.street.placeholder'
+              )}
+              type="text"
+              className={styles.full_width}
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.buildingNumber"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.buildingNumber.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.buildingNumber.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.additionalNumber"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.additionalNumber.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.additionalNumber.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.postalCode"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.postalCode.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.postalCode.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.unitType"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.unitType.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.unitType.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
+            <InputGroup
+              name="commercialVerification.address.unitNumber"
+              label={t(
+                'signupForm.vendor.paymentData.address.fields.unitNumber.label'
+              )}
+              placeholder={t(
+                'signupForm.vendor.paymentData.address.fields.unitNumber.placeholder'
+              )}
+              type="text"
+              iconPath={'/auth/location-2.svg'}
+            />
           </div>
+        </div>
+
+        <div className={styles.section}>
+          <SectionTitle
+            title={t('signupForm.vendor.paymentData.paymentMethods.title')}
+            icon="/svg/auth/moneys.svg"
+            height={24}
+            width={24}
+          />
+          <CheckBoxItems
+            name="commercialVerification.paymentMethods"
+            items={paymentMethodOptions}
+            columns={3}
+          />
         </div>
       </div>
     </div>

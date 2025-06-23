@@ -1,39 +1,51 @@
-import React from "react";
-import styles from "./inputGroup.module.css";
-import Image from "next/image";
+'use client';
+import React from 'react';
+import styles from './inputGroup.module.css';
+import Image from 'next/image';
+import { get, useFormContext } from 'react-hook-form';
+
 const InputGroup = ({
   label,
   placeholder,
   type,
   name,
-  value,
-  onChange,
-  error,
   iconPath,
   iconPath2,
   onIconClick,
   hintMessage,
   validations,
   prefixText,
+  required,
 }) => {
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = useFormContext();
+  const error = get(errors, name)?.message;
+  console.log('errors,,,', errors);
+  const value = watch(name);
+
   return (
     <div className={styles.input_group}>
       <label className={styles.label}>
         {label}
-        {/* {required && <span className={styles.required}>*</span>} */}
+        {required && <span className={styles.required}>*</span>}
       </label>
-      {type === "mobile" ? (
+      {type === 'mobile' ? (
         <div className={styles.input_container}></div>
       ) : (
         <div className={styles.input_container}>
-          {prefixText && <span className={styles.prefix_text}>{prefixText}</span>}
+          {prefixText && (
+            <span className={styles.prefix_text}>{prefixText}</span>
+          )}
           <input
             className={error ? styles.input_error : styles.input}
             type={type}
             placeholder={placeholder}
             name={name}
-            value={value}
-            onChange={onChange}
+            {...register(name)}
+            value={value || ''}
             style={prefixText ? { paddingLeft: '9rem' } : {}}
           />
           {iconPath && (
@@ -45,7 +57,7 @@ const InputGroup = ({
               height={24}
             />
           )}
-          {type === "password" && iconPath2 && (
+          {type === 'password' && iconPath2 && (
             <Image
               className={styles.icon_2}
               src={`/svg/${iconPath2}`}

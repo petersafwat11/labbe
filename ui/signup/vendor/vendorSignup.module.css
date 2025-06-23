@@ -1,19 +1,35 @@
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   gap: 4rem;
+  padding: 6rem 0;
 }
-/* .form_header {
-   padding: 2rem 4rem;
-} */
+
+.page_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 4.8rem;
+}
+
+.form_content {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
 .top_text {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 0.8rem;
   margin: 2.6rem auto 5.6rem;
 }
+
 .top_text_title {
   color: var(--color-title);
   text-align: right;
@@ -21,17 +37,94 @@
   font-weight: 600;
   line-height: 4rem;
 }
+
 .top_text_description {
   color: var(--color-description);
-  text-align: right;
+  text-align: start;
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 2rem;
   letter-spacing: 0.035px;
 }
+
 .form_container {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4rem;
+  width: 88rem;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.4rem;
+  width: 100%;
+}
+
+.confirm_button {
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+  letter-spacing: 0.056rem;
+  display: flex;
+  width: 25rem;
+  height: 6rem;
+  padding: 1.6rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  border-radius: 1.2rem;
+  background: #f5ece4;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.confirm_button:not([disabled]) {
+  cursor: pointer;
+}
+
+.confirm_button.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.confirm_button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 1200px) {
+  .page_container {
+    width: calc(100% - 4.8rem);
+    margin: 0 1.2rem;
+  }
+  .page_content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .form_content {
+    background: transparent;
+  }
+  .form_container {
+    width: auto;
+    background: transparent;
+  }
+  .top_text_description {
+    text-align: center;
+    padding: 0 2.1rem;
+  }
+  .top_text_title {
+    text-align: center;
+    padding: 0 2.1rem;
+  }
 }

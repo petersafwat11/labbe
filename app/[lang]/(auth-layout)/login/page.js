@@ -5,7 +5,7 @@ async function Page(params) {
   const { lang } = await params;
 
   const { t } = await initTranslations(lang, 'login');
-  
+
   return <Form />;
 }
 

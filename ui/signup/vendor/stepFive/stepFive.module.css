@@ -1,14 +1,18 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
-  padding: 2rem;
+  background: #fff;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .sections {
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+  padding: 2.4rem;
+  background: #fff;
 }
 
 .section {
@@ -19,6 +23,22 @@
   border-radius: 1.2rem;
   border: 1px solid #f0f0f0;
   background: #fff;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.grid_inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.full_width {
+  grid-column: span 2;
 }
 
 .options {
@@ -72,4 +92,20 @@
   text-align: right;
   cursor: pointer;
   flex: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .sections {
+    padding: 0 2.4rem 2.4rem;
+    background: #fff;
+  }
+  .section {
+    border-radius: 0;
+  }
+  .grid_inputs {
+    grid-template-columns: 1fr;
+  }
+  .full_width {
+    grid-column: span 1;
+  }
 }
