@@ -1,33 +1,32 @@
-'use client';
-import React, { useState } from 'react';
-import styles from './forgetPassword.module.css';
-import Image from 'next/image';
-import FormHeader from '../commen/formHeader/FormHeader';
-import InputGroup from '../commen/inputs/inputGroup/InputGroup';
-import ConfirmBtn from '../commen/confirmButton/ConfirmBtn';
-import { useTranslation } from 'react-i18next';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import styles from "./forgetPassword.module.css";
+import Image from "next/image";
+import FormHeader from "../commen/formHeader/FormHeader";
+import InputGroup from "../commen/inputs/inputGroup/InputGroup";
+import ConfirmBtn from "../commen/confirmButton/ConfirmBtn";
+import { useTranslation } from "react-i18next";
+import { authAPI, handleAPIError } from "@/lib/auth";
 
 const ForgetPassword = () => {
-  const { t } = useTranslation('forgetPassword');
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const { t } = useTranslation("forgetPassword");
+  const {
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useFormContext();
+
   const [showEmailSentMessage, setShowEmailSentMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [resendCountdown, setResendCountdown] = useState(90);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [sentEmail, setSentEmail] = useState("");
 
-  // Debug state changes
-  React.useEffect(() => {
-    console.log('State changed:', {
-      email,
-      emailError,
-      showEmailSentMessage,
-      isLoading,
-    });
-  }, [email, emailError, showEmailSentMessage, isLoading]);
+  const email = watch("email");
 
   // Countdown timer for resend button
-  React.useEffect(() => {
+  useEffect(() => {
     let timer;
     if (showEmailSentMessage && isResendDisabled && resendCountdown > 0) {
       timer = setInterval(() => {
@@ -43,61 +42,48 @@ const ForgetPassword = () => {
     return () => clearInterval(timer);
   }, [showEmailSentMessage, isResendDisabled, resendCountdown]);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleSubmit = () => {
-    console.log('handleSubmit called', {
-      email,
-      emailError,
-      showEmailSentMessage,
-    });
-
-    // Reset error
-    setEmailError('');
-
-    // Validate email
-    if (!email.trim()) {
-      console.log('Email is empty');
-      setEmailError(t('forgetPasswordForm.errors.emailRequired'));
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      console.log('Email format invalid');
-      setEmailError(t('forgetPasswordForm.errors.invalidEmail'));
-      return;
-    }
-
-    console.log('Email validation passed, starting loading');
-    // Simulate API call
+  const onSubmit = async (data) => {
+    console.log("Form submitted with data:", data);
     setIsLoading(true);
-    setTimeout(() => {
-      console.log('Setting email sent message to true');
-      setIsLoading(false);
+    setSentEmail(data.email);
+
+    try {
+      await authAPI.forgotPassword(data.email);
+
       setShowEmailSentMessage(true);
-      // Reset countdown when email is sent
       setResendCountdown(90);
       setIsResendDisabled(true);
-    }, 1500);
+    } catch (error) {
+      console.error("Forget password error:", error);
+      const errorMessage = handleAPIError(error);
+      // You could set form errors here if needed
+      // setError('email', { message: errorMessage });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleResendLink = () => {
+  const handleResendLink = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      // Restart countdown after resending
+
+    try {
+      await authAPI.forgotPassword(sentEmail);
+
       setResendCountdown(90);
       setIsResendDisabled(true);
-      console.log('Link resent, countdown restarted');
-    }, 1000);
+      console.log("Link resent, countdown restarted");
+    } catch (error) {
+      console.error("Resend link error:", error);
+      const errorMessage = handleAPIError(error);
+      // Handle error appropriately
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoToEmail = () => {
     // This could open the email app or redirect
-    window.open('mailto:', '_blank');
+    window.open("mailto:", "_blank");
   };
 
   return (
@@ -106,55 +92,46 @@ const ForgetPassword = () => {
         <FormHeader />
       </div>
       {!showEmailSentMessage ? (
-        <div className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.image_container}>
             <Image
               className={styles.icon}
-              src={'/svg/auth/forget-password.svg'}
+              src={"/svg/auth/forget-password.svg"}
               alt="forget-password"
               width={80}
               height={105}
             />
           </div>
           <div className={styles.text_container}>
-            <h2 className={styles.title}>{t('forgetPasswordForm.title')}</h2>
+            <h2 className={styles.title}>{t("forgetPasswordForm.title")}</h2>
             <p className={styles.description}>
-              {t('forgetPasswordForm.description')}
+              {t("forgetPasswordForm.description")}
             </p>
           </div>
           <InputGroup
-            label={t('forgetPasswordForm.email.label')}
+            label={t("forgetPasswordForm.email.label")}
             type="email"
-            placeholder={t('forgetPasswordForm.email.placeholder')}
+            placeholder={t("forgetPasswordForm.email.placeholder")}
             required
             name="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              // Clear error when user starts typing
-              if (emailError) {
-                setEmailError('');
-              }
-            }}
-            error={emailError}
             iconPath="auth/email.svg"
           />
           <ConfirmBtn
             text={
               isLoading
-                ? t('forgetPasswordForm.buttons.sending')
-                : t('forgetPasswordForm.buttons.confirm')
+                ? t("forgetPasswordForm.buttons.sending")
+                : t("forgetPasswordForm.buttons.confirm")
             }
-            active={email.trim() && !isLoading}
-            clickHandler={handleSubmit}
+            active={isValid && email?.trim() && !isLoading}
+            clickHandler={handleSubmit(onSubmit)}
           />
-        </div>
+        </form>
       ) : (
         <div className={styles.email_sent_message}>
           <div className={styles.image_container}>
             <Image
               className={styles.icon}
-              src={'/svg/auth/send-email.svg'}
+              src={"/svg/auth/send-email.svg"}
               alt="email-sent"
               width={120}
               height={120}
@@ -162,14 +139,16 @@ const ForgetPassword = () => {
           </div>
           <div className={styles.text_container}>
             <h2 className={styles.title}>
-              {t('forgetPasswordForm.emailSent.title')}
+              {t("forgetPasswordForm.emailSent.title")}
             </h2>
             <p className={styles.description}>
-              {t('forgetPasswordForm.emailSent.description', { email: email })}
+              {t("forgetPasswordForm.emailSent.description", {
+                email: sentEmail,
+              })}
             </p>
           </div>
           <ConfirmBtn
-            text={t('forgetPasswordForm.buttons.goToEmail')}
+            text={t("forgetPasswordForm.buttons.goToEmail")}
             active={true}
             clickHandler={handleGoToEmail}
           />
@@ -177,14 +156,15 @@ const ForgetPassword = () => {
             className={styles.resend_link}
             onClick={handleResendLink}
             disabled={isLoading || isResendDisabled}
+            type="button"
           >
             {isLoading
-              ? t('forgetPasswordForm.buttons.sending')
+              ? t("forgetPasswordForm.buttons.sending")
               : isResendDisabled
-              ? t('forgetPasswordForm.buttons.resendCountdown', {
+              ? t("forgetPasswordForm.buttons.resendCountdown", {
                   count: resendCountdown,
                 })
-              : t('forgetPasswordForm.buttons.resendLink')}
+              : t("forgetPasswordForm.buttons.resendLink")}
           </button>
         </div>
       )}

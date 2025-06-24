@@ -1,66 +1,68 @@
-'use client';
-import React, { useState, useCallback, useEffect } from 'react';
-import Stepper from '../../commen/stepper/Stepper';
-import styles from './vendorSignup.module.css';
-import FormHeader from '@/ui/commen/formHeader/FormHeader';
-import StepOne from './stepOne/StepOne';
-import StepTwo from './stepTwo/StepTwo';
-import StepThree from './stepThree/StepThree';
-import StepFour from './stepFour/StepFour';
-import StepFive from './stepFive/StepFive';
-import StepSix from './stepSix/StepSix';
-import { StepTitle } from '../../commen/title/SectionTitle';
-import { useMediaQuery } from '@/hooks/use-media-query';
-import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm } from 'react-hook-form';
-import { vendorSchema } from '@/utils/schemas/vendorSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createStepHandler, validateStep } from '@/utils';
-import { useRouter, useSearchParams } from 'next/navigation';
-import StepSeven from './stepSeven/StepSeven';
+"use client";
+import React, { useState, useCallback, useEffect } from "react";
+import Stepper from "../../commen/stepper/Stepper";
+import styles from "./vendorSignup.module.css";
+import FormHeader from "@/ui/commen/formHeader/FormHeader";
+import StepOne from "./stepOne/StepOne";
+import StepTwo from "./stepTwo/StepTwo";
+import StepThree from "./stepThree/StepThree";
+import StepFour from "./stepFive/StepFive";
+import StepFive from "./stepFour/StepFour";
+import StepSix from "./stepSix/StepSix";
+import { StepTitle } from "../../commen/title/SectionTitle";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useTranslation } from "react-i18next";
+import { FormProvider, useForm } from "react-hook-form";
+import { vendorSchema } from "@/utils/schemas/vendorSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createStepHandler, validateStep } from "@/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import StepSeven from "./stepSeven/StepSeven";
+import { authAPI, handleAPIError } from "@/lib/auth";
 
 const VendorSignup = () => {
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation("signup");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialStep = parseInt(searchParams.get('step'), 10) || 1;
+  const initialStep = parseInt(searchParams.get("step"), 10) || 1;
   const [step, setStep] = useState(initialStep);
   const [currentStepValidity, setCurrentStepValidity] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const steps = [
-    { id: 1, desc: t('signupForm.vendor.steps.identity') },
-    { id: 2, desc: t('signupForm.vendor.steps.serviceData') },
-    { id: 3, desc: t('signupForm.vendor.steps.samplesAndPackages') },
-    { id: 4, desc: t('signupForm.vendor.steps.paymentData') },
-    { id: 5, desc: t('signupForm.vendor.steps.commercialVerification') },
-    { id: 6, desc: t('signupForm.vendor.steps.otherLinksAndData') },
-    { id: 7, desc: t('signupForm.vendor.steps.summary') },
+    { id: 1, desc: t("signupForm.vendor.steps.identity") },
+    { id: 2, desc: t("signupForm.vendor.steps.serviceData") },
+    { id: 3, desc: t("signupForm.vendor.steps.samplesAndPackages") },
+    { id: 4, desc: t("signupForm.vendor.steps.commercialVerification") },
+    { id: 5, desc: t("signupForm.vendor.steps.paymentData") },
+    { id: 6, desc: t("signupForm.vendor.steps.otherLinksAndData") },
+    { id: 7, desc: t("signupForm.vendor.steps.summary") },
   ];
 
   const methods = useForm({
     resolver: zodResolver(vendorSchema(t)),
-    reValidateMode: 'onSubmit',
+    reValidateMode: "onSubmit",
     shouldFocusError: false,
-    mode: 'onTouched',
+    mode: "onTouched",
   });
 
   console.log(
-    'vendor Values errors',
+    "vendor Values errors",
     methods.watch(),
     methods.formState.errors
   );
 
-  const isLg = useMediaQuery('(min-width: 1024px)');
+  const isLg = useMediaQuery("(min-width: 1024px)");
 
   // Map step to fields for validation
   const stepFieldsMap = {
-    1: ['identity'],
-    2: ['serviceData'],
-    3: ['samplesAndPackages'],
-    4: ['paymentData'],
-    5: ['commercialVerification'],
-    6: ['otherLinksAndData'],
-    7: ['summary'],
+    1: ["identity"],
+    2: ["serviceData"],
+    3: ["samplesAndPackages"],
+    4: ["paymentData"],
+    5: ["commercialVerification"],
+    6: ["otherLinksAndData"],
+    7: ["summary"],
   };
 
   const handleSetStep = useCallback(
@@ -71,7 +73,7 @@ const VendorSignup = () => {
       }
       setStep(newStep);
       const params = new URLSearchParams(window.location.search);
-      params.set('step', newStep);
+      params.set("step", newStep);
       router.replace(`?${params.toString()}`);
     },
     [step, currentStepValidity, router]
@@ -91,16 +93,80 @@ const VendorSignup = () => {
     }
   };
 
+  const handleSubmitVendor = async () => {
+    setIsSubmitting(true);
+    try {
+      const formData = methods.getValues();
+
+      console.log("Submitting Vendor data:", formData);
+
+      // Extract files from form data
+      const extractedFiles = {
+        portfolioImages: formData.samplesAndPackages?.portfolioImages || [],
+        businessLogo: formData.samplesAndPackages?.businessLogo?.[0] || null,
+        pricePackages: formData.samplesAndPackages?.pricePackages || [],
+        commercialRecord:
+          formData.commercialVerification?.commercialRecord?.[0] || null,
+        cv: formData.otherLinksAndData?.cv?.[0] || null,
+        profileFile: formData.otherLinksAndData?.profileFile?.[0] || null,
+      };
+
+      console.log("Extracted files:", extractedFiles);
+
+      // Clean form data (remove file objects)
+      const cleanFormData = {
+        identity: formData.identity,
+        serviceData: formData.serviceData,
+        samplesAndPackages: {
+          // Remove file fields, keep other data
+          ...formData.samplesAndPackages,
+          portfolioImages: undefined,
+          businessLogo: undefined,
+          pricePackages: undefined,
+        },
+        commercialVerification: {
+          ...formData.commercialVerification,
+          commercialRecord: undefined,
+        },
+        paymentData: formData.paymentData,
+        otherLinksAndData: {
+          ...formData.otherLinksAndData,
+          cv: undefined,
+          profileFile: undefined,
+        },
+      };
+
+      // Submit to backend
+      const response = await authAPI.signupVendor(
+        cleanFormData,
+        extractedFiles
+      );
+
+      console.log("Vendor signup successful:", response);
+
+      // Show success message
+      alert("Vendor account created successfully!");
+
+      // Redirect to success page or login
+      router.push("/en/login");
+    } catch (error) {
+      console.error("Vendor signup error:", error);
+      const errorMessage = handleAPIError(error);
+      alert(`Error: ${errorMessage}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const onFinalSubmit = methods.handleSubmit((data) => {
-    console.log('Final form data:', data);
-    // Handle form submission logic here
+    handleSubmitVendor();
   });
 
   const goToPreviousStep = useCallback(() => {
-    console.log('goToPreviousStep triggered. Current step:', step);
+    console.log("goToPreviousStep triggered. Current step:", step);
     if (step > 1) {
       setStep((prevStep) => prevStep - 1);
-      console.log('Navigating to previous step:', step - 1);
+      console.log("Navigating to previous step:", step - 1);
     }
   }, [step]);
 
@@ -125,10 +191,10 @@ const VendorSignup = () => {
         <div className={styles.page_content}>
           <div className={styles.top_text}>
             <h2 className={styles.top_text_title}>
-              {t('signupForm.vendor.title')}
+              {t("signupForm.vendor.title")}
             </h2>
             <p className={styles.top_text_description}>
-              {t('signupForm.vendor.description')}
+              {t("signupForm.vendor.description")}
             </p>
           </div>
 
@@ -163,15 +229,16 @@ const VendorSignup = () => {
                 </div>
                 <div className={styles.buttons}>
                   <button
-                    className={`${styles.confirm_button} ${
-                      step !== steps.length ? styles.active : ''
-                    }`}
+                    className={`${styles.confirm_button} ${styles.active}`}
                     type="button"
                     onClick={step === steps.length ? onFinalSubmit : handleNext}
+                    disabled={isSubmitting}
                   >
-                    {step === steps.length
-                      ? t('signupForm.vendor.summary.submit')
-                      : t('signupForm.initialForm.buttons.continueButton')}
+                    {isSubmitting
+                      ? "جاري الإرسال..."
+                      : step === steps.length
+                      ? t("signupForm.vendor.summary.submit")
+                      : t("signupForm.initialForm.buttons.continueButton")}
                   </button>
                 </div>
               </div>

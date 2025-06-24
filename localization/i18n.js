@@ -1,7 +1,7 @@
-import { createInstance } from 'i18next';
-import { initReactI18next } from 'react-i18next/initReactI18next';
-import resourcesToBackend from 'i18next-resources-to-backend';
-import { i18nRouterConfig } from '@/localization/i18nRouterConfig';
+import { createInstance } from "i18next";
+import { initReactI18next } from "react-i18next/initReactI18next";
+import resourcesToBackend from "i18next-resources-to-backend";
+import { i18nRouterConfig } from "@/localization/i18nRouterConfig";
 
 export default async function initTranslations(
   locale,
@@ -29,6 +29,11 @@ export default async function initTranslations(
     fallbackNS: namespaces[0],
     ns: namespaces,
     preload: resources ? [] : i18nRouterConfig.locales,
+    interpolation: {
+      escapeValue: false, // React already escapes by default
+    },
+    // Add direction information
+    dir: i18nRouterConfig.getDirection(locale),
   });
 
   return {

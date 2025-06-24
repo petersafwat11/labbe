@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styles from './formHeader.module.css';
-import UseLanguageChange from '@/hooks/UseLanguageChange';
+import React, { useState } from "react";
+import styles from "./formHeader.module.css";
+import UseLanguageChange from "@/hooks/UseLanguageChange";
 const FormHeader = () => {
   const { currentLocale, handleChange } = UseLanguageChange();
 
@@ -17,20 +17,20 @@ const FormHeader = () => {
         </div>
         <div className={styles.languages}>
           <p
-            className={currentLocale === 'ar' ? styles.active : styles.arabic}
+            className={currentLocale === "ar" ? styles.active : styles.arabic}
             onClick={() => {
-              handleChange('ar');
+              handleChange("ar");
             }}
           >
             العربية
           </p>
           <p
-            className={currentLocale === 'en' ? styles.active : styles.english}
+            className={currentLocale === "en" ? styles.active : styles.english}
             onClick={() => {
-              handleChange('en');
+              handleChange("en");
             }}
           >
-            {' '}
+            {" "}
             English
           </p>
         </div>

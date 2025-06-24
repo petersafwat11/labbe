@@ -1,51 +1,54 @@
-'use client';
-import React, { useState } from 'react';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
-import WhiteLabelForm from '@/ui/signup/whiteLabel/WhiteLabelForm';
-import ServiceSelectionCard from '@/ui/commen/serviceSelectionCard/ServiceSelectionCard';
-import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import styles from './continueSignupForm.module.css';
-import { hostSchema } from '@/utils/schemas/host.schema';
+"use client";
+import React, { useState, useEffect } from "react";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
+import { useTranslation } from "react-i18next";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { hostProfileSchema } from "@/utils/schemas/hostSchema";
+import { authAPI, cookieUtils } from "@/lib/auth";
+import useLanguageChange from "@/hooks/UseLanguageChange";
+import { useRouter } from "next/navigation";
+import styles from "./continueSignupForm.module.css";
 
 const ContinueSignupForm = () => {
-  const { t } = useTranslation('signup');
-
-  // Debug logging
-  React.useEffect(() => {
-    console.log(
-      't result for passwordsDoNotMatch:',
-      t('signupForm.continueSignup.errors.passwordsDoNotMatch')
-    );
-    console.log(
-      't result for fullNameMinLength:',
-      t('signupForm.continueSignup.errors.fullNameMinLength')
-    );
-  }, [t]);
+  const { t } = useTranslation("signup");
+  const { currentLocale } = useLanguageChange();
+  const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedService, setSelectedService] = useState('');
-  const [showWhiteLabelForm, setShowWhiteLabelForm] = useState(false);
-
-  const [passwordValidations, setPasswordValidations] = useState([]);
-
-  // Define validation schema
-  const continueSignupSchema = hostSchema(t);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Initialize React Hook Form
   const methods = useForm({
-    resolver: zodResolver(continueSignupSchema),
-    mode: 'onChange',
+    resolver: zodResolver(hostProfileSchema(t)),
+    mode: "onChange",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+    },
   });
 
   const {
     handleSubmit,
-    formState: { errors: formErrors, isValid },
+    watch,
+    formState: { isValid },
   } = methods;
+
+  const formValues = watch();
+
+  // Check if user has access token
+  useEffect(() => {
+    const token = cookieUtils.getCookie("accessToken");
+    if (!token) {
+      // Redirect to signup page if no token
+      router.push(`/${currentLocale}/signup`);
+    }
+  }, [currentLocale, router]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -55,101 +58,111 @@ const ContinueSignupForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleServiceSelection = (service) => {
-    setSelectedService(service);
-  };
+  const onSubmit = async (formData) => {
+    setIsLoading(true);
+    setError("");
 
-  const handleContinueSignup = (formData) => {
-    console.log('Continue Signup data:', { ...formData, selectedService });
-    if (selectedService === 'organizer') {
-      setShowWhiteLabelForm(true);
+    try {
+      console.log("Completing host profile:", formData);
+      const response = await authAPI.completeHostProfile(formData);
+
+      if (response.status === "success") {
+        // Update token in cookie
+        if (response.token) {
+          cookieUtils.setCookie("accessToken", response.token, 7);
+        }
+
+        console.log("Host profile completed successfully:", response);
+
+        // Redirect to dashboard or home page
+        alert("Profile completed successfully!");
+        router.push(`/${currentLocale}`);
+      }
+    } catch (err) {
+      console.error("Complete profile error:", err);
+      setError(err.message || "Failed to complete profile. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    // Add your continue signup logic here
   };
-
-  const confirmBtnHandler = handleSubmit(handleContinueSignup);
 
   return (
     <div className={styles.container}>
-      {showWhiteLabelForm ? (
-        <WhiteLabelForm />
-      ) : (
-        <>
-          <h1 className={styles.mainTitle}>
-            {t('signupForm.continueSignup.title')}
-          </h1>
-          <p className={styles.mainDescription}>
-            {t('signupForm.continueSignup.description')}
-          </p>
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(handleContinueSignup)}>
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>
-                  {t('signupForm.continueSignup.personalInfo.title')}
-                </h2>
-                <div className={styles.inputsGroup}>
-                  <InputGroup
-                    label={t(
-                      'signupForm.continueSignup.personalInfo.fullName.label'
-                    )}
-                    type="text"
-                    placeholder={t(
-                      'signupForm.continueSignup.personalInfo.fullName.placeholder'
-                    )}
-                    name="fullName"
-                    iconPath="auth/profile.svg"
-                  />
-                  <InputGroup
-                    label={t(
-                      'signupForm.continueSignup.personalInfo.email.label'
-                    )}
-                    type="email"
-                    placeholder={t(
-                      'signupForm.continueSignup.personalInfo.email.placeholder'
-                    )}
-                    name="email"
-                    iconPath="auth/email.svg"
-                  />
-                  <InputGroup
-                    label={t(
-                      'signupForm.continueSignup.personalInfo.newPassword.label'
-                    )}
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder={t(
-                      'signupForm.continueSignup.personalInfo.newPassword.placeholder'
-                    )}
-                    name="newPassword"
-                    iconPath="auth/password.svg"
-                    iconPath2="auth/eye.svg"
-                    onIconClick={togglePasswordVisibility}
-                  />
-                  <InputGroup
-                    label={t(
-                      'signupForm.continueSignup.personalInfo.confirmPassword.label'
-                    )}
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder={t(
-                      'signupForm.continueSignup.personalInfo.confirmPassword.placeholder'
-                    )}
-                    name="confirmPassword"
-                    iconPath="auth/password.svg"
-                    iconPath2="auth/eye.svg"
-                    onIconClick={toggleConfirmPasswordVisibility}
-                  />
-                </div>
-              </div>
+      <h1 className={styles.mainTitle}>
+        {t("signupForm.continueSignup.title")}
+      </h1>
+      <p className={styles.mainDescription}>
+        {t("signupForm.continueSignup.description")}
+      </p>
 
-              <div className={styles.buttonContainer}>
-                <ConfirmBtn
-                  text={t('signupForm.continueSignup.nextButton')}
-                  active={isValid}
-                  clickHandler={confirmBtnHandler}
-                />
-              </div>
-            </form>
-          </FormProvider>
-        </>
-      )}
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>
+              {t("signupForm.continueSignup.personalInfo.title")}
+            </h2>
+            <div className={styles.inputsGroup}>
+              <InputGroup
+                label={t(
+                  "signupForm.continueSignup.personalInfo.fullName.label"
+                )}
+                type="text"
+                placeholder={t(
+                  "signupForm.continueSignup.personalInfo.fullName.placeholder"
+                )}
+                name="username"
+                iconPath="auth/profile.svg"
+              />
+              <InputGroup
+                label={t("signupForm.continueSignup.personalInfo.email.label")}
+                type="email"
+                placeholder={t(
+                  "signupForm.continueSignup.personalInfo.email.placeholder"
+                )}
+                name="email"
+                iconPath="auth/email.svg"
+              />
+              <InputGroup
+                label={t(
+                  "signupForm.continueSignup.personalInfo.newPassword.label"
+                )}
+                type={showPassword ? "text" : "password"}
+                placeholder={t(
+                  "signupForm.continueSignup.personalInfo.newPassword.placeholder"
+                )}
+                name="password"
+                iconPath="auth/password.svg"
+                iconPath2="auth/eye.svg"
+                onIconClick={togglePasswordVisibility}
+              />
+              <InputGroup
+                label={t(
+                  "signupForm.continueSignup.personalInfo.confirmPassword.label"
+                )}
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder={t(
+                  "signupForm.continueSignup.personalInfo.confirmPassword.placeholder"
+                )}
+                name="passwordConfirm"
+                iconPath="auth/password.svg"
+                iconPath2="auth/eye.svg"
+                onIconClick={toggleConfirmPasswordVisibility}
+              />
+            </div>
+          </div>
+
+          {error && <div className={styles.errorMessage}>{error}</div>}
+
+          <div className={styles.buttonContainer}>
+            <ConfirmBtn
+              text={t("signupForm.continueSignup.nextButton")}
+              active={isValid && !isLoading}
+              clickHandler={handleSubmit(onSubmit)}
+              disabled={isLoading}
+            />
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 };

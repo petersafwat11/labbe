@@ -1,9 +1,10 @@
 import React from "react";
+import VendorSignup from "@/ui/signup/vendor/VendorSignup";
 
 const page = () => {
   return (
     <div>
-      <h1>Vendor Page</h1>
+      <VendorSignup />
     </div>
   );
 };

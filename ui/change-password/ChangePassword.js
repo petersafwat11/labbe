@@ -1,219 +1,239 @@
-'use client';
-import React, { useState } from 'react';
-import styles from './changePassword.module.css';
-import FormHeader from '../commen/formHeader/FormHeader';
-import InputGroup from '../commen/inputs/inputGroup/InputGroup';
-import ConfirmBtn from '../commen/confirmButton/ConfirmBtn';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useRouter, useSearchParams } from "next/navigation";
+import styles from "./changePassword.module.css";
+import FormHeader from "../commen/formHeader/FormHeader";
+import InputGroup from "../commen/inputs/inputGroup/InputGroup";
+import ConfirmBtn from "../commen/confirmButton/ConfirmBtn";
+import Image from "next/image";
+import { useTranslation } from "react-i18next";
+import { authAPI, handleAPIError } from "@/lib/auth";
 
 const ChangePassword = () => {
   const router = useRouter();
-  const { t } = useTranslation('changePassword');
+  const searchParams = useSearchParams();
+  const { t } = useTranslation("changePassword");
 
-  const [formData, setFormData] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  });
-  const [errors, setErrors] = useState({
-    newPassword: '',
-    confirmPassword: '',
-  });
+  const {
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+    setError,
+  } = useFormContext();
+
   const [showPassword, setShowPassword] = useState({
-    newPassword: false,
-    confirmPassword: false,
+    password: false,
+    passwordConfirm: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [passwordChanged, setPasswordChanged] = useState(false);
-  const [passwordValidations, setPasswordValidations] = useState([]);
+  const [tokenError, setTokenError] = useState("");
+  const [token, setToken] = useState("");
 
-  const validatePassword = (password) => {
-    const validations = [
-      {
-        text: t('changePasswordForm.errors.passwordMinLength'),
-        isValid: password.length >= 8,
-      },
-      {
-        text: t('changePasswordForm.errors.passwordComplexity'),
-        isValid: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password),
-      },
-      {
-        text: t('changePasswordForm.errors.passwordSpecialChar'),
-        isValid: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
-      },
-    ];
-    setPasswordValidations(validations);
+  const password = watch("password");
+  const passwordConfirm = watch("passwordConfirm");
 
-    // Return true if all validations pass, false otherwise
-    return validations.every((v) => v.isValid);
-  };
-
-  const handleInputChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-
-    if (field === 'newPassword') {
-      validatePassword(value);
+  // Extract token from URL on component mount
+  useEffect(() => {
+    const tokenFromUrl = searchParams.get("token");
+    if (!tokenFromUrl) {
+      setTokenError(t("changePasswordForm.errors.invalidToken"));
+    } else {
+      setToken(tokenFromUrl);
     }
+  }, [searchParams, t]);
 
-    // Clear errors when user starts typing
-    if (errors[field]) {
-      setErrors({ ...errors, [field]: '' });
-    }
-  };
+  // Password validation rules for display
+  const passwordValidations = [
+    {
+      text: t("changePasswordForm.errors.passwordMinLength"),
+      isValid: password ? password.length >= 8 : false,
+    },
+    {
+      text: t("changePasswordForm.errors.passwordComplexity"),
+      isValid: password
+        ? /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)
+        : false,
+    },
+  ];
 
   const togglePasswordVisibility = (field) => {
-    setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const handleSubmit = () => {
-    const newErrors = {};
-
-    // Validate new password
-    const passwordError = validatePassword(formData.newPassword);
-    if (!formData.newPassword) {
-      newErrors.newPassword = t(
-        'changePasswordForm.errors.newPasswordRequired'
-      );
-    } else if (!passwordError) {
-      newErrors.newPassword = t('changePasswordForm.errors.passwordComplexity');
+  const onSubmit = async (data) => {
+    if (!token) {
+      setTokenError(t("changePasswordForm.errors.invalidToken"));
+      return;
     }
 
-    // Validate confirm password
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = t(
-        'changePasswordForm.errors.confirmPasswordRequired'
-      );
-    } else if (formData.newPassword !== formData.confirmPassword) {
-      newErrors.confirmPassword = t(
-        'changePasswordForm.errors.passwordsNotMatch'
-      );
-    }
+    setIsLoading(true);
+    setTokenError("");
 
-    setErrors(newErrors);
+    try {
+      await authAPI.resetPassword(token, data.password, data.passwordConfirm);
+      setPasswordChanged(true);
+    } catch (error) {
+      console.error("Reset password error:", error);
+      const errorMessage = handleAPIError(error);
 
-    // If no errors, proceed
-    if (Object.keys(newErrors).length === 0) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        setPasswordChanged(true);
-      }, 2000);
+      // Check if it's a token-related error
+      if (
+        errorMessage.toLowerCase().includes("token") ||
+        errorMessage.toLowerCase().includes("expired") ||
+        errorMessage.toLowerCase().includes("invalid")
+      ) {
+        setTokenError(errorMessage);
+      } else {
+        // Set general form error
+        setError("password", { message: errorMessage });
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoToLogin = () => {
-    router.push('/login');
+    router.push("/login");
   };
 
-  const passwordChangedMessage = () => {
+  // Show error if no token
+  if (tokenError && !token) {
     return (
-      <div className={styles.email_sent_message}>
-        <div className={styles.image_container}>
-          <Image
-            className={styles.icon}
-            src={'/svg/auth/forget-password.svg'}
-            alt="password-changed"
-            width={115}
-            height={116}
+      <div className={styles.container}>
+        <div className={styles.form_header}>
+          <FormHeader />
+        </div>
+        <div className={styles.form}>
+          <div className={styles.image_container}>
+            <Image
+              className={styles.icon}
+              src={"/svg/auth/forget-password.svg"}
+              alt="error"
+              width={80}
+              height={105}
+            />
+          </div>
+          <div className={styles.text_container}>
+            <h2 className={styles.title}>
+              {t("changePasswordForm.errors.tokenExpired")}
+            </h2>
+            <p className={styles.description}>
+              {t("changePasswordForm.errors.tokenExpiredDescription")}
+            </p>
+          </div>
+          <ConfirmBtn
+            text={t("changePasswordForm.buttons.backToLogin")}
+            active={true}
+            clickHandler={handleGoToLogin}
           />
         </div>
-        <div className={styles.text_container}>
-          <h2 className={styles.title}>
-            {t('changePasswordForm.success.title')}
-          </h2>
-          <p className={styles.description}>
-            {t('changePasswordForm.success.description')}
-          </p>
-        </div>
-        <ConfirmBtn
-          text={t('changePasswordForm.buttons.login')}
-          active={true}
-          clickHandler={handleGoToLogin}
-        />
       </div>
     );
-  };
+  }
 
+  // Show success message after password change
   if (passwordChanged) {
     return (
       <div className={styles.container}>
         <div className={styles.form_header}>
           <FormHeader />
         </div>
-        {passwordChangedMessage()}
+        <div className={styles.email_sent_message}>
+          <div className={styles.image_container}>
+            <Image
+              className={styles.icon}
+              src={"/svg/auth/true.svg"}
+              alt="password-changed"
+              width={115}
+              height={116}
+            />
+          </div>
+          <div className={styles.text_container}>
+            <h2 className={styles.title}>
+              {t("changePasswordForm.success.title")}
+            </h2>
+            <p className={styles.description}>
+              {t("changePasswordForm.success.description")}
+            </p>
+          </div>
+          <ConfirmBtn
+            text={t("changePasswordForm.buttons.login")}
+            active={true}
+            clickHandler={handleGoToLogin}
+          />
+        </div>
       </div>
     );
   }
 
+  // Main form
   return (
     <div className={styles.container}>
       <div className={styles.form_header}>
         <FormHeader />
       </div>
-      <div className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.image_container}>
           <Image
             className={styles.icon}
-            src={'/svg/auth/forget-password.svg'}
+            src={"/svg/auth/forget-password.svg"}
             alt="change-password"
             width={80}
             height={105}
           />
         </div>
         <div className={styles.text_container}>
-          <h2 className={styles.title}>{t('changePasswordForm.title')}</h2>
+          <h2 className={styles.title}>{t("changePasswordForm.title")}</h2>
           <p className={styles.description}>
-            {t('changePasswordForm.subtitle')}
+            {t("changePasswordForm.subtitle")}
           </p>
         </div>
+
+        {tokenError && (
+          <div className={styles.error_container}>
+            <p className={styles.error}>{tokenError}</p>
+          </div>
+        )}
+
         <div className={styles.inputs_container}>
           <InputGroup
-            label={t('changePasswordForm.newPassword.label')}
-            type={showPassword.newPassword ? 'text' : 'password'}
-            placeholder={t('changePasswordForm.newPassword.placeholder')}
+            label={t("changePasswordForm.newPassword.label")}
+            type={showPassword.password ? "text" : "password"}
+            placeholder={t("changePasswordForm.newPassword.placeholder")}
             required
-            name="newPassword"
-            value={formData.newPassword}
-            onChange={(e) => handleInputChange('newPassword', e.target.value)}
-            error={errors.newPassword}
+            name="password"
             iconPath="auth/password.svg"
-            iconPath2={
-              showPassword.newPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'
-            }
-            onIconClick={() => togglePasswordVisibility('newPassword')}
+            iconPath2="auth/eye.svg"
+            onIconClick={() => togglePasswordVisibility("password")}
             validations={passwordValidations}
           />
+
           <InputGroup
-            label={t('changePasswordForm.confirmPassword.label')}
-            type={showPassword.confirmPassword ? 'text' : 'password'}
-            placeholder={t('changePasswordForm.confirmPassword.placeholder')}
+            label={t("changePasswordForm.confirmPassword.label")}
+            type={showPassword.passwordConfirm ? "text" : "password"}
+            placeholder={t("changePasswordForm.confirmPassword.placeholder")}
             required
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              handleInputChange('confirmPassword', e.target.value)
-            }
-            error={errors.confirmPassword}
+            name="passwordConfirm"
             iconPath="auth/password.svg"
-            iconPath2={
-              showPassword.confirmPassword ? 'auth/eye-off.svg' : 'auth/eye.svg'
-            }
-            onIconClick={() => togglePasswordVisibility('confirmPassword')}
+            iconPath2="auth/eye.svg"
+            onIconClick={() => togglePasswordVisibility("passwordConfirm")}
           />
         </div>
+
         <ConfirmBtn
           text={
             isLoading
-              ? t('changePasswordForm.buttons.updating')
-              : t('changePasswordForm.buttons.confirm')
+              ? t("changePasswordForm.buttons.updating")
+              : t("changePasswordForm.buttons.confirm")
           }
           active={
-            formData.newPassword && formData.confirmPassword && !isLoading
+            isValid && password && passwordConfirm && !isLoading && !tokenError
           }
-          clickHandler={handleSubmit}
+          clickHandler={handleSubmit(onSubmit)}
         />
-      </div>
+      </form>
     </div>
   );
 };

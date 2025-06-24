@@ -1,6 +1,9 @@
 {
   "loginForm": {
-    "greeting": "Welcome",
+    "greeting": {
+      "title": "Welcome to Labbe",
+      "subtitle": "Login to your account and start your journey with us in organizing invitations in a modern and unique way."
+    },
     "emailLogin": {
       "email": {
         "label": "Email",

@@ -26,7 +26,93 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  direction: rtl;
+}
+
+/* RTL-specific styles */
+html[dir="rtl"] body {
+  text-align: right;
+}
+
+html[dir="rtl"] .text-left {
+  text-align: right !important;
+}
+
+html[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+html[dir="rtl"] .float-left {
+  float: right !important;
+}
+
+html[dir="rtl"] .float-right {
+  float: left !important;
+}
+
+/* LTR-specific styles */
+html[dir="ltr"] body {
+  text-align: left;
+}
+
+html[dir="ltr"] .text-left {
+  text-align: left !important;
+}
+
+html[dir="ltr"] .text-right {
+  text-align: right !important;
+}
+
+html[dir="ltr"] .float-left {
+  float: left !important;
+}
+
+html[dir="ltr"] .float-right {
+  float: right !important;
+}
+
+/* Margin and padding utilities for RTL/LTR */
+html[dir="rtl"] .ml-auto {
+  margin-right: auto !important;
+  margin-left: unset !important;
+}
+
+html[dir="rtl"] .mr-auto {
+  margin-left: auto !important;
+  margin-right: unset !important;
+}
+
+html[dir="rtl"] .pl-4 {
+  padding-right: 1rem !important;
+  padding-left: unset !important;
+}
+
+html[dir="rtl"] .pr-4 {
+  padding-left: 1rem !important;
+  padding-right: unset !important;
+}
+
+/* Flexbox utilities for RTL */
+html[dir="rtl"] .justify-start {
+  justify-content: flex-end !important;
+}
+
+html[dir="rtl"] .justify-end {
+  justify-content: flex-start !important;
+}
+
+/* Border radius utilities for RTL */
+html[dir="rtl"] .rounded-l {
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+html[dir="rtl"] .rounded-r {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 * {
@@ -39,9 +125,11 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
 button {
   border: none;
   background: none;
+  font-family: inherit;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -49,11 +137,9 @@ button {
     color-scheme: dark;
   }
 }
+
 .page {
   width: 100vw;
   height: 100vh;
   display: flex;
-}
-button {
-  font-family: inherit;
 }

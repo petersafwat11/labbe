@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import styles from './inputGroup.module.css';
-import Image from 'next/image';
-import { get, useFormContext } from 'react-hook-form';
+"use client";
+import React from "react";
+import styles from "./inputGroup.module.css";
+import Image from "next/image";
+import { get, useFormContext } from "react-hook-form";
 
 const InputGroup = ({
   label,
@@ -23,7 +23,7 @@ const InputGroup = ({
     watch,
   } = useFormContext();
   const error = get(errors, name)?.message;
-  console.log('errors,,,', errors);
+  console.log("errors,,,", errors);
   const value = watch(name);
 
   return (
@@ -32,7 +32,7 @@ const InputGroup = ({
         {label}
         {required && <span className={styles.required}>*</span>}
       </label>
-      {type === 'mobile' ? (
+      {type === "mobile" ? (
         <div className={styles.input_container}></div>
       ) : (
         <div className={styles.input_container}>
@@ -45,8 +45,8 @@ const InputGroup = ({
             placeholder={placeholder}
             name={name}
             {...register(name)}
-            value={value || ''}
-            style={prefixText ? { paddingLeft: '9rem' } : {}}
+            value={value || ""}
+            style={prefixText ? { paddingLeft: "9rem" } : {}}
           />
           {iconPath && (
             <Image
@@ -57,7 +57,7 @@ const InputGroup = ({
               height={24}
             />
           )}
-          {type === 'password' && iconPath2 && (
+          {type === "password" && iconPath2 && (
             <Image
               className={styles.icon_2}
               src={`/svg/${iconPath2}`}
@@ -83,7 +83,7 @@ const InputGroup = ({
             <p
               key={index}
               className={`${styles.validation_rule} ${
-                rule.isValid ? styles.valid : ''
+                rule.isValid ? styles.valid : ""
               }`}
             >
               {/* <Image

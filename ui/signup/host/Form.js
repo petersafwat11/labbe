@@ -1,136 +1,96 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import styles from '@/ui/login/form/form.module.css';
-import { getI18n, useTranslation } from 'react-i18next';
-import FormHeader from '../../commen/formHeader/FormHeader';
-import FormBottom from '@/ui/login/form/formBottom/FormBottom';
-// import Greating from './Greating/Greating';
-import ConfirmBtn from '@/ui/commen/confirmButton/ConfirmBtn';
-// import OtpInput from './otpInput/OtpInput';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  emailLoginSchema,
-  otpLoginSchema,
-  otpSignupSchema,
-} from '@/utils/schemas/authSchemas'; //
-// import EmailSection from './EmailForm';
-import PhoneSection from '@/ui/commen/inputs/PhoneForm';
-import Link from 'next/link';
-import useLanguageChange from '@/hooks/UseLanguageChange';
-import { useRouter } from 'next/navigation';
+"use client";
+import React, { useEffect, useState } from "react";
+import styles from "@/ui/login/form/form.module.css";
+import { useTranslation } from "react-i18next";
+import FormHeader from "../../commen/formHeader/FormHeader";
+import ConfirmBtn from "@/ui/commen/confirmButton/ConfirmBtn";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { hostSignupSchema } from "@/utils/schemas/hostSchema";
+import PhoneSection from "@/ui/commen/inputs/PhoneForm";
+import Link from "next/link";
+import useLanguageChange from "@/hooks/UseLanguageChange";
+import { useRouter } from "next/navigation";
+import { authAPI, cookieUtils } from "@/lib/auth";
+import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
+
 const Form = () => {
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation("signup");
   const { currentLocale } = useLanguageChange();
-  const [loginType, setLoginType] = useState('otp');
   const router = useRouter();
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-    number: '',
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [verificationCode, setVerificationCode] = useState({
-    value: ['', '', '', '', '', ''],
-    error: '',
-    show: false,
-  });
-
-  const schema = loginType === 'otp' ? otpSignupSchema(t) : emailLoginSchema(t);
-  // Initialize React Hook Form
-  // console.log('schema...', schema);
   const methods = useForm({
-    resolver: zodResolver(schema),
-    reValidateMode: 'onSubmit',
-    shouldFocusError: false,
-    mode: 'onTouched',
+    resolver: zodResolver(hostSignupSchema(t)),
+    mode: "onChange",
     defaultValues: {
-      email: data.email,
-      password: data.password,
-      number: data.number,
+      phoneNumber: "",
     },
   });
 
-  const { handleSubmit, watch, reset } = methods;
-
+  const { handleSubmit, watch } = methods;
   const formValues = watch();
-
   useEffect(() => {
-    reset({
-      email: data.email,
-      password: data.password,
-      number: data.number,
-    });
-  }, [loginType, data.email, data.password, data.number, reset]);
+    console.log(formValues);
+  }, [formValues]);
+  const onSubmit = async (formData) => {
+    setIsLoading(true);
+    setError("");
 
-  const handleLogin = (formData) => {
-    if (loginType === 'otp') {
-      console.log('OTP Login data:', formData.number);
-      // Add your OTP login logic here
-    } else {
-      console.log('Email Login data:', formData.email, formData.password);
-      // Add your email/password login logic here
+    try {
+      console.log("Submitting host signup:", formData.phoneNumber);
+      const response = await authAPI.signupHost(formData.phoneNumber);
+
+      if (response.status === "success") {
+        // Save token to cookie
+        if (response.token) {
+          cookieUtils.setCookie("accessToken", response.token, 7);
+        }
+
+        console.log("Host signup successful:", response);
+
+        // Redirect to continue signup page
+        router.push(`/${currentLocale}/signup/continue-signup`);
+      }
+    } catch (err) {
+      console.error("Host signup error:", err);
+      setError(err.message || "Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const confirmBtnHandler = handleSubmit(async (formData) => {
-    // if (verificationCode.show === true) {
-    //   // Handle OTP verification
-    //   if (verificationCode.value.every((digit) => digit !== '')) {
-    //     console.log('OTP verification:', verificationCode.value.join(''));
-    //     handleLogin(formData);
-    //   }
-    // } else if (loginType === 'email') {
-    //   handleLogin(formData);
-    // } else if (loginType === 'otp' && verificationCode.show === false) {
-    //   setVerificationCode({ ...verificationCode, show: true });
-    // }
-    router.push(`/${currentLocale}/signup/continue-signup`);
-  });
-
-  const goBackToMobileInput = () => {
-    setVerificationCode({
-      ...verificationCode,
-      show: false,
-      value: ['', '', '', '', '', ''],
-    });
-    reset();
-  };
-
-  console.log(
-    'create-update Values errors',
-    methods.watch(),
-    // methods.formState.
-    methods.formState.errors
-  );
   return (
     <div className={styles.container}>
       <div className={styles.form_header}>
         <FormHeader />
       </div>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(confirmBtnHandler)}>
-          <div className={`${styles.form} `}>
-            <PhoneSection />
-
-            <ConfirmBtn
-              text={t('signupForm.hostSignup.buttons.login')}
-              active={
-                verificationCode.show
-                  ? verificationCode.value.every((digit) => digit !== '')
-                  : (formValues.email && formValues.password) ||
-                    (loginType === 'otp' && formValues.number)
-              }
-              clickHandler={confirmBtnHandler}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.form}>
+            <MobileInputGroup
+              label={t("signupForm.hostSignup.phoneNumber")}
+              type="text"
+              name="phoneNumber"
             />
 
-            <button className={styles.sign_up_button}>
-              {t('signupForm.hostSignup.formBottom.noAccount')}{' '}
+            {error && <div className={styles.error_message}>{error}</div>}
+
+            <ConfirmBtn
+              text={t("signupForm.hostSignup.buttons.createAccount")}
+              active={formValues.phoneNumber.length > 6 && !isLoading}
+              clickHandler={handleSubmit(onSubmit)}
+              disabled={isLoading}
+            />
+
+            <button type="button" className={styles.sign_up_button}>
+              {t("signupForm.hostSignup.formBottom.haveAccount")}{" "}
               <Link
                 href={`/${currentLocale}/login`}
                 className={styles.make_acc}
               >
-                {t('signupForm.hostSignup.formBottom.createAccount')}
+                {t("signupForm.hostSignup.formBottom.login")}
               </Link>
             </button>
           </div>

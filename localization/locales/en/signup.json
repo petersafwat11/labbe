@@ -94,6 +94,17 @@
           "label": "Email Address",
           "placeholder": "Enter email address"
         },
+        "accountSecurity": {
+          "title": "Account Security"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter password"
+        },
+        "passwordConfirm": {
+          "label": "Confirm Password",
+          "placeholder": "Re-enter password"
+        },
         "errors": {
           "brandNameRequired": "Brand name is required",
           "brandNameMinLength": "Brand name must be at least 2 characters",
@@ -105,23 +116,16 @@
           "phoneNumberRequired": "Phone number is required",
           "phoneNumberInvalid": "Please enter a valid phone number",
           "emailRequired": "Email is required",
-          "emailInvalid": "Please enter a valid email address"
+          "emailInvalid": "Please enter a valid email address",
+          "passwordRequired": "Password must be at least 8 characters",
+          "passwordConfirmRequired": "Please confirm your password",
+          "passwordsDoNotMatch": "Passwords do not match"
         }
       },
       "serviceData": {
         "title": "Service or Store Details",
         "description": "Introduce visitors to your services and the areas you cover.",
-        "commercialRegistration": {
-          "title": "Commercial Registration Copy (Optional)"
-        },
-        "commercialRegister": {
-          "label": "Commercial Register Number",
-          "placeholder": "Enter commercial register number"
-        },
-        "idNumber": {
-          "label": "National ID or Residency Number",
-          "placeholder": "National ID or Civil Registry Number"
-        },
+
         "serviceDescription": {
           "title": "Service Overview",
           "label": "Brief Service Description",
@@ -870,6 +874,7 @@
         "rememberMe": "Remember Me",
         "loginWithOTP": "Login with temporary password"
       },
+      "phoneNumber": "Phone Number",
       "otpLogin": {
         "phoneNumber": "Phone Number",
         "verification": "Verification",
@@ -878,12 +883,13 @@
       },
       "buttons": {
         "login": "Sign Up",
-        "verify": "Verify"
+        "verify": "Verify",
+        "createAccount": "Create Account"
       },
       "formBottom": {
         "orContinueWith": "Or continue using",
-        "noAccount": "Already have an account?",
-        "createAccount": "Sign In"
+        "haveAccount": "Already have an account?",
+        "login": "Sign In"
       },
       "errors": {
         "emailRequired": "Email is required",
@@ -891,7 +897,11 @@
         "passwordMinLength": "Password must be at least 8 characters",
         "passwordComplexity": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
         "invalidPassword": "Password is incorrect, check it and try again.",
-        "phoneNumberInvalid": "Phone number is incorrect, please check and try again"
+        "phoneNumberInvalid": "Phone number is incorrect, please check and try again",
+        "usernameRequired": "Username is required",
+        "usernameMinLength": "Username must be at least 3 characters",
+        "passwordConfirmRequired": "Please confirm your password",
+        "passwordsDoNotMatch": "Passwords do not match"
       }
     },
     "continueSignup": {

@@ -1,58 +1,27 @@
-import React from 'react';
-import styles from './stepTwo.module.css';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import CheckBoxItems from '@/ui/commen/inputs/checkboxItems/CheckBoxItems';
-import { StepTitle } from '../../../commen/title/SectionTitle';
-import SectionTitle from '../../../commen/title/SectionTitle';
-import { useTranslation } from 'react-i18next';
-import UploadFile from '@/ui/commen/inputs/uploadFile/UploadFile';
+import React from "react";
+import styles from "./stepTwo.module.css";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import CheckBoxItems from "@/ui/commen/inputs/checkboxItems/CheckBoxItems";
+import { StepTitle } from "../../../commen/title/SectionTitle";
+import SectionTitle from "../../../commen/title/SectionTitle";
+import { useTranslation } from "react-i18next";
+import UploadFile from "@/ui/commen/inputs/uploadFile/UploadFile";
 
 const StepTwo = ({ goToPreviousStep }) => {
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation("signup");
 
   return (
     <div className={styles.container}>
       <StepTitle
-        title={t('signupForm.vendor.serviceData.title')}
-        description={t('signupForm.vendor.serviceData.description')}
+        title={t("signupForm.vendor.serviceData.title")}
+        description={t("signupForm.vendor.serviceData.description")}
         onArrowClick={goToPreviousStep}
       />
       <div className={styles.sections}>
-        {/* Commercial Registration Section */}
-        <div className={styles.section}>
-          <SectionTitle
-            title={t(
-              'signupForm.vendor.serviceData.commercialRegistration.title'
-            )}
-            icon="/svg/auth/document.svg"
-            height={24}
-            width={24}
-          />
-          <div className={styles.inputs}>
-            <UploadFile
-              name="serviceData.commercialRegister"
-              multiple={false}
-              placeholder={t(
-                'signupForm.vendor.serviceData.commercialRegister.placeholder'
-              )}
-            />
-
-            <InputGroup
-              label={t('signupForm.vendor.serviceData.idNumber.label')}
-              type="text"
-              placeholder={t(
-                'signupForm.vendor.serviceData.idNumber.placeholder'
-              )}
-              name="serviceData.idNumber"
-              iconPath="auth/user-tag.svg"
-            />
-          </div>
-        </div>
-
         {/* Service Description Section */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.serviceDescription.title')}
+            title={t("signupForm.vendor.serviceData.serviceDescription.title")}
             icon="/svg/auth/setting-2.svg"
             height={24}
             width={24}
@@ -60,11 +29,11 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.inputs}>
             <InputGroup
               label={t(
-                'signupForm.vendor.serviceData.serviceDescription.label'
+                "signupForm.vendor.serviceData.serviceDescription.label"
               )}
               type="text"
               placeholder={t(
-                'signupForm.vendor.serviceData.serviceDescription.placeholder'
+                "signupForm.vendor.serviceData.serviceDescription.placeholder"
               )}
               required
               name="serviceData.serviceDescription"
@@ -76,14 +45,14 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Event Planning Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.eventPlanning.title')}
+            title={t("signupForm.vendor.serviceData.eventPlanning.title")}
             // icon="/svg/auth/calendar.svg"
             height={24}
             width={24}
           />
           <div className={styles.options}>
             <CheckBoxItems
-              items={t('signupForm.vendor.serviceData.eventPlanning.options', {
+              items={t("signupForm.vendor.serviceData.eventPlanning.options", {
                 returnObjects: true,
               })}
               name="serviceData.eventPlanning"
@@ -95,7 +64,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Media Production Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.mediaProduction.title')}
+            title={t("signupForm.vendor.serviceData.mediaProduction.title")}
             // icon="/svg/auth/video.svg"
             height={24}
             width={24}
@@ -103,7 +72,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.mediaProduction.options',
+                "signupForm.vendor.serviceData.mediaProduction.options",
                 { returnObjects: true }
               )}
               name="serviceData.mediaProduction"
@@ -115,7 +84,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Gifts and Giveaways Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.giftsAndGiveaways.title')}
+            title={t("signupForm.vendor.serviceData.giftsAndGiveaways.title")}
             // icon="/svg/auth/gift.svg"
             height={24}
             width={24}
@@ -123,7 +92,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.giftsAndGiveaways.options',
+                "signupForm.vendor.serviceData.giftsAndGiveaways.options",
                 { returnObjects: true }
               )}
               name="serviceData.giftsAndGiveaways"
@@ -135,7 +104,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Food and Beverages Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.foodAndBeverages.title')}
+            title={t("signupForm.vendor.serviceData.foodAndBeverages.title")}
             // icon="/svg/auth/coffee.svg"
             height={24}
             width={24}
@@ -143,7 +112,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.foodAndBeverages.options',
+                "signupForm.vendor.serviceData.foodAndBeverages.options",
                 { returnObjects: true }
               )}
               name="serviceData.foodAndBeverages"
@@ -155,7 +124,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Beauty and Fashion Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.beautyAndFashion.title')}
+            title={t("signupForm.vendor.serviceData.beautyAndFashion.title")}
             //  icon="/svg/auth/star.svg"
             height={24}
             width={24}
@@ -163,7 +132,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.beautyAndFashion.options',
+                "signupForm.vendor.serviceData.beautyAndFashion.options",
                 { returnObjects: true }
               )}
               name="serviceData.beautyAndFashion"
@@ -176,7 +145,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         <div className={styles.section}>
           <SectionTitle
             title={t(
-              'signupForm.vendor.serviceData.logisticsAndDelivery.title'
+              "signupForm.vendor.serviceData.logisticsAndDelivery.title"
             )}
             // icon="/svg/auth/truck.svg"
             height={24}
@@ -185,7 +154,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.logisticsAndDelivery.options',
+                "signupForm.vendor.serviceData.logisticsAndDelivery.options",
                 { returnObjects: true }
               )}
               name="serviceData.logisticsAndDelivery"
@@ -197,7 +166,7 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Corporate Services */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.corporateServices.title')}
+            title={t("signupForm.vendor.serviceData.corporateServices.title")}
             // icon="/svg/auth/briefcase.svg"
             height={24}
             width={24}
@@ -205,7 +174,7 @@ const StepTwo = ({ goToPreviousStep }) => {
           <div className={styles.options}>
             <CheckBoxItems
               items={t(
-                'signupForm.vendor.serviceData.corporateServices.options',
+                "signupForm.vendor.serviceData.corporateServices.options",
                 { returnObjects: true }
               )}
               name="serviceData.corporateServices"
@@ -217,16 +186,16 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Location Information */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.location.title')}
+            title={t("signupForm.vendor.serviceData.location.title")}
             // icon="/svg/auth/location.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <InputGroup
-              label={t('signupForm.vendor.serviceData.city.label')}
+              label={t("signupForm.vendor.serviceData.city.label")}
               type="text"
-              placeholder={t('signupForm.vendor.serviceData.city.placeholder')}
+              placeholder={t("signupForm.vendor.serviceData.city.placeholder")}
               required
               name="serviceData.city"
               iconPath="auth/location.svg"
@@ -234,7 +203,7 @@ const StepTwo = ({ goToPreviousStep }) => {
 
             <div className={styles.options}>
               <CheckBoxItems
-                items={t('signupForm.vendor.serviceData.coverageArea.options', {
+                items={t("signupForm.vendor.serviceData.coverageArea.options", {
                   returnObjects: true,
                 })}
                 name="serviceData.coverageArea"
@@ -248,17 +217,17 @@ const StepTwo = ({ goToPreviousStep }) => {
         {/* Other Information */}
         <div className={styles.section}>
           <SectionTitle
-            title={t('signupForm.vendor.serviceData.otherInfo.title')}
+            title={t("signupForm.vendor.serviceData.otherInfo.title")}
             // icon="/svg/auth/note-text.svg"
             height={24}
             width={24}
           />
           <div className={styles.inputs}>
             <InputGroup
-              label={t('signupForm.vendor.serviceData.otherData.label')}
+              label={t("signupForm.vendor.serviceData.otherData.label")}
               type="text"
               placeholder={t(
-                'signupForm.vendor.serviceData.otherData.placeholder'
+                "signupForm.vendor.serviceData.otherData.placeholder"
               )}
               name="serviceData.otherData"
             />

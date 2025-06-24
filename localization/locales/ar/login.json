@@ -1,6 +1,9 @@
 {
   "loginForm": {
-    "greeting": "مرحباً بك",
+    "greeting": {
+      "title": "مرحبًا بك فى لبّى",
+      "subtitle": "سجّل دخولك وابدأ رحلتك معنا في تنظيم الدعوات بأسلوب عصري ومميز."
+    },
     "emailLogin": {
       "email": {
         "label": "البريد اللإلكترونى",
@@ -29,8 +32,7 @@
       "noAccount": "ليس لديك حساب؟",
       "createAccount": "إنشاء حساب"
     },
-    "email": {
-    },
+    "email": {},
     "errors": {
       "emailRequired": "البريد الإلكتروني مطلوب",
       "invalidEmail": "قم بإدخال بريد إالكتروني صالح مثال example@domain.com",

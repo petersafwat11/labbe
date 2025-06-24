@@ -96,6 +96,17 @@
           "label": "عنوان البريد الإلكتروني",
           "placeholder": "أدخل عنوان البريد الإلكتروني"
         },
+        "accountSecurity": {
+          "title": "أمان الحساب"
+        },
+        "password": {
+          "label": "كلمة المرور",
+          "placeholder": "أدخل كلمة المرور"
+        },
+        "passwordConfirm": {
+          "label": "تأكيد كلمة المرور",
+          "placeholder": "أعد إدخال كلمة المرور"
+        },
         "errors": {
           "brandNameRequired": "اسم العلامة التجارية مطلوب",
           "brandNameMinLength": "يجب أن يتكون اسم العلامة التجارية من حرفين على الأقل",
@@ -107,30 +118,23 @@
           "phoneNumberRequired": "رقم الهاتف مطلوب",
           "phoneNumberInvalid": "يرجى إدخال رقم هاتف صحيح",
           "emailRequired": "البريد الإلكتروني مطلوب",
-          "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صحيح"
+          "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صحيح",
+          "passwordRequired": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+          "passwordConfirmRequired": "يرجى تأكيد كلمة المرور",
+          "passwordsDoNotMatch": "كلمات المرور غير متطابقة"
         }
       },
       "serviceData": {
         "title": "تفاصيل الخدمة أو المتجر",
         "description": "عرّف الزوار على خدماتك والمناطق التي تغطيها.",
-        "commercialRegistration": {
-          "title": "نسخة السجل التجاري (اختياري)"
-        },
-        "commercialRegister": {
-          "label": "رقم السجل التجاري",
-          "placeholder": "أدخل رقم السجل التجاري"
-        },
-        "idNumber": {
-          "label": "رقم الهوية الوطنية أو الإقامة",
-          "placeholder": "رقم الهوية الوطنية أو السجل المدني"
-        },
+
         "serviceDescription": {
-          "title": "نظرة عامة على الخدمة",
+          "title": "نبذة عن الخدمة",
           "label": "وصف مختصر للخدمة",
           "placeholder": "أدخل وصفًا مختصرًا"
         },
         "eventPlanning": {
-          "title": "خدمات تخطيط الفعاليات والمناسبات",
+          "title": "خدمات تنظيم الفعاليات والمناسبات",
           "options": [
             {
               "value": "hallAndLoungeRentals",
@@ -868,6 +872,7 @@
         "rememberMe": "تذكرني",
         "loginWithOTP": "تسجيل الدخول بكلمة مرور مؤقتة"
       },
+      "phoneNumber": "رقم الهاتف",
       "otpLogin": {
         "phoneNumber": "رقم الهاتف",
         "verification": "التحقق",
@@ -876,12 +881,13 @@
       },
       "buttons": {
         "login": "إنشاء حساب",
-        "verify": "تحقق"
+        "verify": "تحقق",
+        "createAccount": "إنشاء حساب"
       },
       "formBottom": {
         "orContinueWith": "أو استمر باستخدام",
-        "noAccount": "لديك حساب بالفعل؟",
-        "createAccount": "تسجيل الدخول"
+        "haveAccount": "لديك حساب بالفعل؟",
+        "login": "تسجيل الدخول"
       },
       "errors": {
         "emailRequired": "البريد الإلكتروني مطلوب",
@@ -889,7 +895,11 @@
         "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
         "passwordComplexity": "كلمة المرور يجب أن تحتوي على حرف كبير وحرف صغير ورقم",
         "invalidPassword": "كلمة المرور غير صحيحة، تحقق منها وحاول مرة أخرى.",
-        "phoneNumberInvalid": "رقم الهاتف غير صحيح، يرجى التحقق والمحاولة مرة أخرى"
+        "phoneNumberInvalid": "رقم الهاتف غير صحيح، يرجى التحقق والمحاولة مرة أخرى",
+        "usernameRequired": "اسم المستخدم مطلوب",
+        "usernameMinLength": "اسم المستخدم يجب أن يكون 3 أحرف على الأقل",
+        "passwordConfirmRequired": "يرجى تأكيد كلمة المرور",
+        "passwordsDoNotMatch": "كلمات المرور غير متطابقة"
       }
     },
     "continueSignup": {

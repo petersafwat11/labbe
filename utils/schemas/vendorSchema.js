@@ -1,64 +1,78 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const vendorSchema = (t) =>
   z.object({
-    identity: z.object({
-      brandName: z
-        .string({
-          required_error: t(
-            'signupForm.vendor.identity.errors.brandNameRequired'
+    identity: z
+      .object({
+        brandName: z
+          .string({
+            required_error: t(
+              "signupForm.vendor.identity.errors.brandNameRequired"
+            ),
+          })
+          .min(2, t("signupForm.vendor.identity.errors.brandNameMinLength"))
+          .max(50, t("signupForm.vendor.identity.errors.brandNameMaxLength")),
+        ownerFullName: z
+          .string({
+            required_error: t(
+              "signupForm.vendor.identity.errors.ownerFullNameRequired"
+            ),
+          })
+          .min(2, t("signupForm.vendor.identity.errors.ownerFullNameMinLength"))
+          .max(
+            100,
+            t("signupForm.vendor.identity.errors.ownerFullNameMaxLength")
           ),
-        })
-        .min(2, t('signupForm.vendor.identity.errors.brandNameMinLength'))
-        .max(50, t('signupForm.vendor.identity.errors.brandNameMaxLength')),
-      ownerFullName: z
-        .string({
-          required_error: t(
-            'signupForm.vendor.identity.errors.ownerFullNameRequired'
+        serviceType: z
+          .array(z.string(), {
+            required_error: t(
+              "signupForm.vendor.identity.errors.serviceTypeRequired"
+            ),
+          })
+          .min(1, t("signupForm.vendor.identity.errors.serviceTypeRequired")),
+        phoneNumber: z
+          .string({
+            required_error: t(
+              "signupForm.vendor.identity.errors.phoneNumberRequired"
+            ),
+          })
+          .min(10, t("signupForm.vendor.identity.errors.phoneNumberInvalid")),
+        email: z
+          .string({
+            required_error: t(
+              "signupForm.vendor.identity.errors.emailRequired"
+            ),
+          })
+          .email(t("signupForm.vendor.identity.errors.emailInvalid")),
+        password: z
+          .string()
+          .min(8, t("signupForm.vendor.identity.errors.passwordRequired")),
+        passwordConfirm: z
+          .string()
+          .min(
+            1,
+            t("signupForm.vendor.identity.errors.passwordConfirmRequired")
           ),
-        })
-        .min(2, t('signupForm.vendor.identity.errors.ownerFullNameMinLength'))
-        .max(
-          100,
-          t('signupForm.vendor.identity.errors.ownerFullNameMaxLength')
-        ),
-      serviceType: z
-        .array(z.string(), {
-          required_error: t(
-            'signupForm.vendor.identity.errors.serviceTypeRequired'
-          ),
-        })
-        .min(1, t('signupForm.vendor.identity.errors.serviceTypeRequired')),
-      phoneNumber: z
-        .string({
-          required_error: t(
-            'signupForm.vendor.identity.errors.phoneNumberRequired'
-          ),
-        })
-        .min(10, t('signupForm.vendor.identity.errors.phoneNumberInvalid')),
-      email: z
-        .string({
-          required_error: t('signupForm.vendor.identity.errors.emailRequired'),
-        })
-        .email(t('signupForm.vendor.identity.errors.emailInvalid')),
-    }),
+      })
+      .refine((data) => data.password === data.passwordConfirm, {
+        message: t("signupForm.vendor.identity.errors.passwordsDoNotMatch"),
+        path: ["passwordConfirm"],
+      }),
 
     serviceData: z.object({
-      commercialRegister: z.string().optional(),
-      idNumber: z.string().optional(),
       serviceDescription: z
         .string({
           required_error: t(
-            'signupForm.vendor.serviceData.errors.serviceDescriptionRequired'
+            "signupForm.vendor.serviceData.errors.serviceDescriptionRequired"
           ),
         })
         .min(
           10,
-          t('signupForm.vendor.serviceData.errors.serviceDescriptionMinLength')
+          t("signupForm.vendor.serviceData.errors.serviceDescriptionMinLength")
         )
         .max(
           500,
-          t('signupForm.vendor.serviceData.errors.serviceDescriptionMaxLength')
+          t("signupForm.vendor.serviceData.errors.serviceDescriptionMaxLength")
         ),
       eventPlanning: z.array(z.string()).optional(),
       mediaProduction: z.array(z.string()).optional(),
@@ -70,13 +84,13 @@ export const vendorSchema = (t) =>
       city: z
         .string({
           required_error: t(
-            'signupForm.vendor.serviceData.errors.cityRequired'
+            "signupForm.vendor.serviceData.errors.cityRequired"
           ),
         })
-        .min(2, t('signupForm.vendor.serviceData.errors.cityMinLength')),
+        .min(2, t("signupForm.vendor.serviceData.errors.cityMinLength")),
       coverageArea: z.string({
         required_error: t(
-          'signupForm.vendor.serviceData.errors.coverageAreaRequired'
+          "signupForm.vendor.serviceData.errors.coverageAreaRequired"
         ),
       }),
       otherData: z.string().optional(),
@@ -88,7 +102,7 @@ export const vendorSchema = (t) =>
         .min(
           1,
           t(
-            'signupForm.vendor.samplesAndPackages.errors.portfolioImagesRequired'
+            "signupForm.vendor.samplesAndPackages.errors.portfolioImagesRequired"
           )
         ),
       businessLogo: z.any().optional(),
@@ -96,7 +110,7 @@ export const vendorSchema = (t) =>
         .array(z.any())
         .min(
           1,
-          t('signupForm.vendor.samplesAndPackages.errors.pricePackagesRequired')
+          t("signupForm.vendor.samplesAndPackages.errors.pricePackagesRequired")
         ),
     }),
 
@@ -156,7 +170,7 @@ export const vendorSchema = (t) =>
       commercialRecord: z.any().optional(),
       nationalId: z.string({
         required_error: t(
-          'signupForm.vendor.commercialVerification.errors.nationalIdRequired'
+          "signupForm.vendor.commercialVerification.errors.nationalIdRequired"
         ),
       }),
     }),
