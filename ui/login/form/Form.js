@@ -63,26 +63,18 @@ const Form = () => {
     try {
       console.log("Email Login:", formData);
       const response = await authAPI.login(formData.email, formData.password);
+      const { user } = response.data;
+      const { token } = response;
+      // Save token to cookie
+      token && cookieUtils.setCookie("accessToken", token, 7);
+      user && cookieUtils.setCookie("user", user, 7);
+      toastUtils.success(`Welcome back! Login successful as ${user.username}.`);
 
-      if (response.status === "success") {
-        // Save token to cookie
-        if (response.token) {
-          cookieUtils.setCookie("accessToken", response.token, 7);
-        }
-
-        console.log("Login successful:", response);
-        toastUtils.success(
-          `Welcome back! Login successful as ${response.userType}.`
-        );
-
-        // Redirect based on user type or to dashboard
-        if (response.userType === "host") {
-          router.push(`/${currentLocale}/host/`); // Redirect to dashboard/home
-        } else if (response.userType === "vendor") {
-          router.push(`/${currentLocale}`); // Redirect to vendor dashboard
-        } else {
-          router.push(`/${currentLocale}`); // Default redirect
-        }
+      // Redirect based on user type or to dashboard
+      if (response.userType === "host") {
+        router.push(`/${currentLocale}/host`); // Redirect to dashboard/home
+      } else if (response.userType === "vendor") {
+        router.push(`/${currentLocale}/vendor`); // Redirect to vendor dashboard
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -130,26 +122,19 @@ const Form = () => {
 
       if (response.status === "success") {
         // Save token to cookie
-        if (response?.token) {
-          cookieUtils.setCookie("accessToken", response.token, 7);
-        }
-        const { user } = response.data;
-        if (user) {
-          cookieUtils.setCookie("user", user, 7);
-        }
+        const { token } = response;
+        token && cookieUtils.setCookie("accessToken", token, 7);
+        const { user } = response;
+        user && cookieUtils.setCookie("user", user, 7);
 
         console.log("OTP verification successful:", response);
-        toastUtils.success(
-          `Welcome back! OTP verification successful as ${response.userType}.`
-        );
+        toastUtils.success(`Welcome back! OTP verification successful as ${user.username}.`);
 
         // Redirect based on user type or to dashboard
         if (response.userType === "host") {
-          router.push(`/${currentLocale}`); // Redirect to dashboard/home
+          router.push(`/${currentLocale}/host`); // Redirect to dashboard/home
         } else if (response.userType === "vendor") {
-          router.push(`/${currentLocale}`); // Redirect to vendor dashboard
-        } else {
-          router.push(`/${currentLocale}`); // Default redirect
+          router.push(`/${currentLocale}/vendor`); // Redirect to vendor dashboard
         }
       }
     } catch (err) {

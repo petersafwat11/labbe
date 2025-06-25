@@ -21,7 +21,7 @@ const ContinueSignupForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [token, setToken] = useState(null);
   // Initialize React Hook Form
   const methods = useForm({
     resolver: zodResolver(hostProfileSchema(t)),
@@ -45,6 +45,7 @@ const ContinueSignupForm = () => {
   // Check if user has access token
   useEffect(() => {
     const token = cookieUtils.getCookie("accessToken");
+    setToken(token);
     if (!token) {
       // Redirect to signup page if no token
       router.push(`/${currentLocale}/signup`);
@@ -65,7 +66,7 @@ const ContinueSignupForm = () => {
 
     try {
       console.log("Completing host profile:", formData);
-      const response = await authAPI.completeHostProfile(formData);
+      const response = await authAPI.completeHostProfile(formData, token);
 
       if (response.status === "success") {
         // Update token in cookie
