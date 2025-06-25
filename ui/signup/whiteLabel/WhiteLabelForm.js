@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createStepHandler, validateStep } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authAPI, handleAPIError } from "@/lib/auth";
+import { toastUtils } from "@/utils/toastUtils";
 
 const WhiteLabelForm = () => {
   const { t } = useTranslation("signup");
@@ -90,14 +91,16 @@ const WhiteLabelForm = () => {
       console.log("WhiteLabel signup successful:", response);
 
       // Show success message
-      alert("WhiteLabel account created successfully!");
+      toastUtils.success(
+        "WhiteLabel account created successfully! You can now login."
+      );
 
       // Redirect to success page or login
       router.push("/en/login");
     } catch (error) {
       console.error("WhiteLabel signup error:", error);
       const errorMessage = handleAPIError(error);
-      alert(`Error: ${errorMessage}`);
+      toastUtils.error(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

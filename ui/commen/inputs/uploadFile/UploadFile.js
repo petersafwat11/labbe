@@ -1,9 +1,11 @@
-import React, { useCallback, useState, useRef } from 'react';
-import { get, useController, useFormContext } from 'react-hook-form';
-import styles from './uploadFile.module.css';
-import Image from 'next/image';
+import React, { useCallback, useState, useRef } from "react";
+import { get, useController, useFormContext } from "react-hook-form";
+import styles from "./uploadFile.module.css";
+import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 const UploadFile = ({ name, placeholder, multiple = false }) => {
+  const { t } = useTranslation("common");
   const {
     control,
     setValue,
@@ -18,7 +20,7 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
   });
 
   const error = get(errors, name)?.message;
-  console.log('error,,,,', error);
+  console.log("error,,,,", error);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const fileInputRef = useRef(null);
@@ -80,7 +82,7 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
   return (
     <div className={styles.container}>
       <div
-        className={`${styles.dropzone} ${isDragOver ? styles.dragOver : ''}`}
+        className={`${styles.dropzone} ${isDragOver ? styles.dragOver : ""}`}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -91,11 +93,11 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
           ref={fileInputRef}
           onChange={handleInputChange}
           multiple={multiple}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           name={name}
         />
         <div className={styles.placeholder}>
-          <p>اسحب الصور هنا أو انقر للتحديد</p>
+          <p>{t("uploadFile.dragAndDrop")}</p>
         </div>
       </div>
       {files && files.length > 0 && (
@@ -103,7 +105,7 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
           {files.map((file, index) => (
             <div key={index} className={styles.fileItem}>
               <div className={styles.fileInfo}>
-                {file.type.startsWith('image/') ? (
+                {file.type.startsWith("image/") ? (
                   <Image
                     src={URL.createObjectURL(file)}
                     alt={file.name}
@@ -123,9 +125,11 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
                 <div className={styles.fileDetails}>
                   <p className={styles.fileName}>{file.name}</p>
                   <p className={styles.fileSize}>
-                    {(file.size / 1024).toFixed(2)} KB
+                    {(file.size / 1024).toFixed(2)} {t("uploadFile.kb")}
                   </p>
-                  <p className={styles.fileName}>انقر للعرض</p>
+                  <p className={styles.fileName}>
+                    {t("uploadFile.clickToView")}
+                  </p>
                 </div>
               </div>
               <div className={styles.fileActions}>
@@ -140,7 +144,9 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
                     height={24}
                     alt="delete"
                   />
-                  <span className={styles.delete}>حذف</span>
+                  <span className={styles.delete}>
+                    {t("uploadFile.delete")}
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -151,9 +157,9 @@ const UploadFile = ({ name, placeholder, multiple = false }) => {
                     src="/svg/auth/repeat.svg"
                     width={24}
                     height={24}
-                    alt="delete"
+                    alt="replace"
                   />
-                  <span>تبديل</span>
+                  <span>{t("uploadFile.replace")}</span>
                 </button>
               </div>
             </div>

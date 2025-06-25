@@ -3,6 +3,8 @@ import "./globals.css";
 import { cairo } from "@/app/[lang]/fonts";
 import GlobalProvider from "@/providers";
 import { i18nRouterConfig } from "@/localization/i18nRouterConfig";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
   title: "Create Next App",
@@ -20,6 +22,18 @@ export default async function RootLayout(props) {
   return (
     <html lang={lang} dir={direction}>
       <GlobalProvider lang={lang}>
+        {/* <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={direction === "rtl"}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        /> */}
         <body className={`${cairo.className}`}>{children}</body>
       </GlobalProvider>
     </html>

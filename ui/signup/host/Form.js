@@ -13,6 +13,7 @@ import useLanguageChange from "@/hooks/UseLanguageChange";
 import { useRouter } from "next/navigation";
 import { authAPI, cookieUtils } from "@/lib/auth";
 import MobileInputGroup from "@/ui/commen/inputs/mobileInputGroup/MobileInputGroup";
+import { toastUtils } from "@/utils/toastUtils";
 
 const Form = () => {
   const { t } = useTranslation("signup");
@@ -49,13 +50,19 @@ const Form = () => {
         }
 
         console.log("Host signup successful:", response);
+        toastUtils.success(
+          "Account created successfully! Please complete your profile."
+        );
 
         // Redirect to continue signup page
         router.push(`/${currentLocale}/signup/continue-signup`);
       }
     } catch (err) {
       console.error("Host signup error:", err);
-      setError(err.message || "Failed to create account. Please try again.");
+      const errorMessage =
+        err.message || "Failed to create account. Please try again.";
+      setError(errorMessage);
+      toastUtils.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

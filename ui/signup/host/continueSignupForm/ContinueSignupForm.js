@@ -10,6 +10,7 @@ import { authAPI, cookieUtils } from "@/lib/auth";
 import useLanguageChange from "@/hooks/UseLanguageChange";
 import { useRouter } from "next/navigation";
 import styles from "./continueSignupForm.module.css";
+import { toastUtils } from "@/utils/toastUtils";
 
 const ContinueSignupForm = () => {
   const { t } = useTranslation("signup");
@@ -75,12 +76,17 @@ const ContinueSignupForm = () => {
         console.log("Host profile completed successfully:", response);
 
         // Redirect to dashboard or home page
-        alert("Profile completed successfully!");
+        toastUtils.success(
+          "Host profile completed successfully! Welcome aboard!"
+        );
         router.push(`/${currentLocale}`);
       }
     } catch (err) {
       console.error("Complete profile error:", err);
-      setError(err.message || "Failed to complete profile. Please try again.");
+      const errorMessage =
+        err.message || "Failed to complete profile. Please try again.";
+      setError(errorMessage);
+      toastUtils.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

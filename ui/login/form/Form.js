@@ -15,6 +15,7 @@ import PhoneSection from "./PhoneForm";
 import { authAPI, cookieUtils } from "@/lib/auth";
 import useLanguageChange from "@/hooks/UseLanguageChange";
 import { useRouter } from "next/navigation";
+import { toastUtils } from "@/utils/toastUtils";
 
 const Form = () => {
   const { t } = useTranslation("login");
@@ -70,6 +71,9 @@ const Form = () => {
         }
 
         console.log("Login successful:", response);
+        toastUtils.success(
+          `Welcome back! Login successful as ${response.userType}.`
+        );
 
         // Redirect based on user type or to dashboard
         if (response.userType === "host") {
@@ -82,7 +86,10 @@ const Form = () => {
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError(err.message || "Login failed. Please check your credentials.");
+      const errorMessage =
+        err.message || "Login failed. Please check your credentials.";
+      setError(errorMessage);
+      toastUtils.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -98,10 +105,14 @@ const Form = () => {
       if (response.status === "success") {
         console.log("OTP sent successfully:", response);
         setShowOtpInput(true);
+        toastUtils.success("OTP sent successfully to your phone number!");
       }
     } catch (err) {
       console.error("Send OTP error:", err);
-      setError(err.message || "Failed to send OTP. Please try again.");
+      const errorMessage =
+        err.message || "Failed to send OTP. Please try again.";
+      setError(errorMessage);
+      toastUtils.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -119,11 +130,18 @@ const Form = () => {
 
       if (response.status === "success") {
         // Save token to cookie
-        if (response.token) {
+        if (response?.token) {
           cookieUtils.setCookie("accessToken", response.token, 7);
+        }
+        const { user } = response.data;
+        if (user) {
+          cookieUtils.setCookie("user", user, 7);
         }
 
         console.log("OTP verification successful:", response);
+        toastUtils.success(
+          `Welcome back! OTP verification successful as ${response.userType}.`
+        );
 
         // Redirect based on user type or to dashboard
         if (response.userType === "host") {
@@ -136,7 +154,9 @@ const Form = () => {
       }
     } catch (err) {
       console.error("OTP verification error:", err);
-      setError(err.message || "Invalid OTP. Please try again.");
+      const errorMessage = err.message || "Invalid OTP. Please try again.";
+      setError(errorMessage);
+      toastUtils.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

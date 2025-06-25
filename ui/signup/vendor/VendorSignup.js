@@ -19,6 +19,7 @@ import { createStepHandler, validateStep } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import StepSeven from "./stepSeven/StepSeven";
 import { authAPI, handleAPIError } from "@/lib/auth";
+import { toastUtils } from "@/utils/toastUtils";
 
 const VendorSignup = () => {
   const { t } = useTranslation("signup");
@@ -145,14 +146,16 @@ const VendorSignup = () => {
       console.log("Vendor signup successful:", response);
 
       // Show success message
-      alert("Vendor account created successfully!");
+      toastUtils.success(
+        "Vendor account created successfully! You can now login."
+      );
 
       // Redirect to success page or login
       router.push("/en/login");
     } catch (error) {
       console.error("Vendor signup error:", error);
       const errorMessage = handleAPIError(error);
-      alert(`Error: ${errorMessage}`);
+      toastUtils.error(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

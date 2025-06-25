@@ -1,3 +1,10 @@
 {
-  "test": "test"
+  "test": "test",
+  "uploadFile": {
+    "dragAndDrop": "Drag images here or click to select",
+    "clickToView": "Click to view",
+    "delete": "Delete",
+    "replace": "Replace",
+    "kb": "KB"
+  }
 }
