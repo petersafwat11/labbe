@@ -1,0 +1,69 @@
+.button {
+  display: flex;
+  height: var(--Spacing-space-32, 32px);
+  padding: var(--Padding-space-16, 16px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--Padding-space-12, 12px);
+  border-radius: var(--Corner-raduis-8, 8px);
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+  font-family: Cairo;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: 0.06px;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button.primary {
+  border-radius: var(--Corner-raduis-4, 4px);
+  background: var(--Button-Primary-bg-active, #c28e5c);
+  color: var(--Button-Primary-foreground-active, #fff);
+  text-align: center;
+}
+
+.button.primary:hover:not(:disabled) {
+  background: #b17a4a;
+}
+
+.button.secondary {
+  border: 1px solid var(--Button-Outliner-border-active, #d6b392);
+  background: var(--Button-Outliner-bg-active, #fff);
+
+  color: var(--Button-Outliner-foreground-active, #6b4e33);
+  text-align: center;
+}
+
+.button.secondary:hover:not(:disabled) {
+  background: #f9e6c7;
+}
+
+.button img {
+  width: 16px;
+  height: 16px;
+}
+.button.gray {
+  display: flex;
+  padding: var(--Padding-space-8, 8px) var(--Padding-space-12, 12px);
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--Corner-raduis-8, 8px);
+  background: var(--Content-bg-Card-bg-3, #f7f7f7);
+  color: var(--Content-Text-Text-body-discription, #656565);
+  text-align: right;
+  /* Button/Small */
+  font-family: Cairo;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 133.333% */
+  letter-spacing: 0.06px;
+}

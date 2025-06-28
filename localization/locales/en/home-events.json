@@ -1,12 +1,4 @@
 {
-  "test": "test",
-  "uploadFile": {
-    "dragAndDrop": "Drag images here or click to select",
-    "clickToView": "Click to view",
-    "delete": "Delete",
-    "replace": "Replace",
-    "kb": "KB"
-  },
   "sidebar": {
     "dashboard": "Dashboard",
     "events": "Events",
@@ -15,5 +7,10 @@
     "freePlanDesc": "Subscribe to send unlimited invitations",
     "upgradeNow": "Upgrade Now",
     "logout": "Logout"
+  },
+  "header": {
+    "userName": "Ahmed Gamal Eldin",
+    "userRole": "Event Management",
+    "searchPlaceholder": "Search"
   }
 }

@@ -1,0 +1,48 @@
+{
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "events": "المناسبات",
+    "settings": "الإعدادات",
+    "freePlan": "خطة مجانية",
+    "freePlanDesc": "اشترك لإرسال دعوات غير محدودة",
+    "upgradeNow": "ترقية الآن",
+    "logout": "تسجيل خروج"
+  },
+  "header": {
+    "userName": "أحمد جمال الدين",
+    "userRole": "إدارة فعاليات",
+    "searchPlaceholder": "بحث"
+  },
+  "toolbar": {
+    "filter": {
+      "upcoming": "المناسبات القادمة",
+      "past": "المناسبات السابقة"
+    },
+    "createEvent": "إنشاء مناسبة +"
+  },
+  "eventCard": {
+    "status": {
+      "upcoming": "قادم"
+    },
+    "stats": {
+      "invited": "مدعوون",
+      "confirmed": "أكد الحضور",
+      "apologies": "اعتذر"
+    },
+    "actions": {
+      "view": "عرض المناسبة",
+      "manage": "إدارة الدعوات"
+    }
+  },
+  "stats": {
+    "activeEvents": "المناسبات النشطة",
+    "completedEvents": "المناسبات المنتهية",
+    "avgAttendance": "متوسط الاستجابة"
+  },
+  "templates": {
+    "title": "قوالب المناسبات",
+    "wedding": "حفلات زفاف",
+    "graduation": "حفلات تخرج",
+    "birthday": "حفلات عيد ميلاد"
+  }
+}

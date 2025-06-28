@@ -1,0 +1,6 @@
+.layoutContainer {
+  display: flex;
+}
+.contentWithHeader {
+  width: -webkit-fill-available;
+}
