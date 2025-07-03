@@ -233,6 +233,7 @@
 .overlayButton {
   display: inline-flex;
   height: 25px;
+  cursor: pointer;
   padding: var(--Padding-space-4, 4px) var(--Padding-space-16, 16px);
   justify-content: center;
   align-items: center;
@@ -250,4 +251,10 @@
   line-height: 16px; /* 133.333% */
   letter-spacing: 0.06px;
   margin-bottom: 14px;
+}
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-top: 2rem;
 }

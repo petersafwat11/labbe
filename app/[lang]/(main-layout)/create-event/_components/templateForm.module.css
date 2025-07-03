@@ -3,12 +3,12 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 2.5rem;
-  padding: 2.5rem;
+  padding: 3.2rem 3.2rem 0 3.2rem;
   background: #fff;
   border-radius: 16px;
   min-width: 1100px;
 
-  min-height: 800px;
+  min-height: 750px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
   border: none !important;
   box-shadow: none !important;
@@ -16,18 +16,31 @@
 
 .leftPreview {
   flex: 1 1 40%;
-  display: flex;
+  /* display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: center; */
   background: #faf8f6;
   border-radius: 12px;
   padding: 1.5rem;
   min-width: 320px;
   height: 60rem;
-  margin-top: 7rem;
+  /* margin-top: 7rem; */
   /* max-width: 350px; */
 }
-
+.header {
+  padding: 3.2rem 3.2rem 0 3.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: var(--Content-Text-Text-title-black, #2c2c2c);
+  /* Title/XLarge - sm */
+  font-family: Cairo;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 116.667% */
+}
 .invitationImage {
   width: 42rem;
   height: 60rem;
@@ -37,7 +50,7 @@
 }
 
 .rightForm {
-  flex: 1 1 60%;
+  flex: 1 1 55%;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
@@ -60,7 +73,16 @@
   gap: 1.2rem;
   margin-top: 2rem;
 }
-
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+.buttonContainer button {
+  width: 100%;
+}
 .saveBtn {
   background: #d38200;
   color: #fff;

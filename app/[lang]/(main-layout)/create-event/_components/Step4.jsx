@@ -4,6 +4,8 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import styles from '../createEvent.module.css';
 import TemplateForm from './TemplateForm';
+import TextArea from '@/ui/commen/inputs/inputGroup/TextArea';
+import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
 function Step4() {
   const [isOpen, setIsOpen] = useState(true);
   const templates = [
@@ -78,6 +80,35 @@ function Step4() {
           </div>
         ))}
       </div>
+      <div className={styles.formContainer}>
+        <TextArea
+          name="invitationMessage"
+          label="رسالة الدعوة"
+          placeholder="ادخل رسالة الدعوة"
+        />
+        <InputGroup
+          name="resenceReply"
+          label="رد تلقائي للحضور"
+          placeholder="ادخل رسالة الرد"
+        />
+        <InputGroup
+          name="absenceReply"
+          label="رد تلقائي للغياب"
+          placeholder="ادخل رسالة الرد"
+        />
+
+        <InputGroup
+          name="expectedReply"
+          label="رد تلقائي للمتوقع الحضور"
+          placeholder="ادخل رسالة الرد"
+        />
+        <InputGroup
+          label="اضف ملاحظتك (اختياري)"
+          placeholder="ادخل ملاحظتك"
+          name="note"
+        />
+      </div>
+
       <TemplateForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   );

@@ -12,6 +12,8 @@ import FormHeader from '@/ui/commen/formHeader/FormHeader';
 import { StepTitle } from '@/ui/commen/title/SectionTitle';
 import Calendar from '@/ui/commen/inputs/Calendar';
 import TimePicker from '@/ui/commen/inputs/TimePicker';
+import Button from '@/ui/commen/button/Button';
+import { FaClosedCaptioning } from 'react-icons/fa6';
 
 const fontOptions = [
   { value: 'inter', label: 'inter' },
@@ -22,9 +24,14 @@ const fontOptions = [
 function TemplateForm({ isOpen, onClose }) {
   return (
     <PopupLayout isOpen={isOpen} onClose={onClose}>
+      <div className={styles.header}>
+        <h2>تعديل قالب التصميم</h2>
+        <button style={{ cursor: 'pointer' }} onClick={onClose}>
+          <img src="/svg/events/close-circle.svg" alt="close" />
+        </button>
+      </div>
       <CardLayout className={styles.container}>
         <form className={styles.rightForm}>
-          <StepTitle title="تعديل قالب التصميم" />
           <div className={styles.formGrid}>
             <div style={{ gridColumn: 'span 2' }}>
               <TextArea
@@ -80,18 +87,6 @@ function TemplateForm({ isOpen, onClose }) {
             />
             <ColorPickerGroup label="اللون الأساسي" name="primaryColor" />
           </div>
-          <div className={styles.buttonRow}>
-            <button type="submit" className={styles.saveBtn}>
-              حفظ
-            </button>
-            <button
-              type="button"
-              className={styles.cancelBtn}
-              onClick={onClose}
-            >
-              الغاء
-            </button>
-          </div>
         </form>
         <div className={styles.leftPreview}>
           <img
@@ -99,6 +94,14 @@ function TemplateForm({ isOpen, onClose }) {
             alt="invitation preview"
             className={styles.invitationImage}
           />
+          <div className={styles.buttonContainer}>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              title={'الغاء'}
+            ></Button>
+            <Button variant="primary" title={'حفظ'} onClick={onClose}></Button>
+          </div>
         </div>
       </CardLayout>
     </PopupLayout>

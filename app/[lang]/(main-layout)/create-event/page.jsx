@@ -15,6 +15,7 @@ import Step1 from './_components/Step1';
 import Step2 from './_components/Step2';
 import Step3 from './_components/Step3';
 import Step4 from './_components/Step4';
+import Step5 from './_components/Step5';
 
 export default function CreateEventPage() {
   const { t } = useTranslation('createEvent');
@@ -127,6 +128,7 @@ export default function CreateEventPage() {
             {currentStep === 2 && <Step2 />}
             {currentStep === 3 && <Step3 />}
             {currentStep === 4 && <Step4 />}
+            {currentStep === 5 && <Step5 />}
             <div className={styles.buttonRow}>
               <Button
                 variant="secondary"
