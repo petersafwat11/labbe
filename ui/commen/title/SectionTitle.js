@@ -22,13 +22,15 @@ const SectionTitle = ({ title, icon, height, width }) => {
 export default SectionTitle;
 
 export const StepTitle = ({ title, description, onArrowClick }) => {
-  console.log('onArrowClick prop in StepTitle:', onArrowClick);
+  // console.log('onArrowClick prop in StepTitle:', onArrowClick);
   return (
     <div className={styles.step_text}>
       <h3 className={styles.step_title}>
-        <button className={styles.step_arrow_button} onClick={onArrowClick}>
-          <FaArrowRightLong className={styles.step_arrow_icon} />
-        </button>
+        {onArrowClick && (
+          <button className={styles.step_arrow_button} onClick={onArrowClick}>
+            <FaArrowRightLong className={styles.step_arrow_icon} />
+          </button>
+        )}
         {title}
       </h3>
       <p className={styles.step_description}>{description}</p>

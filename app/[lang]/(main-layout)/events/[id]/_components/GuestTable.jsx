@@ -2,11 +2,15 @@ import React from 'react';
 import CardLayout from '@/ui/commen/card/CardLayout';
 import Button from '@/ui/commen/button/Button';
 import DynamicTable from '@/ui/table';
-import { singleEventColumns } from '@/ui/table/columns/single-event-columns';
+import {
+  singleEventColumns,
+  temporaryGuestColumns,
+} from '@/ui/table/columns/single-event-columns';
 import { guestData } from '@/staticData/events/data';
 import styles from '../singleEvent.module.css';
 
-export default function GuestTable() {
+export default function GuestTable({ data, onDelete, focusGuest }) {
+  // console.log('focusGuest from guest table,,,', focusGuest);
   return (
     <div className={styles.rightCol}>
       <CardLayout className={styles.guestTableCol}>
@@ -27,7 +31,17 @@ export default function GuestTable() {
           </div>
         </div>
         <div style={{ width: '100%' }}>
-          <DynamicTable columns={singleEventColumns} data={guestData} />
+          <DynamicTable
+            columns={
+              data
+                ? temporaryGuestColumns({
+                    onDelete: onDelete,
+                    focusGuest: focusGuest,
+                  })
+                : singleEventColumns
+            }
+            data={data || guestData}
+          />
         </div>
       </CardLayout>
     </div>

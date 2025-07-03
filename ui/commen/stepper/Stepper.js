@@ -31,26 +31,52 @@ const Stepper = ({ step, setStep, steps, isCurrentStepValid }) => {
           return (
             <div style={{ width: '100%' }} key={index}>
               <div className={styles.step}>
-                <p className={`${styles.step_number} ${
-                    isCompleted ? styles.completed_step_number : isCurrent ? styles.current_step_number : ''
-                  }`}>
+                <p
+                  className={`${styles.step_number} ${
+                    isCompleted
+                      ? styles.completed_step_number
+                      : isCurrent
+                      ? styles.current_step_number
+                      : ''
+                  }`}
+                >
                   {isCompleted ? <FaCheck /> : index + 1}
                 </p>
 
                 <div className={styles.step_text}>
-                  <p className={`${styles.step_title} ${
-                      isCompleted ? styles.completed_step_title : isCurrent ? styles.current_step_title : ''
-                    }`}>
+                  <p
+                    className={`${styles.step_title} ${
+                      isCompleted
+                        ? styles.completed_step_title
+                        : isCurrent
+                        ? styles.current_step_title
+                        : ''
+                    }`}
+                  >
                     {' '}
                     {t('signupForm.step')}
                     {index + 1}
                   </p>
-                  <p className={`${styles.step_description} ${
-                      isCompleted ? styles.completed_step_description : isCurrent ? styles.current_step_description : ''
-                    }`}>{item.desc}</p>
+                  <p
+                    className={`${styles.step_description} ${
+                      isCompleted
+                        ? styles.completed_step_description
+                        : isCurrent
+                        ? styles.current_step_description
+                        : ''
+                    }`}
+                  >
+                    {item.desc}
+                  </p>
                 </div>
               </div>
-              {index !== steps.length - 1 && <div className={`${styles.step_line} ${isCompleted ? styles.completed_step_line : ''}`}></div>}
+              {index !== steps.length - 1 && (
+                <div
+                  className={`${styles.step_line} ${
+                    isCompleted ? styles.completed_step_line : ''
+                  }`}
+                ></div>
+              )}
             </div>
           );
         })}

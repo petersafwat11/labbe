@@ -9,6 +9,7 @@ const ColorPickerGroup = ({
   value,
   onChange,
   customColorPlaceholder,
+  options,
 }) => {
   const colorOptions = [
     '#c28e5c',
@@ -37,23 +38,25 @@ const ColorPickerGroup = ({
   return (
     <div className={styles.color_section}>
       <h4 className={styles.color_label}>{label}</h4>
-      <div className={styles.color_options}>
-        {colorOptions.map((color) => (
-          <button
-            key={color}
-            type="button"
-            className={`${styles.color_option} ${
-              fieldValue === color ? styles.selected : ''
-            }`}
-            style={{ backgroundColor: color }}
-            onClick={() => {
-              setValue(name, color);
-              clearErrors(name);
-              if (onChange) onChange(color);
-            }}
-          />
-        ))}
-      </div>
+      {options && (
+        <div className={styles.color_options}>
+          {colorOptions.map((color) => (
+            <button
+              key={color}
+              type="button"
+              className={`${styles.color_option} ${
+                fieldValue === color ? styles.selected : ''
+              }`}
+              style={{ backgroundColor: color }}
+              onClick={() => {
+                setValue(name, color);
+                clearErrors(name);
+                if (onChange) onChange(color);
+              }}
+            />
+          ))}
+        </div>
+      )}
       <div className={styles.custom_color}>
         <input
           type="color"

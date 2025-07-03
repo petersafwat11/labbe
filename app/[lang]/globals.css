@@ -29,86 +29,86 @@ body {
 }
 
 /* RTL-specific styles */
-html[dir="rtl"] body {
+html[dir='rtl'] body {
   text-align: right;
 }
 
-html[dir="rtl"] .text-left {
+html[dir='rtl'] .text-left {
   text-align: right !important;
 }
 
-html[dir="rtl"] .text-right {
+html[dir='rtl'] .text-right {
   text-align: left !important;
 }
 
-html[dir="rtl"] .float-left {
+html[dir='rtl'] .float-left {
   float: right !important;
 }
 
-html[dir="rtl"] .float-right {
+html[dir='rtl'] .float-right {
   float: left !important;
 }
 
 /* LTR-specific styles */
-html[dir="ltr"] body {
+html[dir='ltr'] body {
   text-align: left;
 }
 
-html[dir="ltr"] .text-left {
+html[dir='ltr'] .text-left {
   text-align: left !important;
 }
 
-html[dir="ltr"] .text-right {
+html[dir='ltr'] .text-right {
   text-align: right !important;
 }
 
-html[dir="ltr"] .float-left {
+html[dir='ltr'] .float-left {
   float: left !important;
 }
 
-html[dir="ltr"] .float-right {
+html[dir='ltr'] .float-right {
   float: right !important;
 }
 
 /* Margin and padding utilities for RTL/LTR */
-html[dir="rtl"] .ml-auto {
+html[dir='rtl'] .ml-auto {
   margin-right: auto !important;
   margin-left: unset !important;
 }
 
-html[dir="rtl"] .mr-auto {
+html[dir='rtl'] .mr-auto {
   margin-left: auto !important;
   margin-right: unset !important;
 }
 
-html[dir="rtl"] .pl-4 {
+html[dir='rtl'] .pl-4 {
   padding-right: 1rem !important;
   padding-left: unset !important;
 }
 
-html[dir="rtl"] .pr-4 {
+html[dir='rtl'] .pr-4 {
   padding-left: 1rem !important;
   padding-right: unset !important;
 }
 
 /* Flexbox utilities for RTL */
-html[dir="rtl"] .justify-start {
+html[dir='rtl'] .justify-start {
   justify-content: flex-end !important;
 }
 
-html[dir="rtl"] .justify-end {
+html[dir='rtl'] .justify-end {
   justify-content: flex-start !important;
 }
 
 /* Border radius utilities for RTL */
-html[dir="rtl"] .rounded-l {
+html[dir='rtl'] .rounded-l {
   border-top-right-radius: 0.25rem !important;
   border-bottom-right-radius: 0.25rem !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
 
-html[dir="rtl"] .rounded-r {
+html[dir='rtl'] .rounded-r {
   border-top-left-radius: 0.25rem !important;
   border-bottom-left-radius: 0.25rem !important;
   border-top-right-radius: 0 !important;
@@ -173,4 +173,129 @@ button {
   .Toastify__close-button {
     font-size: 18px !important;
   }
+}
+.rdp-weekday {
+  color: var(--Content-Text-Text-body-discription, #656565);
+  /* Inter-medium-14 */
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.rdp-day_button {
+  color: var(--Content-Text-Text-body-paragraph, #2c2c2c);
+  /* Inter-regular-14 */
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.rdp-disabled .rdp-day_button {
+  color: var(--Content-Text-Text-body-dimmed, #a0a0a0);
+  /* Inter-regular-14 */
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.rdp-selected {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 18px;
+  position: relative;
+  color: var(--Content-bg-Card-bg-1, #fff);
+  z-index: 1;
+  /* Inter-regular-14 */
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.rdp-selected::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: var(--Content-bg-Card-bg-8, #c28e5c);
+  z-index: -1;
+}
+.rdp-week td {
+  width: 36px;
+  height: 36px;
+
+  gap: 10px;
+  border-radius: 18px;
+}
+.rdp-selected .rdp-day_button {
+  color: var(--Content-bg-Card-bg-1, #fff) !important;
+}
+.rdp-month_grid {
+  width: 290px;
+  height: 312px;
+}
+.rdp-root > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.rdp-month_caption {
+  display: flex;
+  align-items: start;
+  height: 55px;
+  justify-content: center;
+  color: var(--Content-Text-Text-body-paragraph, #2c2c2c);
+  /* Inter-medium-16 */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.rdp-month_caption span {
+  margin-top: 7px;
+}
+.rdp-root nav {
+  height: 0;
+  position: relative;
+}
+.rdp-root nav .rdp-button_previous {
+  position: absolute;
+  top: 0;
+  right: 100px;
+}
+.rdp-root nav .rdp-button_next {
+  position: absolute;
+  top: 0;
+  left: 100px;
+}
+
+/* Table Cell Centering */
+td,
+th {
+  vertical-align: middle; /* Centers content vertically */
+  text-align: center; /* Centers content horizontally */
+}
+
+/* Alternative: For more control, you can target specific table classes */
+.table-center-content td,
+.table-center-content th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* For block-level content inside cells */
+td.flex-center,
+th.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

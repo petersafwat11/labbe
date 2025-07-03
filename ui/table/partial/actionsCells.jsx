@@ -16,7 +16,7 @@ export function LinkActionCell({ href, title }) {
 
 export function DeleteActionCell({ onClick }) {
   return (
-    <button onClick={onClick} className={styles.deleteActionCell}>
+    <button type="button" onClick={onClick} className={styles.deleteActionCell}>
       <img src="/svg/events/trash.svg" alt="delete" />
     </button>
   );
@@ -24,7 +24,7 @@ export function DeleteActionCell({ onClick }) {
 
 export function EditActionCell({ onClick }) {
   return (
-    <button onClick={onClick} className={styles.editActionCell}>
+    <button type="button" onClick={onClick} className={styles.editActionCell}>
       تعديل
     </button>
   );
