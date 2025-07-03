@@ -199,7 +199,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--Content-bg-Card-bg-6, #f5ece4);
+  background: #f5ece4;
 
   color: #c28e5c;
   display: flex;
@@ -229,10 +229,10 @@
 }
 
 .stepLabel {
-  color: var(--Content-Text-Text-body-discription, #656565);
+  color: #656565;
   text-align: center;
   /* Body/Medium - m */
-  font-family: Cairo;
+
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -246,10 +246,10 @@
   margin-bottom: 0;
 }
 .stepLabel.active {
-  color: var(--Content-Text-Text-title-brand, #c28e5c);
+  color: #c28e5c;
   text-align: center;
   /* Body/Medium - m */
-  font-family: Cairo;
+
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -260,7 +260,7 @@
 .stepLine {
   height: 3px;
   width: 100%;
-  background: var(--Content-bg-Card-bg-6, #f5ece4);
+  background: #f5ece4;
 
   flex: 1;
   /* margin: 0 6px 0 6px; */

@@ -19,7 +19,7 @@
 .serviceSelectionCard.selected {
   box-shadow: 0 0 0 2px #b0917a;
   border: 1px solid #c28e5c;
-   background: var(--color-primary-bg) !important;
+   background: #f9f4ef !important;
 }
 
 .cardTitle {

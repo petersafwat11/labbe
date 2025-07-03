@@ -1,7 +1,7 @@
-import React from 'react';
-import styles from './inputGroup.module.css';
-import Image from 'next/image';
-import { get, useFormContext } from 'react-hook-form';
+import React from "react";
+import styles from "./inputGroup.module.css";
+import Image from "next/image";
+import { get, useFormContext } from "react-hook-form";
 
 const MobileInputGroup = ({
   label,
@@ -50,14 +50,9 @@ const MobileInputGroup = ({
             />
           </div>
         </div>
-        {externalError && (
+        {(externalError || error) && (
           <div className={styles.error_container}>
-            <p className={styles.error}>{externalError}</p>
-          </div>
-        )}
-        {error && (
-          <div className={styles.error_container}>
-            <p className={styles.error}>{error}</p>
+            <p className={styles.error}>{externalError || error}</p>
           </div>
         )}
         {hintMessage && <p className={styles.hint}>{hintMessage}</p>}
@@ -72,7 +67,7 @@ const MobileInputGroup = ({
         {required && <span className={styles.required}>*</span>}
       </label>
       <div className={styles.input_container}>
-        <input
+        {/* <input
           className={error ? styles.input_error : styles.input}
           type={type}
           placeholder={placeholder}
@@ -80,7 +75,16 @@ const MobileInputGroup = ({
           {...(isControlled ? {} : register(name))}
           value={inputValue || undefined}
           onChange={isControlled ? onChange : undefined}
+        /> */}
+        <input
+          className={error || externalError ? styles.input_error : styles.input}
+          type={type}
+          placeholder={placeholder}
+          name={name}
+          {...register(name)}
+          value={value || ''}
         />
+
         <div className={styles.code}>
           <p className={styles.code_text}>+966</p>
           <Image
@@ -92,14 +96,9 @@ const MobileInputGroup = ({
           />
         </div>
       </div>
-      {externalError && (
+      {(externalError || error) && (
         <div className={styles.error_container}>
-          <p className={styles.error}>{externalError}</p>
-        </div>
-      )}
-      {error && (
-        <div className={styles.error_container}>
-          <p className={styles.error}>{error}</p>
+          <p className={styles.error}>{externalError || error}</p>
         </div>
       )}
       {hintMessage && <p className={styles.hint}>{hintMessage}</p>}

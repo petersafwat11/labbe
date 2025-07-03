@@ -1,25 +1,21 @@
 .tabsRow {
   display: flex;
   padding: 0 0 8px 0;
-  gap: var(--Padding-space-20, 20px);
+  gap: 20px;
   margin-bottom: 0.8rem;
-  border-bottom: 1px solid var(--Content-Border-Border-Gray250, #dfdfdf);
+  border-bottom: 1px solid #dfdfdf;
 }
 .tab,
 .tabActive {
   border: none;
-  /* background: none;
-    font-family: Cairo;
-    font-size: 18px;
-    padding: 0 0 8px 0; */
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: color 0.3s;
 }
 .tab {
-  color: var(--Content-Text-Text-body-discription, #656565);
+  color: #656565;
   /* Body/Small - r */
-  font-family: Cairo;
+
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -27,10 +23,10 @@
   letter-spacing: 0.056px;
 }
 .tabActive {
-  color: var(--Content-Text-Text-title-brand, #c28e5c);
+  color: #c28e5c;
   /* Body/Medium - sm */
   position: relative;
-  font-family: Cairo;
+
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -38,11 +34,11 @@
   letter-spacing: 0.035px;
 }
 .tabActive::after {
-  content: '';
+  content: "";
   display: block;
   width: 100%;
   height: 2px;
-  background: var(--Content-Border-Border-brand, #c28e5c);
+  background: #c28e5c;
   position: absolute;
   bottom: -9px;
   left: 0;

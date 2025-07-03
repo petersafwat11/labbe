@@ -1,0 +1,79 @@
+.tableCell {
+  color: var(--Content-Text-Text-title-black, #2c2c2c);
+  /* Caption/Medium-r */
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+.statusCell {
+  display: flex;
+  border-radius: 9999px;
+  padding: 3px var(--Padding-space-12, 12px);
+  justify-content: center;
+  align-items: center;
+}
+.active {
+  background: var(--Content-bg-Card-bg-10, #eaf4ef);
+  color: var(--Content-Text-Text-body-success, #2a8c5b);
+  /* Caption/Medium-r */
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+
+.pending {
+  color: var(--warning-500, #d38200);
+  background: var(--warning-50, #fbf3e6);
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+.ended {
+  background: var(--Content-bg-Card-bg-11, #f9ebea);
+
+  color: var(--Content-Text-Text-body-error, #c0392b);
+  /* Caption/Medium-r */
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+.actionCellLayout {
+  display: flex;
+  height: 20px;
+  gap: var(--Padding-space-16, 16px);
+  flex-shrink: 0;
+}
+.linkActionCell {
+  color: var(--Content-Text-Text-title-black, #2c2c2c);
+  /* Caption/Medium-r */
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+.deleteActionCell {
+}
+.editActionCell {
+  color: var(--Content-Text-Text-title-black, #2c2c2c);
+  /* Caption/Medium-r */
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}

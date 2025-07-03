@@ -1,0 +1,15 @@
+.page {
+  padding: 2.4rem;
+  background: #faf8f6;
+  /* min-height: 100vh; */
+}
+.eventsContainer {
+  display: flex;
+  gap: 2.4rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0px 40px;
+}
+.templatesContainer {
+  padding: 0px 40px;
+}

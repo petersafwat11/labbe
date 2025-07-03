@@ -1,5 +1,5 @@
 import React from "react";
-import VendorSignup from "@/ui/signup/vendor/VendorSignup";
+import VendorSignup from "@/ui/auth/signup/vendor/VendorSignup";
 
 const page = () => {
   return (

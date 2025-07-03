@@ -1,6 +1,6 @@
 'use client';
 import MobileInputGroup from '@/ui/commen/inputs/mobileInputGroup/MobileInputGroup';
-import styles from '@/ui/login/form/form.module.css';
+import styles from '@/ui/auth/login/form/form.module.css';
 import { useTranslation } from 'react-i18next';
 
 const PhoneSection = () => {

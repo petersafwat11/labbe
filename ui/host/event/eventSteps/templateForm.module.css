@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 3.2rem 3.2rem 0 3.2rem;
+  background: #fff;
+  border-radius: 16px;
+  min-width: 1100px;
+
+  min-height: 750px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leftPreview {
+  flex: 1 1 40%;
+  /* display: flex;
+  align-items: flex-start;
+  justify-content: center; */
+  background: #faf8f6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-width: 320px;
+  height: 60rem;
+  /* margin-top: 7rem; */
+  /* max-width: 350px; */
+}
+.header {
+  padding: 3.2rem 3.2rem 0 3.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: var(--Content-Text-Text-title-black, #2c2c2c);
+  /* Title/XLarge - sm */
+
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 116.667% */
+}
+.invitationImage {
+  width: 42rem;
+  height: 60rem;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.rightForm {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.color_section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem 2rem;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+.buttonContainer button {
+  width: 100%;
+}
+.saveBtn {
+  background: #d38200;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 2.5rem;
+  font-size: 1rem;
+  font-family: Cairo, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelBtn {
+  background: #f5ece4;
+  color: #6b4e33;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 2.5rem;
+  font-size: 1rem;
+  font-family: Cairo, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}

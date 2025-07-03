@@ -9,7 +9,7 @@
   cursor: pointer;
   border: none;
   transition: background 0.2s;
-  font-family: Cairo;
+
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -60,7 +60,7 @@
   color: var(--Content-Text-Text-body-discription, #656565);
   text-align: right;
   /* Button/Small */
-  font-family: Cairo;
+
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
