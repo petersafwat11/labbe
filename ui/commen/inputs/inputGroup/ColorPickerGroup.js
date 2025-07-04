@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import styles from '@/ui/signup/whiteLabel/stepOne/stepOne.module.css';
+import styles from './colorPicker.module.css';
 import { get, useFormContext } from 'react-hook-form';
 
 const ColorPickerGroup = ({

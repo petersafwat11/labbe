@@ -14,22 +14,22 @@
   border-radius: 8px 8px 0 0;
   /* overflow: hidden; */
   /* border-bottom: 1px solid #e6e6e6; */
-  min-height: 40px;
+  min-height: 48px;
 }
 .headerCell {
   display: flex;
   align-items: center;
-  height: 43px;
+  height: 48px;
 
   padding: var(--Padding-space-8, 8px);
 
   color: var(--Content-Text-Text-body-discription, #656565);
   /* Label/Medium - r */
 
-  font-size: 12px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 133.333% */
+  line-height: 20px; /* 125% */
   letter-spacing: 0.06px;
 
   gap: 8px;
@@ -57,15 +57,15 @@
 .bodyCell {
   display: flex;
   align-items: center;
-  min-height: 43px;
+  min-height: 48px;
   padding: var(--Padding-space-8, 8px);
   background: transparent;
   text-align: left;
   color: var(--Content-Text-Text-title-black, #2c2c2c);
   /* Caption/Medium-r */
 
-  font-size: 12px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 133.333% */
+  line-height: 20px; /* 125% */
 }

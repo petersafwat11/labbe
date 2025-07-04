@@ -1,14 +1,15 @@
-import initTranslations from '@/localization/i18n';
-import ClientComponentsTranslationsProvider from './ClientCompTrans';
+import initTranslations from "@/localization/i18n";
+import ClientComponentsTranslationsProvider from "./ClientCompTrans";
 
 const i18nNamespaces = [
-  'common',
-  'login',
-  'forgetPassword',
-  'changePassword',
-  'signup',
-  'continueSignup',
-  'createEvent',
+  "common",
+  "login",
+  "forgetPassword",
+  "changePassword",
+  "signup",
+  "continueSignup",
+  "createEvent",
+  "home-events",
 ];
 
 export default async function GlobalProvider({ children, lang }) {

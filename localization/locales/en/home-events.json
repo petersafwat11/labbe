@@ -12,5 +12,44 @@
     "userName": "Ahmed Gamal Eldin",
     "userRole": "Event Management",
     "searchPlaceholder": "Search"
+  },
+  "toolbar": {
+    "welcome": "Welcome back, Ahmed! 👋",
+    "welcomeSubtitle": "Here's a quick overview of your events and invitations",
+    "filter": {
+      "upcoming": "Upcoming Events",
+      "past": "Past Events"
+    },
+    "createEvent": "Create Event +"
+  },
+  "eventCard": {
+    "status": {
+      "upcoming": "Upcoming"
+    },
+    "stats": {
+      "invited": "Invited",
+      "confirmed": "Confirmed",
+      "apologies": "Apologies",
+      "noReply": "No Reply",
+      "replyStatus": "Reply Status",
+      "responseRate": "Response Rate"
+    },
+    "actions": {
+      "view": "View Event",
+      "manage": "Manage Invitations",
+      "viewStats": "View Statistics",
+      "duplicate": "Duplicate Event"
+    }
+  },
+  "stats": {
+    "activeEvents": "Active Events",
+    "completedEvents": "Completed Events",
+    "avgAttendance": "Average Response"
+  },
+  "templates": {
+    "title": "Event Templates",
+    "wedding": "Weddings",
+    "graduation": "Graduations",
+    "birthday": "Birthdays"
   }
 }

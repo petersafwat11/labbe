@@ -1,8 +1,8 @@
-'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import styles from './inputGroup.module.css';
-import Image from 'next/image';
-import { get, useFormContext } from 'react-hook-form';
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import styles from "./inputGroup.module.css";
+import Image from "next/image";
+import { get, useFormContext } from "react-hook-form";
 
 const InputSelect = ({
   label,
@@ -28,7 +28,8 @@ const InputSelect = ({
   const watchedValue = watch(name);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const dropdownRef = useRef(null);
 
   const isControlled = inputValue !== undefined && onChange !== undefined;
@@ -39,28 +40,47 @@ const InputSelect = ({
     if (currentValue) {
       const option = options.find((opt) => opt.value === currentValue);
       setSelectedOption(option);
-      setSearchTerm(option ? option.label : '');
+      if (!isSearching) {
+        setSearchTerm(option ? option.label : "");
+      }
     } else {
       setSelectedOption(null);
-      setSearchTerm('');
+      if (!isSearching) {
+        setSearchTerm("");
+      }
     }
-  }, [isControlled ? inputValue : watchedValue, options, isControlled]);
+  }, [
+    isControlled ? inputValue : watchedValue,
+    options,
+    isControlled,
+    isSearching,
+  ]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
+        setIsSearching(false);
+        // Reset search term to selected option label when closing
+        if (selectedOption) {
+          setSearchTerm(selectedOption.label);
+        } else {
+          setSearchTerm("");
+        }
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [selectedOption]);
 
   const handleInputClick = () => {
     if (!disabled) {
-      setIsOpen(!isOpen);
+      setIsOpen(true);
+      setIsSearching(true);
+      // Clear search term when opening to show all options
+      setSearchTerm("");
     }
   };
 
@@ -68,6 +88,7 @@ const InputSelect = ({
     setSelectedOption(option);
     clearErrors(name);
     setSearchTerm(option.label);
+    setIsSearching(false);
 
     if (isControlled) {
       onChange(option);
@@ -79,14 +100,54 @@ const InputSelect = ({
   };
 
   const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsOpen(true);
-    // clearErrors(name);
+    const value = e.target.value;
+    setSearchTerm(value);
+    setIsSearching(true);
+    if (!isOpen) {
+      setIsOpen(true);
+    }
   };
 
-  const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleInputFocus = () => {
+    if (!disabled && !isOpen) {
+      setIsOpen(true);
+      setIsSearching(true);
+      setSearchTerm("");
+    }
+  };
+
+  const handleInputBlur = (e) => {
+    // Don't close immediately to allow option clicks
+    setTimeout(() => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(document.activeElement)
+      ) {
+        setIsOpen(false);
+        setIsSearching(false);
+        // Reset to selected option or clear
+        if (selectedOption) {
+          setSearchTerm(selectedOption.label);
+        } else {
+          setSearchTerm("");
+        }
+      }
+    }, 150);
+  };
+
+  // Filter options based on search term, but show all if not searching or search term is empty
+  const filteredOptions =
+    isSearching && searchTerm.trim()
+      ? options.filter((option) =>
+          option.label.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : options;
+
+  const displayValue = isSearching
+    ? searchTerm
+    : selectedOption
+    ? selectedOption.label
+    : searchTerm;
 
   return (
     <div className={styles.input_group}>
@@ -101,20 +162,21 @@ const InputSelect = ({
           placeholder={placeholder}
           name={name}
           {...(isControlled ? {} : register(name))}
-          value={searchTerm}
+          value={displayValue}
           onChange={handleInputChange}
           onClick={handleInputClick}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           disabled={disabled}
-          readOnly={!isOpen}
+          autoComplete="off"
           style={{
-            paddingRight: iconPath ? '4.8rem' : '1.2rem',
-            cursor: disabled ? 'not-allowed' : 'pointer',
+            paddingRight: iconPath ? "4.8rem" : "3rem",
+            cursor: disabled ? "not-allowed" : "text",
             backgroundImage: "url('/svg/events/brown-down-arrow.svg')",
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right 1.2rem center',
-            backgroundSize: '1.6rem',
-
-            transition: 'transform 0.2s ease',
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 1.2rem center",
+            backgroundSize: "1.6rem",
+            transition: "all 0.2s ease",
           }}
         />
         {iconPath && (
@@ -129,21 +191,27 @@ const InputSelect = ({
         )}
 
         {/* Custom Dropdown */}
-        {/* {isOpen && ( */}
         <div
           className={styles.dropdown}
           style={{
-            transform: isOpen ? 'scaleY(1)' : 'scaleY(0)',
-            transformOrigin: 'top',
-            transition: 'transform 0.2s ease',
+            transform: isOpen ? "scaleY(1)" : "scaleY(0)",
+            transformOrigin: "top",
+            transition: "transform 0.2s ease",
+            opacity: isOpen ? 1 : 0,
+            pointerEvents: isOpen ? "auto" : "none",
           }}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option, index) => (
               <div
                 key={index}
-                className={styles.dropdown_option}
+                className={`${styles.dropdown_option} ${
+                  selectedOption?.value === option.value
+                    ? styles.dropdown_option_selected
+                    : ""
+                }`}
                 onClick={() => handleOptionClick(option)}
+                onMouseDown={(e) => e.preventDefault()} // Prevent blur when clicking
               >
                 {option.label}
               </div>
@@ -152,7 +220,6 @@ const InputSelect = ({
             <div className={styles.dropdown_option}>No options found</div>
           )}
         </div>
-        {/* // )} */}
       </div>
       {error && (
         <div className={styles.error_container}>

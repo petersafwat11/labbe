@@ -1,34 +1,24 @@
-import TableCell from '../partial';
+import TableCell from "../partial";
 import {
   ActionCellLayout,
   DeleteActionCell,
   EditActionCell,
-} from '../partial/actionsCells';
+} from "../partial/actionsCells";
 
 export const supervisorColumns = (props) => [
   {
-    key: 'name',
-    label: 'اسم المشرف',
+    key: "name",
+    label: "اسم المشرف",
     render: (value) => <TableCell value={value} />,
   },
   {
-    key: 'phone',
-    label: 'رقم الهاتف',
+    key: "phone",
+    label: "رقم الهاتف",
     render: (value) => <TableCell value={value} />,
   },
   {
-    key: 'email',
-    label: 'البريد الإلكتروني',
-    render: (value) => <TableCell value={value} />,
-  },
-  {
-    key: 'role',
-    label: 'دور المشرف',
-    render: (value) => <TableCell value={value} />,
-  },
-  {
-    key: 'actions',
-    label: 'الإجراءات',
+    key: "actions",
+    label: "الإجراءات",
     moreRenders: true,
     render: (value) => (
       <ActionCellLayout>

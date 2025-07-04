@@ -13,28 +13,27 @@ import Table from "@/ui/commen/table";
 
 function Step3() {
   const { t } = useTranslation("createEvent");
-  const { setValue, watch } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
   const [currentSupervisor, setCurrentSupervisor] = useState({
     name: "",
-    email: "",
     phone: "",
-    role: "",
   });
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-  });
-  function resetCurrentSupervisor() {
+
+  const [localErrors, setLocalErrors] = useState({});
+
+  const resetCurrentSupervisor = () => {
     setCurrentSupervisor({
       name: "",
-      email: "",
       phone: "",
-      role: "",
     });
-    setErrors({ name: "", email: "", phone: "", role: "" });
-  }
+    setLocalErrors({});
+  };
+
   // Watch the supervisorsList to get current values
   const supervisorsList = watch("supervisorsList") || [];
 
@@ -43,8 +42,9 @@ function Step3() {
       ...prev,
       [field]: value,
     }));
-    if (errors[field]) {
-      setErrors((prev) => ({
+
+    if (localErrors[field]) {
+      setLocalErrors((prev) => ({
         ...prev,
         [field]: "",
       }));
@@ -53,41 +53,44 @@ function Step3() {
 
   const validateSupervisor = () => {
     const newErrors = {};
-    if (!currentSupervisor.name.trim())
-      newErrors.name = t("supervisor_name_required");
-    if (!currentSupervisor.phone.trim())
-      newErrors.phone = t("supervisor_phone_required");
-    if (!currentSupervisor.role.trim())
-      newErrors.role = t("supervisor_role_required");
-    if (!currentSupervisor.email.trim()) {
-      newErrors.email = t("supervisor_email_required");
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(currentSupervisor.email)) {
-        newErrors.email = t("supervisor_email_invalid");
-      }
+
+    // Align with zod schema validation
+    if (!currentSupervisor.name || !currentSupervisor.name.trim()) {
+      newErrors.name = "This field is required";
     }
-    setErrors(newErrors);
+
+    if (!currentSupervisor.phone || !currentSupervisor.phone.trim()) {
+      newErrors.phone = "This field is required";
+    } else if (currentSupervisor.phone.length < 10) {
+      newErrors.phone = "Phone number must be at least 10 digits";
+    }
+
+    setLocalErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleAddSupervisor = () => {
     if (!validateSupervisor()) return;
-    const updatedSupervisorsList = [
-      ...supervisorsList,
-      { ...currentSupervisor, id: supervisorsList.length },
-    ];
+
+    const newSupervisor = {
+      ...currentSupervisor,
+      id: Date.now(), // Use timestamp as unique ID
+    };
+
+    const updatedSupervisorsList = [...supervisorsList, newSupervisor];
     setValue("supervisorsList", updatedSupervisorsList);
     resetCurrentSupervisor();
   };
 
   const handleEditSupervisor = (id) => {
     if (!validateSupervisor()) return;
+
     const updatedSupervisor = { ...currentSupervisor, id };
     const updatedSupervisorsList = supervisorsList.map((sup) =>
       sup.id === id ? updatedSupervisor : sup
     );
     setValue("supervisorsList", updatedSupervisorsList);
+    resetCurrentSupervisor();
   };
 
   const handleRemoveSupervisor = (id) => {
@@ -96,23 +99,30 @@ function Step3() {
     );
 
     setValue("supervisorsList", updatedSupervisorsList);
+
     if (currentSupervisor.id === id) {
       resetCurrentSupervisor();
     }
   };
 
-  function focusSupervisor(id) {
+  const handleEditSupervisorClick = (id) => {
     const supervisor = supervisorsList.find((sup) => sup.id === id);
-    setCurrentSupervisor(supervisor);
-  }
+    if (supervisor) {
+      setCurrentSupervisor(supervisor);
+    }
+  };
+
+  const isEditing = currentSupervisor.id !== undefined;
 
   return (
     <div>
       <StepTitle title={t("add_supervisors")} description={""} />
+
       <CardLayout
         style={{ marginTop: "2.4rem", padding: "1.6rem", display: "block" }}
       >
         <div className={styles.add_manually}>{t("add_manually")}</div>
+
         <div className={styles.formFields}>
           <div className={styles.row}>
             <div className={styles.col}>
@@ -122,7 +132,7 @@ function Step3() {
                 required
                 value={currentSupervisor.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                error={errors.name}
+                error={localErrors.name}
               />
             </div>
             <div className={styles.col}>
@@ -130,69 +140,57 @@ function Step3() {
                 label={t("supervisor_phone")}
                 placeholder={t("supervisor_phone_placeholder")}
                 type="tel"
-                name="phone"
                 value={currentSupervisor.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
-                error={errors.phone}
+                error={localErrors.phone}
               />
             </div>
           </div>
-          <div className={styles.row}>
-            <div className={styles.col}>
-              <InputGroup
-                label={t("supervisor_email")}
-                placeholder={t("supervisor_email_placeholder")}
-                type="email"
-                required
-                value={currentSupervisor.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                error={errors.email}
-              />
-            </div>
-            <div className={styles.col}>
-              <InputGroup
-                label={t("supervisor_role")}
-                placeholder={t("supervisor_role_placeholder")}
-                type="text"
-                required
-                value={currentSupervisor.role}
-                onChange={(e) => handleInputChange("role", e.target.value)}
-                error={errors.role}
-              />
-            </div>
-          </div>
+
           <div className={styles.addGuestButton}>
             <Button
               variant="secondary"
-              title={
-                currentSupervisor.id || currentSupervisor.id === 0
-                  ? t("edit")
-                  : t("add")
-              }
+              title={isEditing ? t("edit") : t("add")}
               type="button"
               onClick={
-                currentSupervisor.id || currentSupervisor.id === 0
+                isEditing
                   ? () => handleEditSupervisor(currentSupervisor.id)
                   : handleAddSupervisor
               }
             />
+
+            {isEditing && (
+              <Button
+                variant="outline"
+                title={t("cancel")}
+                type="button"
+                onClick={resetCurrentSupervisor}
+                style={{ marginLeft: "1rem" }}
+              />
+            )}
           </div>
         </div>
       </CardLayout>
-      <Table
-        columns={supervisorColumns({
-          focusSupervisor,
-          onDelete: handleRemoveSupervisor,
-        })}
-        data={supervisorsList.map((sup) => ({
-          id: sup.id,
-          name: sup.name,
-          phone: sup.phone,
-          email: sup.email,
-          role: sup.role,
-          //   invitedBy: sup.invitedBy,
-        }))}
-      />
+
+      {/* Supervisors Table */}
+      {supervisorsList.length > 0 && (
+        <div style={{ marginTop: "2.4rem" }}>
+          <Table
+            columns={supervisorColumns({
+              onDelete: handleRemoveSupervisor,
+              focusSupervisor: handleEditSupervisorClick,
+            })}
+            data={supervisorsList}
+          />
+        </div>
+      )}
+
+      {/* Schema validation error display */}
+      {errors.supervisorsList && (
+        <div className={styles.schemaError}>
+          <p>{errors.supervisorsList.message}</p>
+        </div>
+      )}
     </div>
   );
 }

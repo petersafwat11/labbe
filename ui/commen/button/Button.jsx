@@ -1,14 +1,14 @@
-import React from 'react';
-import styles from './button.module.css';
+import React from "react";
+import styles from "./button.module.css";
 
 const Button = ({
-  variant = 'primary',
+  variant = "primary",
   icon,
   title,
   onClick,
-  className = '',
+  className = "",
   disabled = false,
-  type = 'button',
+  type = "button",
   style,
 }) => {
   const buttonClass = `${styles.button} ${styles[variant]} ${className}`;
@@ -22,7 +22,7 @@ const Button = ({
       style={style}
     >
       {icon && <img src={icon} alt="" />}
-      {title && <span>{title}</span>}
+      {title && `${title}`}
     </button>
   );
 };
