@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./inputGroup.module.css";
-import Image from "next/image";
-import { get, useFormContext } from "react-hook-form";
+import React from 'react';
+import styles from './inputGroup.module.css';
+import Image from 'next/image';
+import { get, useFormContext } from 'react-hook-form';
 
 const MobileInputGroup = ({
   label,

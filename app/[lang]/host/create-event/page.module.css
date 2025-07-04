@@ -50,3 +50,16 @@
   width: 100%;
   height: 100%;
 } */
+
+@media (max-width: 1024px) {
+  .headerTitle {
+    color: var(--Content-Text-Text-title-black, #2c2c2c);
+    /* Title/Medium - sm */
+    font-family: Cairo;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.024px;
+  }
+}

@@ -8,14 +8,7 @@ import EventsTable from './_components/EventsTable';
 
 function Events() {
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        padding: '40px',
-        background: '#faf8f6',
-      }}
-    >
+    <div className={styles.page}>
       <EventsHeader />
       <div className={styles.sectionsWrapper}>
         <EventsOverview />

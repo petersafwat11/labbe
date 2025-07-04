@@ -1,7 +1,73 @@
 .tableWrapper {
   width: 100%;
   color: #333;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
+.tableContainer {
+  min-width: 100%;
+  width: max-content;
+}
+
+/* Mobile horizontal scroll styles */
+@media (max-width: 768px) {
+  .tableWrapper {
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #c28e5c #f7f7f7;
+  }
+
+  .tableWrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .tableWrapper::-webkit-scrollbar-track {
+    background: #f7f7f7;
+    border-radius: 3px;
+  }
+
+  .tableWrapper::-webkit-scrollbar-thumb {
+    background: #c28e5c;
+    border-radius: 3px;
+  }
+
+  .tableWrapper::-webkit-scrollbar-thumb:hover {
+    background: #a67c52;
+  }
+
+  .headerRow {
+    min-width: max-content !important;
+  }
+
+  .bodyRow {
+    min-width: max-content !important;
+  }
+
+  .headerCell {
+    white-space: nowrap !important;
+    min-width: auto !important;
+  }
+
+  .bodyCell {
+    white-space: nowrap !important;
+    min-width: auto !important;
+  }
+}
+
+/* Desktop styles - ensure they override mobile when needed */
+@media (min-width: 769px) {
+  .headerCell {
+    white-space: normal;
+    min-width: auto;
+  }
+
+  .bodyCell {
+    white-space: normal;
+    min-width: auto;
+  }
+}
+
 .caption {
   font-size: 1.2rem;
   font-weight: 600;

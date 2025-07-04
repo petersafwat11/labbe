@@ -14,6 +14,7 @@ import Calendar from '@/ui/commen/inputs/Calendar';
 import TimePicker from '@/ui/commen/inputs/TimePicker';
 import Button from '@/ui/commen/button/Button';
 import { FaClosedCaptioning } from 'react-icons/fa6';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 const fontOptions = [
   { value: 'inter', label: 'inter' },
@@ -22,6 +23,7 @@ const fontOptions = [
 ];
 
 function TemplateForm({ isOpen, onClose }) {
+  const isLg = useMediaQuery('(min-width: 1024px)');
   return (
     <PopupLayout isOpen={isOpen} onClose={onClose}>
       <div className={styles.header}>
@@ -87,22 +89,42 @@ function TemplateForm({ isOpen, onClose }) {
             />
             <ColorPickerGroup label="اللون الأساسي" name="primaryColor" />
           </div>
+          {!isLg && (
+            <div className={styles.buttonContainer}>
+              <Button
+                variant="secondary"
+                onClick={onClose}
+                title={'الغاء'}
+              ></Button>
+              <Button
+                variant="primary"
+                title={'حفظ'}
+                onClick={onClose}
+              ></Button>
+            </div>
+          )}
         </form>
-        <div className={styles.leftPreview}>
-          <img
-            src="/svg/events/template1.svg"
-            alt="invitation preview"
-            className={styles.invitationImage}
-          />
-          <div className={styles.buttonContainer}>
-            <Button
-              variant="secondary"
-              onClick={onClose}
-              title={'الغاء'}
-            ></Button>
-            <Button variant="primary" title={'حفظ'} onClick={onClose}></Button>
+        {isLg && (
+          <div className={styles.leftPreview}>
+            <img
+              src="/svg/events/template1.svg"
+              alt="invitation preview"
+              className={styles.invitationImage}
+            />
+            <div className={styles.buttonContainer}>
+              <Button
+                variant="secondary"
+                onClick={onClose}
+                title={'الغاء'}
+              ></Button>
+              <Button
+                variant="primary"
+                title={'حفظ'}
+                onClick={onClose}
+              ></Button>
+            </div>
           </div>
-        </div>
+        )}
       </CardLayout>
     </PopupLayout>
   );

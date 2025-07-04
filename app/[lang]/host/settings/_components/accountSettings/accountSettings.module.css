@@ -11,9 +11,9 @@
   flex-direction: column;
   gap: 3.2rem;
 }
-.form  input {
+/* .form  input {
   width: 45.5rem;
-}
+} */
 .section {
   display: flex;
   flex-direction: column;
@@ -96,5 +96,11 @@
   .buttonContainer {
     flex-direction: column;
     gap: 1.2rem;
+  }
+  .container {
+    padding: 0;
+  }
+  .inputsGroup2 {
+    flex-direction: column;
   }
 }

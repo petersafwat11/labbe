@@ -12,3 +12,9 @@
   font-weight: 700;
   line-height: 2.8rem;
 }
+
+@media (max-width: 768px) {
+  .page {
+    padding: 0;
+  }
+}

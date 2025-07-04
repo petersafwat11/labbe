@@ -1,7 +1,7 @@
 .card {
   display: flex;
   width: 479px;
-  padding: 16px 6px 16px 1px;
+  padding: 16px 16px 16px 16px;
   flex-direction: column;
   align-items: center;
   gap: 12px;
@@ -10,6 +10,7 @@
   background: #fff;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
+
 .content {
   display: flex;
   padding: 0px 16px;
@@ -70,7 +71,8 @@
 }
 .stats {
   display: flex;
-  padding: 12px ;
+  flex-direction: column;
+  padding: 12px;
   gap: 8px;
   align-self: stretch;
   border-radius: 8px;
@@ -108,7 +110,7 @@
 }
 .replyingAnalysisSectionText,
 .replyingAnalysisSectionValue {
-  color: #2c2c2c; 
+  color: #2c2c2c;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -118,4 +120,20 @@
   display: flex;
   align-items: center;
   gap: 20px;
+}
+@media (max-width: 1024px) {
+  .card {
+    width: 100%;
+    padding: 16px 6px 16px 1px;
+  }
+  .actions {
+    flex-wrap: wrap-reverse;
+    padding: 0px 16px;
+  }
+  .actionButton {
+    width: 47%;
+  }
+  .actionPrimaryButton {
+    width: 100%;
+  }
 }

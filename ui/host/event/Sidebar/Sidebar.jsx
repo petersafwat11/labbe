@@ -1,12 +1,16 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './sidebar.module.css';
 import { useTranslation } from 'react-i18next';
 import { usePathname, useRouter } from 'next/navigation';
 import { authAPI } from '@/lib/auth';
 import Link from 'next/link';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import useSidebarStore from '@/stores/sidebarStore';
 
 function Sidebar() {
+  const { setIsOpen } = useSidebarStore();
+  const isLg = useMediaQuery('(min-width: 1024px)');
   const { t } = useTranslation('home-events'); // Use the new home-events namespace
   const router = useRouter();
   const pathname = usePathname();
@@ -14,7 +18,7 @@ function Sidebar() {
     .split('/')
     .slice(2, pathname.split('/').length)
     .join('/');
-  console.log(clearPath);
+  // console.log(clearPath);
   const handleLogout = async () => {
     try {
       await authAPI.logout();
@@ -29,7 +33,18 @@ function Sidebar() {
   return (
     <div className={styles.sidebarContainer}>
       <div className={styles.sidebarHeader}>
-        <img src="/svg/events/sidebar-logo.svg" alt="logo" />
+        <img
+          className={styles.logo}
+          src={`/svg/events/${
+            isLg ? 'sidebar-logo.svg' : 'sidebar-mobile-logo.svg'
+          }`}
+          alt="logo"
+        />
+        {!isLg && (
+          <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
+            <img src="/svg/events/close-circle.svg" alt="close" />
+          </button>
+        )}
       </div>
       <nav className={styles.menu}>
         <ul>

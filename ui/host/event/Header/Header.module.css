@@ -8,6 +8,7 @@
   min-height: 72px;
   gap: 24px;
 }
+
 .userInfo {
   display: flex;
   flex-direction: column;
@@ -59,6 +60,18 @@
   display: flex;
   align-items: center;
 }
+
+.headerMobileLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.toggleMenu {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 .iconsRow {
   display: flex;
   align-items: center;
@@ -79,14 +92,35 @@
   align-items: center;
   gap: 8px;
 }
-[dir="rtl"] .profile {
+[dir='rtl'] .profile {
   margin-right: 2.3rem;
 }
-[dir="ltr"] .profile {
+[dir='ltr'] .profile {
   margin-left: 2.3rem;
 }
 .toggleProfileMenu {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .headerContainer {
+    padding: 8px 16px;
+    min-height: 58px;
+  }
+  .iconsRow {
+    gap: 1.1rem;
+  }
+  .profile {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  /* .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .profile {
+    gap: 4px;
+  } */
 }

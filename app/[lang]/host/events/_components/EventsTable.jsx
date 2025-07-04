@@ -1,9 +1,9 @@
-import React from "react";
-import CardLayout from "@/ui/commen/card/CardLayout";
-import DynamicTable from "@/ui/commen/table";
-import { eventsColumns } from "@/ui/commen/table/columns/events-columns";
-import styles from "../event.module.css";
-import { eventsTableData } from "@/staticData/events/data";
+import React from 'react';
+import CardLayout from '@/ui/commen/card/CardLayout';
+import DynamicTable from '@/ui/commen/table';
+import { eventsColumns } from '@/ui/commen/table/columns/events-columns';
+import styles from '../event.module.css';
+import { eventsTableData } from '@/staticData/events/data';
 
 const EventsTable = () => (
   <CardLayout className={styles.tableWrapper}>
@@ -12,7 +12,7 @@ const EventsTable = () => (
       <div className={styles.tableHeadActions}>
         <button className={styles.searchButton}>
           <img
-            style={{ width: "12.5px", height: "12.5px" }}
+            style={{ width: '12.5px', height: '12.5px' }}
             src="/svg/events/search.svg"
             alt=""
           />

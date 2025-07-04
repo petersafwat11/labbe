@@ -21,3 +21,11 @@
   padding: 20px;
   border-radius: 16px;
 }
+
+@media (max-width: 1024px) {
+  .popupLayoutContent {
+    min-width: 90%;
+    min-height: 90%;
+    border-radius: 16px;
+  }
+}

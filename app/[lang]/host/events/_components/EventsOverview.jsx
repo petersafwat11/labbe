@@ -1,28 +1,49 @@
 import React from 'react';
 import CardLayout from '@/ui/commen/card/CardLayout';
-import styles from '../event.module.css';
 import { eventsStats } from '@/staticData/events/data';
+import { useMediaQuery } from '@/hooks/use-media-query';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import EventCard from './EventCard';
+import styles from '../event.module.css';
 
-const EventsOverview = () => (
-  <CardLayout className={styles.overview}>
-    <div className={styles.sectionTitle}>نظرة عامة</div>
-    <div className={styles.statsGrid}>
+const EventsOverview = () => {
+  const isLg = useMediaQuery('(min-width: 1024px)');
+
+  const eventsGrid = () => (
+    <>
       {eventsStats.map((stat, idx) => (
-        <CardLayout className={styles.statCard} key={idx}>
-          <div>
-            <div className={styles.statLabel}>{stat.label}</div>
-            <div className={styles.statValue}>{stat.value}</div>
-            {stat.subLabel && (
-              <div className={styles.statSubLabel}>{stat.subLabel}</div>
-            )}
-          </div>
-          <div style={{ height: '100%' }}>
-            <img src={stat.icon} alt="" />
-          </div>
-        </CardLayout>
+        <EventCard stat={stat} idx={idx} />
       ))}
-    </div>
-  </CardLayout>
-);
+    </>
+  );
+
+  const eventSwiper = () => (
+    <Swiper
+      spaceBetween={16}
+      slidesPerView={1.2}
+      loop={true}
+      breakpoints={{
+        320: { slidesPerView: 1.2 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 2 },
+      }}
+    >
+      {eventsStats.map((stat, idx) => (
+        <SwiperSlide key={idx}>
+          <EventCard stat={stat} idx={idx} />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+
+  return (
+    <CardLayout className={styles.overview}>
+      <div className={styles.sectionTitle}>نظرة عامة</div>
+      <div className={styles.statsGrid}>
+        {isLg ? eventsGrid() : eventSwiper()}
+      </div>
+    </CardLayout>
+  );
+};
 
 export default EventsOverview;

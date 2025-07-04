@@ -1,169 +1,192 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useFormContext } from "react-hook-form";
-import { StepTitle } from "@/ui/commen/title/SectionTitle";
-import Card from "@/ui/commen/card/Card";
-import InputSelect from "@/ui/commen/inputs/inputGroup/InputSelect";
-import Button from "@/ui/commen/button/Button";
-import DetailCard from "@/ui/host/events/DetailCard";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
+import { StepTitle } from '@/ui/commen/title/SectionTitle';
+import Card from '@/ui/commen/card/Card';
+import InputSelect from '@/ui/commen/inputs/inputGroup/InputSelect';
+import Button from '@/ui/commen/button/Button';
+import DetailCard from '@/ui/host/events/DetailCard';
+import styles from './createEvent.module.css';
 
 function Step5() {
-  const { t } = useTranslation("createEvent");
+  const { t } = useTranslation('createEvent');
   const { watch, setValue } = useFormContext();
 
   const formData = watch();
   const { eventDetails, guestList, supervisorsList, launchSettings } = formData;
 
   const scheduleOptions = [
-    { value: "now", label: t("send_now") },
-    { value: "later", label: t("schedule_later") },
+    { value: 'now', label: t('send_now') },
+    { value: 'later', label: t('schedule_later') },
   ];
 
   const formatDate = (date) => {
-    if (!date) return "";
-    if (typeof date === "string") return date;
+    if (!date) return '';
+    if (typeof date === 'string') return date;
     return new Date(date).toLocaleDateString();
   };
 
   const formatEventType = (type) => {
     const typeMap = {
-      wedding: t("wedding"),
-      birthday: t("birthday"),
-      graduation: t("graduation"),
-      meeting: t("meeting"),
-      conference: t("conference"),
-      other: t("other"),
+      wedding: t('wedding'),
+      birthday: t('birthday'),
+      graduation: t('graduation'),
+      meeting: t('meeting'),
+      conference: t('conference'),
+      other: t('other'),
     };
     return typeMap[type] || type;
   };
 
-  const handleCopyInvitationLink = () => {
+  // Stats data array for mapping
+  const statsData = [
+    {
+      id: 'event_type',
+      icon: '/svg/events/dashboard-icon.svg',
+      label: t('event_type'),
+      value: formatEventType(eventDetails?.type) || t('wedding'),
+      sublabel: '',
+    },
+    {
+      id: 'event_date',
+      icon: '/svg/events/calendar.svg',
+      label: t('event_date'),
+      value: formatDate(eventDetails?.date) || '25/12/2025',
+      sublabel: '',
+    },
+    {
+      id: 'invitees_count',
+      icon: '/svg/events/people.svg',
+      label: t('number_of_invitees'),
+      value: guestList?.length?.toString() || '0',
+      sublabel: '',
+    },
+    {
+      id: 'supervisors_count',
+      icon: '/svg/events/people.svg',
+      label: t('number_of_supervisors'),
+      value: supervisorsList?.length?.toString() || '0',
+      sublabel: '',
+    },
+  ];
+
+  // Event info data array for mapping
+  const eventInfoData = [
+    {
+      id: 'guests',
+      icon: '/svg/events/people.svg',
+      text: `${guestList?.length || 0} ${
+        t('sample_guests_count').split(' ')[1]
+      }`,
+    },
+    {
+      id: 'date_time',
+      icon: '/svg/events/calendar.svg',
+      text: `${formatDate(eventDetails?.date)} - ${
+        eventDetails?.time || '7:00 PM'
+      }`,
+    },
+    {
+      id: 'location',
+      icon: '/svg/events/location.svg',
+      text: eventDetails?.location?.address || t('sample_event_location'),
+    },
+  ];
+
+  // Action buttons data array
+  const actionButtons = [
+    {
+      id: 'copy_link',
+      variant: 'secondary',
+      title: t('copy_invitation_link'),
+      icon: '/svg/events/copy.svg',
+      onClick: handleCopyInvitationLink,
+    },
+    {
+      id: 'share',
+      variant: 'secondary',
+      title: t('share_invitation'),
+      icon: '/svg/events/share.svg',
+      onClick: handleShareInvitation,
+    },
+  ];
+
+  function handleCopyInvitationLink() {
     // Generate invitation link based on event data
     const invitationLink = `https://example.com/invitation/${eventDetails?.title
-      ?.replace(/\s+/g, "-")
+      ?.replace(/\s+/g, '-')
       .toLowerCase()}`;
     navigator.clipboard.writeText(invitationLink);
     // You might want to show a toast notification here
-  };
+  }
 
-  const handleShareInvitation = () => {
+  function handleShareInvitation() {
     // Implement share functionality
     if (navigator.share) {
       navigator.share({
-        title: eventDetails?.title || t("sample_event_title"),
-        text: `${t("sample_event_invitation")} - ${eventDetails?.title}`,
+        title: eventDetails?.title || t('sample_event_title'),
+        text: `${t('sample_event_invitation')} - ${eventDetails?.title}`,
         url: `https://example.com/invitation/${eventDetails?.title
-          ?.replace(/\s+/g, "-")
+          ?.replace(/\s+/g, '-')
           .toLowerCase()}`,
       });
     } else {
       // Fallback to copying to clipboard
       handleCopyInvitationLink();
     }
-  };
+  }
 
   return (
-    <div style={{ padding: "2.5rem 0" }}>
+    <div className={styles.formContainer}>
       <StepTitle
-        title={t("review_and_launch")}
-        description={t("review_and_launch_description")}
+        title={t('review_and_launch')}
+        description={t('review_and_launch_description')}
       />
 
       {/* Stats Row */}
-      <div style={{ display: "flex", gap: "1.5rem", margin: "2rem 0" }}>
-        <DetailCard
-          icon={"/svg/events/dashboard-icon.svg"}
-          label={t("event_type")}
-          value={formatEventType(eventDetails?.type) || t("wedding")}
-          sublabel={""}
-        />
-        <DetailCard
-          icon={"/svg/events/calendar.svg"}
-          label={t("event_date")}
-          value={formatDate(eventDetails?.date) || "25/12/2025"}
-          sublabel={""}
-        />
-        <DetailCard
-          icon={"/svg/events/people.svg"}
-          label={t("number_of_invitees")}
-          value={guestList?.length?.toString() || "0"}
-          sublabel={""}
-        />
-        <DetailCard
-          icon={"/svg/events/people.svg"}
-          label={t("number_of_supervisors")}
-          value={supervisorsList?.length?.toString() || "0"}
-          sublabel={""}
-        />
+      <div className={styles.statsContainer}>
+        {statsData.map((stat) => (
+          <DetailCard
+            key={stat.id}
+            icon={stat.icon}
+            label={stat.label}
+            value={stat.value}
+            sublabel={stat.sublabel}
+          />
+        ))}
       </div>
 
       {/* Event Details Card */}
-      <Card
-        style={{
-          marginBottom: "2rem",
-          background: "#faf8f6",
-          border: "1px solid #e9ecef",
-        }}
-      >
-        <div style={{ padding: "1.5rem" }}>
-          <div
-            style={{
-              fontWeight: 700,
-              fontSize: "16px",
-              marginBottom: "0.5rem",
-            }}
-          >
-            {eventDetails?.title || t("sample_event_title")}
+      <Card className={styles.eventDetailsCard}>
+        <div className={styles.eventDetailsContent}>
+          <div className={styles.eventTitle}>
+            {eventDetails?.title || t('sample_event_title')}
           </div>
-          <div
-            style={{ color: "#656565", fontSize: "14px", marginBottom: "1rem" }}
-          >
-            {eventDetails?.description || t("sample_event_description")} <br />
-            {t("sample_event_invitation")}
+          <div className={styles.eventDescription}>
+            {eventDetails?.description || t('sample_event_description')}
+            <br />
+            {t('sample_event_invitation')}
           </div>
-          <div
-            style={{
-              display: "flex",
-              gap: "2rem",
-              alignItems: "center",
-              fontSize: "14px",
-              color: "#2c2c2c",
-            }}
-          >
-            <span>
-              <img
-                src="/svg/events/people.svg"
-                alt="guests"
-                style={{ width: 18, verticalAlign: "middle", marginLeft: 4 }}
-              />{" "}
-              {guestList?.length || 0} {t("sample_guests_count").split(" ")[1]}
-            </span>
-            <span>
-              <img
-                src="/svg/events/calendar.svg"
-                alt="date"
-                style={{ width: 18, verticalAlign: "middle", marginLeft: 4 }}
-              />{" "}
-              {formatDate(eventDetails?.date)} -{" "}
-              {eventDetails?.time || "7:00 PM"}
-            </span>
-            <span>
-              <img
-                src="/svg/events/location.svg"
-                alt="location"
-                style={{ width: 18, verticalAlign: "middle", marginLeft: 4 }}
-              />{" "}
-              {eventDetails?.location?.address || t("sample_event_location")}
-            </span>
+          <div className={styles.eventInfoContainer}>
+            {eventInfoData.map((info) => (
+              <span key={info.id} className={styles.eventInfoItem}>
+                <img
+                  src={info.icon}
+                  alt={info.id}
+                  className={styles.eventInfoIcon}
+                />
+                {info.text}
+              </span>
+            ))}
             {eventDetails?.location?.address && (
-              <span>
+              <span className={styles.eventInfoItem}>
                 <a
                   href={`https://maps.google.com/?q=${eventDetails.location.latitude},${eventDetails.location.longitude}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "#d38200", textDecoration: "underline" }}
+                  className={styles.mapLink}
                 >
-                  {t("view_on_map")}
+                  {t('view_on_map')}
                 </a>
               </span>
             )}
@@ -172,61 +195,32 @@ function Step5() {
       </Card>
 
       {/* Ready to Launch Section */}
-      <div
-        style={{
-          background: "#eaf7ef",
-          border: "1px solid #b6e2c6",
-          borderRadius: 8,
-          padding: "1.5rem",
-          marginBottom: "2rem",
-        }}
-      >
-        <div
-          style={{
-            color: "#1a7f3c",
-            fontWeight: 700,
-            fontSize: "18px",
-            marginBottom: "0.5rem",
-          }}
-        >
-          {t("ready_to_launch")}
+      <div className={styles.launchSection}>
+        <div className={styles.launchTitle}>{t('ready_to_launch')}</div>
+        <div className={styles.launchDescription}>
+          {t('ready_to_launch_description')}
         </div>
-        <div
-          style={{ color: "#1a7f3c", fontSize: "15px", marginBottom: "1.2rem" }}
-        >
-          {t("ready_to_launch_description")}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "1.5rem",
-            alignItems: "center",
-            marginBottom: "1.2rem",
-          }}
-        >
+        <div className={styles.launchActions}>
           <InputSelect
-            label={t("schedule_sending")}
-            placeholder={t("schedule_sending_placeholder")}
+            label={t('schedule_sending')}
+            placeholder={t('schedule_sending_placeholder')}
             name="launchSettings.sendSchedule"
             options={scheduleOptions}
           />
-          <Button
-            variant="secondary"
-            title={t("copy_invitation_link")}
-            icon="/svg/events/copy.svg"
-            onClick={handleCopyInvitationLink}
-          />
-          <Button
-            variant="secondary"
-            title={t("share_invitation")}
-            icon="/svg/events/share.svg"
-            onClick={handleShareInvitation}
-          />
+          {actionButtons.map((button) => (
+            <Button
+              key={button.id}
+              variant={button.variant}
+              title={button.title}
+              icon={button.icon}
+              onClick={button.onClick}
+            />
+          ))}
         </div>
         <Button
           variant="primary"
-          title={t("confirm_and_launch")}
-          style={{ width: "100%", fontWeight: 700, fontSize: "1.1rem" }}
+          title={t('confirm_and_launch')}
+          className={styles.launchButton}
           type="submit"
         />
       </div>

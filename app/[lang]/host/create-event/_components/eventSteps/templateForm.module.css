@@ -108,3 +108,36 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 0;
+  }
+
+  .rightForm {
+    width: 100%;
+  }
+  .formGrid {
+    max-height: 550px;
+    overflow-y: auto;
+  }
+
+  .formGrid > div {
+    grid-column: span 2 !important;
+    width: 100%;
+  }
+  .header {
+    color: var(--Content-Text-Text-title-black, #2c2c2c);
+
+    /* Title/XLarge - sm */
+    font-family: Cairo;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px; /* 116.667% */
+    padding: 0;
+  }
+}

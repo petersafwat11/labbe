@@ -1,13 +1,13 @@
-import React from "react";
-import CardLayout from "@/ui/commen/card/CardLayout";
-import Button from "@/ui/commen/button/Button";
-import DynamicTable from "@/ui/commen/table";
+import React from 'react';
+import CardLayout from '@/ui/commen/card/CardLayout';
+import Button from '@/ui/commen/button/Button';
+import DynamicTable from '@/ui/commen/table';
 import {
   singleEventColumns,
   temporaryGuestColumns,
-} from "@/ui/commen/table/columns/single-event-columns";
-import { guestData } from "@/staticData/events/data";
-import styles from "../singleEvent.module.css";
+} from '@/ui/commen/table/columns/single-event-columns';
+import { guestData } from '@/staticData/events/data';
+import styles from '../singleEvent.module.css';
 
 export default function GuestTable({ data, onDelete, focusGuest }) {
   // console.log('focusGuest from guest table,,,', focusGuest);
@@ -30,7 +30,7 @@ export default function GuestTable({ data, onDelete, focusGuest }) {
             <Button variant="gray" title="المزيد" icon="/svg/events/more.svg" />
           </div>
         </div>
-        <div style={{ width: "100%" }}>
+        <div style={{ width: '100%', overflowX: 'auto' }}>
           <DynamicTable
             columns={
               data

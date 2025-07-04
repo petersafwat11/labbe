@@ -5,30 +5,29 @@ import EventStats from './_components/EventStats';
 import GuestTable from './_components/GuestTable';
 import SupervisorsCard from './_components/SupervisorsCard';
 import styles from './singleEvent.module.css';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 export default function EventDetailsPage() {
+  const isLg = useMediaQuery('(min-width: 1024px)');
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        padding: '40px',
-        background: '#faf8f6',
-      }}
-    >
+    <div className={styles.page}>
       {/* Header */}
       <EventHeader />
 
       {/* Stats Row */}
-      <div style={{ display: 'flex', gap: '24px' }}>
-        <div style={{ flex: 2 }}>
+      <div>
+        <div>
           <EventStats />
+          {!isLg && (
+            <div style={{ marginBottom: '24px' }}>
+              <SupervisorsCard />
+            </div>
+          )}
           <div className={styles.columns}>
-            {/* <div className={styles.leftCol}></div> */}
             <GuestTable />
           </div>
         </div>
-        <SupervisorsCard />
+        {isLg && <SupervisorsCard />}
       </div>
     </div>
   );

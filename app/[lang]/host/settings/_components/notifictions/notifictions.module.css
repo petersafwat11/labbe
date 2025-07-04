@@ -74,6 +74,7 @@
   .section {
     gap: 1.6rem;
     padding-bottom: 1.6rem;
+    flex-direction: column;
   }
 
   .sectionTitle {

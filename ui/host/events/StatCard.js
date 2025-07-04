@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
-import styles from "./StatCard.module.css";
-import CardLayout from "../../commen/card/CardLayout";
+'use client';
+import React from 'react';
+import styles from './StatCard.module.css';
+import CardLayout from '../../commen/card/CardLayout';
 
-function StatCard({ icon, label, value, sublabel }) {
+function StatCard({ icon, label, value, sublabel, variant = 'default' }) {
   return (
-    <CardLayout>
+    <CardLayout variant={variant}>
       <div className={styles.info}>
         <div className={styles.label}>{label}</div>
         <div className={styles.value}>{value}</div>

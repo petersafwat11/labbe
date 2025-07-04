@@ -21,6 +21,33 @@
   align-self: stretch;
   margin-bottom: 4.4rem;
 }
+.logo {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1024px) {
+  .sidebarHeader {
+    padding: 2rem 2.4rem;
+    justify-content: space-between;
+  }
+  .sidebarContainer {
+    height: 100%;
+  }
+  .logo {
+    width: 155px;
+    height: fit-content;
+  }
+  .closeBtn {
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+}
 
 .menu {
   width: 100%;
@@ -143,4 +170,52 @@
 }
 .logoutBtn:hover {
   color: #b94a48;
+}
+
+.mobileContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 80vw;
+  height: 100%;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+.mobileContainer.active {
+  transform: translateX(0);
+}
+
+.mobileToggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  background: #fff;
+  border: 1px solid #f2f2f2;
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.mobileToggle:hover {
+  background: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
 }
