@@ -70,10 +70,13 @@ const ContinueSignupForm = () => {
 
       if (response.status === "success") {
         // Update token in cookie
-        if (response.token) {
-          cookieUtils.setCookie("accessToken", response.token, 7);
+        const { token, user } = response;
+        if (token) {
+          cookieUtils.setCookie("token", token, 7);
         }
-
+        if (user) {
+          cookieUtils.setCookie("user", JSON.stringify(user), 7);
+        }
         console.log("Host profile completed successfully:", response);
 
         // Redirect to dashboard or home page

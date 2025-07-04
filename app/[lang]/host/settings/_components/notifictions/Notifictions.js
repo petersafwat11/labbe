@@ -1,67 +1,62 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ToggleInput from "@/ui/commen/inputs/toggelInput/ToggelInput";
 import Button from "@/ui/commen/button/Button";
 import { notificationsSchema } from "@/utils/schemas/notifictionsSchema";
+import { hostAPI } from "@/lib/host";
+import { toastUtils } from "@/utils/toastUtils";
 import styles from "./notifictions.module.css";
 
-const Notifications = ({ notificationSettings = {} }) => {
+const Notifications = ({ initialData }) => {
   const { t } = useTranslation("settings");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Initialize React Hook Form with notification settings
+  // Default values
+  const defaultValues = {
+    appNotifications: {
+      eventUpdates: true,
+      eventDates: true,
+      packageRenewal: true,
+      systemInteractions: true,
+    },
+    emailNotifications: {
+      eventUpdates: false,
+      eventDates: false,
+      packageRenewal: false,
+      beforeSendingInvitations: false,
+      afterSendingInvitations: false,
+    },
+  };
+  // Initialize React Hook Form
   const methods = useForm({
     resolver: zodResolver(notificationsSchema(t)),
     mode: "onChange",
-    defaultValues: {
-      appNotifications: {
-        eventUpdates:
-          notificationSettings.appNotifications?.eventUpdates ?? true,
-        eventDates: notificationSettings.appNotifications?.eventDates ?? true,
-        packageRenewal:
-          notificationSettings.appNotifications?.packageRenewal ?? true,
-        systemInteractions:
-          notificationSettings.appNotifications?.systemInteractions ?? true,
-      },
-      emailNotifications: {
-        eventUpdates:
-          notificationSettings.emailNotifications?.eventUpdates ?? false,
-        eventDates:
-          notificationSettings.emailNotifications?.eventDates ?? false,
-        packageRenewal:
-          notificationSettings.emailNotifications?.packageRenewal ?? false,
-        beforeSendingInvitations:
-          notificationSettings.emailNotifications?.beforeSendingInvitations ??
-          false,
-        afterSendingInvitations:
-          notificationSettings.emailNotifications?.afterSendingInvitations ??
-          false,
-      },
-    },
+    defaultValues: initialData || defaultValues,
   });
 
   const {
     handleSubmit,
     formState: { isDirty },
+    reset,
   } = methods;
 
   const onSubmit = async (formData) => {
     setIsLoading(true);
 
     try {
-      console.log("Notification settings data to be sent:", formData);
+      const response =
+        await hostAPI.notifications.updateNotificationPreferences(formData);
 
-      // TODO: Call backend API here
-      // const response = await updateNotificationSettings(formData);
-
-      // Show success message
-      // toastUtils.success(t("success_message"));
+      if (response.status === "success") {
+        toastUtils.success(response.message || t("success_message"));
+        console.log("Update response:", response);
+      }
     } catch (error) {
       console.error("Error updating notification settings:", error);
-      // toastUtils.error(t("error_message"));
+      toastUtils.error(error.message || t("error_message"));
     } finally {
       setIsLoading(false);
     }
@@ -83,19 +78,19 @@ const Notifications = ({ notificationSettings = {} }) => {
             <div className={styles.togglesGroup}>
               <ToggleInput
                 name="appNotifications.eventUpdates"
-                label="event_updates"
+                label={t("event_updates")}
               />
               <ToggleInput
                 name="appNotifications.eventDates"
-                label="event_dates"
+                label={t("event_dates")}
               />
               <ToggleInput
                 name="appNotifications.packageRenewal"
-                label="package_renewal"
+                label={t("package_renewal")}
               />
               <ToggleInput
                 name="appNotifications.systemInteractions"
-                label="system_interactions"
+                label={t("system_interactions")}
               />
             </div>
           </div>
@@ -114,23 +109,23 @@ const Notifications = ({ notificationSettings = {} }) => {
             <div className={styles.togglesGroup}>
               <ToggleInput
                 name="emailNotifications.eventUpdates"
-                label="event_updates"
+                label={t("event_updates")}
               />
               <ToggleInput
                 name="emailNotifications.eventDates"
-                label="event_dates"
+                label={t("event_dates")}
               />
               <ToggleInput
                 name="emailNotifications.packageRenewal"
-                label="package_renewal"
+                label={t("package_renewal")}
               />
               <ToggleInput
                 name="emailNotifications.beforeSendingInvitations"
-                label="before_sending_invitations"
+                label={t("before_sending_invitations")}
               />
               <ToggleInput
                 name="emailNotifications.afterSendingInvitations"
-                label="after_sending_invitations"
+                label={t("after_sending_invitations")}
               />
             </div>
           </div>
@@ -141,14 +136,14 @@ const Notifications = ({ notificationSettings = {} }) => {
               variant="outline"
               title={t("cancel")}
               onClick={() => {
-                methods.reset();
+                reset(initialData);
               }}
             />
 
             <Button
               type="submit"
               variant="primary"
-              title={t("save_changes")}
+              title={isLoading ? t("saving") : t("save_changes")}
               disabled={!isDirty || isLoading}
             />
           </div>

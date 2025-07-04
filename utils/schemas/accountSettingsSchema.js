@@ -3,12 +3,12 @@ import { z } from "zod";
 export const accountSettingsSchema = (t) =>
   z
     .object({
-      name: z
+      username: z
         .string()
-        .min(2, t ? t("name_min_length") : "Name must be at least 2 characters")
+        .min(2, t ? t("username_min_length") : "Username must be at least 2 characters")
         .max(
           50,
-          t ? t("name_max_length") : "Name must be less than 50 characters"
+          t ? t("username_max_length") : "Username must be less than 50 characters"
         ),
 
       email: z

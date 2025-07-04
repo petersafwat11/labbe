@@ -11,9 +11,16 @@
   flex-direction: column;
   gap: 3.2rem;
 }
-/* .form  input {
+.email_container input,
+.name_container input {
   width: 45.5rem;
-} */
+}
+.email_wrapper,
+.email_container {
+  display: flex;
+  gap: 2.4rem;
+  align-items: end;
+}
 .section {
   display: flex;
   flex-direction: column;
@@ -70,6 +77,20 @@
   border-top: 1px solid #f2f2f2;
 }
 
+.verificationInputGroup {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  margin-top: 1.6rem;
+}
+
+.verifyCodeButton {
+  min-width: 12rem;
+  height: 4rem;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
@@ -80,7 +101,10 @@
   .form {
     gap: 2.4rem;
   }
-
+  .email_container input,
+  .name_container input {
+    width: 100%;
+  }
   .section {
     gap: 1.2rem;
   }

@@ -9,8 +9,9 @@ import ConfirmBtn from "../../commen/confirmButton/ConfirmBtn";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { authAPI, handleAPIError } from "@/lib/auth";
-
+import useLanguageChange from "@/hooks/UseLanguageChange";
 const ChangePassword = () => {
+  const { currentLocale } = useLanguageChange();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useTranslation("changePassword");
@@ -95,7 +96,7 @@ const ChangePassword = () => {
   };
 
   const handleGoToLogin = () => {
-    router.push("/login");
+    router.push(`/${currentLocale}/login`);
   };
 
   // Show error if no token

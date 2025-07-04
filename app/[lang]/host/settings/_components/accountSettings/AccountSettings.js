@@ -7,20 +7,27 @@ import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
 import Button from "@/ui/commen/button/Button";
 import { accountSettingsSchema } from "@/utils/schemas/accountSettingsSchema";
 import styles from "./accountSettings.module.css";
+import { authAPI, cookieUtils } from "@/lib/auth";
+import { hostAPI } from "@/lib/host";
+import { toastUtils } from "@/utils/toastUtils";
+import OtpInput from "@/ui/commen/inputs/optInput/OtpInput";
 
-const AccountSettings = ({ userData = {} }) => {
+const AccountSettings = ({ user = {} }) => {
   const { t } = useTranslation("settings");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [showVerificationInput, setShowVerificationInput] = useState(false);
 
   // Initialize React Hook Form with user data
   const methods = useForm({
     resolver: zodResolver(accountSettingsSchema(t)),
     mode: "onChange",
     defaultValues: {
-      name: userData.name || "",
-      email: userData.email || "",
+      username: user.username || "",
+      email: user.email || "",
       password: "",
       confirmPassword: "",
     },
@@ -28,7 +35,9 @@ const AccountSettings = ({ userData = {} }) => {
 
   const {
     handleSubmit,
-    formState: { isValid, isDirty },
+    formState: { isValid, isDirty, errors },
+    reset,
+    watch,
   } = methods;
 
   const togglePasswordVisibility = () => {
@@ -40,61 +49,169 @@ const AccountSettings = ({ userData = {} }) => {
   };
 
   const onSubmit = async (formData) => {
+    console.log("Form submitted with data:", formData);
     setIsLoading(true);
 
     try {
-      // Prepare data for backend
-      const updateData = {
-        name: formData.name,
-        email: formData.email,
-      };
+      let response;
 
-      // Only include password if it was changed
-      if (formData.password && formData.password !== "") {
-        updateData.password = formData.password;
+      // If password is being updated, use auth API
+      if (formData.password) {
+        response = await authAPI.updateHostAccountSettings(formData);
+      } else {
+        // If only profile info is being updated, use host API
+        const profileData = {
+          username: formData.username,
+          email: formData.email,
+        };
+        response = await hostAPI.profile.updateProfile(profileData);
       }
 
-      console.log("Account settings data to be sent:", updateData);
+      console.log("Update response:", response);
 
-      // TODO: Call backend API here
-      // const response = await updateUserData(updateData);
+      if (response.status === "success") {
+        toastUtils.success(
+          response.message || t("account_updated_successfully")
+        );
 
-      // Show success message
-      // toastUtils.success(t("success_message"));
+        // Update user cookie with the new user data
+        if (response.data && (response.data.user || response.data.host)) {
+          const userData = response.data.user || response.data.host;
+          cookieUtils.deleteCookie("user");
+          cookieUtils.setCookie("user", JSON.stringify(userData), 7);
+        }
+
+        // Reset password fields after successful update
+        reset({
+          username:
+            response.data?.user?.username ||
+            response.data?.host?.username ||
+            formData.username,
+          email:
+            response.data?.user?.email ||
+            response.data?.host?.email ||
+            formData.email,
+          password: "",
+          confirmPassword: "",
+        });
+      }
     } catch (error) {
       console.error("Error updating account settings:", error);
-      // toastUtils.error(t("error_message"));
+      toastUtils.error(error.message || t("account_update_failed"));
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleSendVerificationCode = async () => {
+    setIsVerifyingEmail(true);
+    try {
+      const response = await authAPI.sendEmailVerificationCode();
+      if (response.status === "success") {
+        toastUtils.success(response.message || t("verification_code_sent"));
+        setShowVerificationInput(true);
+      }
+    } catch (error) {
+      console.error("Error sending verification code:", error);
+      toastUtils.error(error.message || t("verification_code_send_failed"));
+    } finally {
+      setIsVerifyingEmail(false);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    if (!verificationCode || verificationCode.length !== 6) {
+      toastUtils.error(t("enter_valid_verification_code"));
+      return;
+    }
+
+    setIsVerifyingEmail(true);
+    try {
+      const response = await authAPI.verifyEmail(verificationCode);
+      if (response.status === "success") {
+        toastUtils.success(
+          response.message || t("email_verified_successfully")
+        );
+        setShowVerificationInput(false);
+        setVerificationCode("");
+
+        // Update user cookie if user data is returned
+        if (response.data && response.data.user) {
+          cookieUtils.deleteCookie("user");
+          cookieUtils.setCookie("user", JSON.stringify(response.data.user), 7);
+        }
+      }
+    } catch (error) {
+      console.error("Error verifying email:", error);
+      toastUtils.error(error.message || t("email_verification_failed"));
+    } finally {
+      setIsVerifyingEmail(false);
+    }
+  };
+
+  // Debug function to check form state
+  const handleFormSubmit = (e) => {
+    handleSubmit(onSubmit)(e);
+  };
+
   return (
     <div className={styles.container}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <form onSubmit={handleFormSubmit} className={styles.form}>
           <div className={styles.section}>
             <h3 className={styles.sectionTitle}>{t("personal_info")}</h3>
 
             <div className={styles.inputsGroup}>
-              <InputGroup
-                label={t("full_name")}
-                type="text"
-                placeholder={t("full_name_placeholder")}
-                name="name"
-                required
-                iconPath="auth/profile.svg"
-              />
-              <div style={{ display: "flex", gap: "2.4rem" }}>
+              <div className={styles.name_container}>
                 <InputGroup
-                  label={t("email_address")}
-                  type="email"
-                  placeholder={t("email_placeholder")}
-                  name="email"
+                  label={t("full_name")}
+                  type="text"
+                  placeholder={t("full_name_placeholder")}
+                  name="username"
                   required
-                  iconPath="auth/email.svg"
+                  iconPath="auth/profile.svg"
                 />
-                <button className={styles.verifyButton}>توثيق البريد</button>
+              </div>
+
+              <div className={styles.email_wrapper}>
+                <div className={styles.email_container}>
+                  <InputGroup
+                    label={t("email_address")}
+                    type="email"
+                    placeholder={t("email_placeholder")}
+                    name="email"
+                    required
+                    iconPath="auth/email.svg"
+                  />
+                  {!showVerificationInput && (
+                    <button
+                      type="button"
+                      className={styles.verifyButton}
+                      onClick={handleSendVerificationCode}
+                      disabled={isVerifyingEmail}
+                    >
+                      {isVerifyingEmail ? t("sending") : t("verify_email")}
+                    </button>
+                  )}
+                </div>
+                {showVerificationInput && (
+                  <div className={styles.verificationInputGroup}>
+                    <OtpInput
+                      value={verificationCode}
+                      onChange={setVerificationCode}
+                    />
+                    <Button
+                      onClick={handleVerifyCode}
+                      disabled={
+                        isVerifyingEmail || verificationCode.length !== 6
+                      }
+                      loading={isVerifyingEmail}
+                      className={styles.verifyCodeButton}
+                    >
+                      {isVerifyingEmail ? t("verifying") : t("verify_code")}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -134,14 +251,16 @@ const AccountSettings = ({ userData = {} }) => {
               variant="outline"
               title={t("cancel")}
               onClick={() => {
-                methods.reset();
+                reset();
+                setShowVerificationInput(false);
+                setVerificationCode("");
               }}
             />
 
             <Button
               type="submit"
               variant="primary"
-              title={t("save_changes")}
+              title={isLoading ? t("saving") : t("save_changes")}
               disabled={!isDirty || isLoading}
             />
           </div>

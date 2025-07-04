@@ -66,8 +66,8 @@ const Form = () => {
       const { user } = response.data;
       const { token } = response;
       // Save token to cookie
-      token && cookieUtils.setCookie("accessToken", token, 7);
-      user && cookieUtils.setCookie("user", user, 7);
+      token && cookieUtils.setCookie("token", token, 7);
+      user && cookieUtils.setCookie("user", JSON.stringify(user), 7);
       toastUtils.success(`Welcome back! Login successful as ${user.username}.`);
 
       // Redirect based on user type or to dashboard
@@ -123,9 +123,9 @@ const Form = () => {
       if (response.status === "success") {
         // Save token to cookie
         const { token } = response;
-        token && cookieUtils.setCookie("accessToken", token, 7);
+        token && cookieUtils.setCookie("token", token, 7);
         const { user } = response;
-        user && cookieUtils.setCookie("user", user, 7);
+        user && cookieUtils.setCookie("user", JSON.stringify(user), 7);
 
         console.log("OTP verification successful:", response);
         toastUtils.success(

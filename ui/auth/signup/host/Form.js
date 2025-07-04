@@ -43,10 +43,10 @@ const Form = () => {
       const response = await authAPI.signupHost(formData.phoneNumber);
 
       if (response.status === "success") {
+        const { token, user } = response;
         // Save token to cookie
-        if (response.token) {
-          cookieUtils.setCookie("accessToken", response.token, 7);
-        }
+        token && cookieUtils.setCookie("token", token, 7);
+        user && cookieUtils.setCookie("user", JSON.stringify(user), 7);
 
         console.log("Host signup successful:", response);
         toastUtils.success(
