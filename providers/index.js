@@ -10,6 +10,7 @@ const i18nNamespaces = [
   "continueSignup",
   "createEvent",
   "home-events",
+  "settings",
 ];
 
 export default async function GlobalProvider({ children, lang }) {

@@ -1,0 +1,14 @@
+.page {
+  padding: 0 2rem 3.8rem;
+}
+.header {
+  display: flex;
+  padding: 4rem;
+  gap: 1rem;
+}
+.title {
+  color: #2c2c2c;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 2.8rem;
+}
