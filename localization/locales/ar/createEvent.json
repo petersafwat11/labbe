@@ -161,9 +161,5 @@
   "sample_event_invitation": "ندعوكم لحضور حفل الزفاف المقام يوم الجمعة 15 ديسمبر 2024 - 7:00 مساءً",
   "sample_guests_count": "80 مدعو",
   "sample_event_datetime": "الجمعة 15 ديسمبر 2024 - 7:00 مساءً",
-  "sample_event_location": "قاعة البرز للأفراح - الرياض",
-  "capturing": "جاري التقاط الصورة...",
-  "download_template": "تنزيل الصورة",
-  "copy_to_clipboard": "نسخ إلى الحافظة",
-  "save_to_server": "حفظ في الخادم"
+  "sample_event_location": "قاعة البرز للأفراح - الرياض"
 }

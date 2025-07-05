@@ -161,9 +161,5 @@
   "sample_event_invitation": "We invite you to attend the wedding ceremony on Friday, December 15, 2024 - 7:00 PM",
   "sample_guests_count": "80 invitees",
   "sample_event_datetime": "Friday, December 15, 2024 - 7:00 PM",
-  "sample_event_location": "Al-Bariz Hall for Weddings - Riyadh",
-  "capturing": "Capturing...",
-  "download_template": "Download Image",
-  "copy_to_clipboard": "Copy to Clipboard",
-  "save_to_server": "Save to Server"
+  "sample_event_location": "Al-Bariz Hall for Weddings - Riyadh"
 }

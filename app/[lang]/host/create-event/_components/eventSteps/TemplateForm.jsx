@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React from "react";
 import CardLayout from "@/ui/commen/card/CardLayout";
 import styles from "./templateForm.module.css";
 import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
@@ -13,7 +13,6 @@ import Button from "@/ui/commen/button/Button";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useTranslation } from "react-i18next";
 import { useForm, FormProvider } from "react-hook-form";
-import html2canvas from "html2canvas";
 
 const fontOptions = [
   { value: "inter", label: "Inter" },
@@ -24,9 +23,6 @@ const fontOptions = [
 function TemplateForm({ isOpen, onClose, locale }) {
   const { t } = useTranslation("createEvent");
   const isLg = useMediaQuery("(min-width: 1024px)");
-  const templateRef = useRef(null); // Reference to the template preview
-  const [isSaving, setIsSaving] = useState(false);
-  const [isCapturing, setIsCapturing] = useState(false);
 
   // Initialize React Hook Form
   const methods = useForm({
@@ -44,7 +40,7 @@ function TemplateForm({ isOpen, onClose, locale }) {
     },
   });
 
-  const { watch, handleSubmit, setValue } = methods;
+  const { watch, handleSubmit } = methods;
 
   // Watch all form values for real-time updates
   const formData = watch();
@@ -170,118 +166,6 @@ function TemplateForm({ isOpen, onClose, locale }) {
     }
   };
 
-  // Image capture functions
-  const captureTemplateAsImage = async () => {
-    if (!templateRef.current) return null;
-
-    setIsCapturing(true);
-
-    try {
-      const canvas = await html2canvas(templateRef.current, {
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null,
-        scale: 2, // Higher quality
-        logging: false,
-        width: templateRef.current.offsetWidth,
-        height: templateRef.current.offsetHeight,
-      });
-
-      return canvas;
-    } catch (error) {
-      console.error("Error capturing template:", error);
-      return null;
-    } finally {
-      setIsCapturing(false);
-    }
-  };
-
-  const downloadTemplateImage = async () => {
-    const canvas = await captureTemplateAsImage();
-    if (!canvas) return;
-
-    // Convert canvas to blob
-    canvas.toBlob((blob) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `invitation-template-${Date.now()}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }, "image/png");
-  };
-
-  const saveTemplateToBackend = async () => {
-    const canvas = await captureTemplateAsImage();
-    if (!canvas) return;
-
-    setIsSaving(true);
-
-    try {
-      // Convert canvas to blob
-      canvas.toBlob(async (blob) => {
-        const formDataToSend = new FormData();
-        formDataToSend.append("templateImage", blob, "template.png");
-        formDataToSend.append("templateData", JSON.stringify(formData));
-
-        // Send to your backend API
-        const response = await fetch("/api/auth/templates/save", {
-          method: "POST",
-          body: formDataToSend,
-        });
-
-        if (response.ok) {
-          console.log("Template saved successfully");
-          // Show success message
-        } else {
-          console.error("Failed to save template");
-        }
-      }, "image/png");
-    } catch (error) {
-      console.error("Error saving template:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const getTemplateAsBase64 = async () => {
-    const canvas = await captureTemplateAsImage();
-    if (!canvas) return null;
-
-    return canvas.toDataURL("image/png");
-  };
-
-  const copyTemplateToClipboard = async () => {
-    const canvas = await captureTemplateAsImage();
-    if (!canvas) return;
-
-    try {
-      canvas.toBlob(async (blob) => {
-        const item = new ClipboardItem({ "image/png": blob });
-        await navigator.clipboard.write([item]);
-        console.log("Template copied to clipboard");
-      }, "image/png");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-    }
-  };
-
-  const handleSave = async () => {
-    // Save form data and optionally capture the template
-    console.log("Saving template with data:", formData);
-
-    // You can also get the template as base64 and include it in the form submission
-    const templateImage = await getTemplateAsBase64();
-    if (templateImage) {
-      // Include the image in your form data
-      setValue("templateImage", templateImage);
-    }
-
-    onClose();
-  };
-
   return (
     <PopupLayout isOpen={isOpen} onClose={onClose}>
       <div className={styles.header}>
@@ -363,137 +247,87 @@ function TemplateForm({ isOpen, onClose, locale }) {
         {isLg && (
           <div className={styles.leftPreview}>
             <div className={styles.templatePreview}>
-              <div
-                ref={templateRef}
+              <img
+                src="/svg/events/template1.svg"
+                alt="invitation preview"
                 className={styles.invitationBackground}
-                style={{
-                  backgroundImage: `url('/svg/events/template1.svg')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  width: "100%",
-                  height: "500px",
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div className={styles.templateContent}>
-                  <div
-                    className={styles.messageText}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formData.messageText || t("message_text_placeholder")}
-                  </div>
-                  <div className={styles.brideAndGroomName}>
-                    <div
-                      className={styles.brideName}
-                      style={{
-                        color: formData.primaryColor || "#5a4a42",
-                        fontFamily: formData.fontType || "cairo",
-                      }}
-                    >
-                      {formData.brideName || t("bride_name_placeholder")}
-                    </div>
-                    <div
-                      className={styles.and}
-                      style={{
-                        color: formData.primaryColor || "#5a4a42",
-                        fontFamily: formData.fontType || "cairo",
-                      }}
-                    >
-                      &
-                    </div>
-                    <div
-                      className={styles.groomName}
-                      style={{
-                        color: formData.primaryColor || "#5a4a42",
-                        fontFamily: formData.fontType || "cairo",
-                      }}
-                    >
-                      {formData.groomName || t("groom_name_placeholder")}
-                    </div>
-                  </div>
-                  <div
-                    className={styles.guestMessage}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formData.guestMessage || t("guest_message_placeholder")}
-                  </div>
-                  <div
-                    className={styles.entryDate}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formatDateWithSpans(formData.entryDate)}
-                  </div>
-                  <div
-                    className={styles.entryTime}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formatTimeWithSpans(formData.entryTime)}
-                  </div>
-                  <div
-                    className={styles.address}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formData.address || t("address_placeholder")}
-                  </div>
-                  <div
-                    className={styles.endMessage}
-                    style={{
-                      color: formData.primaryColor || "#5a4a42",
-                      fontFamily: formData.fontType || "cairo",
-                    }}
-                  >
-                    {formData.endMessage || t("end_message_placeholder")}
-                  </div>
+              />
+              <div className={styles.templateContent}>
+                <div
+                  className={styles.messageText}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
+                >
+                  {formData.messageText || t("message_text_placeholder")}
                 </div>
-              </div>
-
-              {/* Template Actions */}
-              <div className={styles.templateActions}>
-                <Button
-                  variant="outline"
-                  onClick={downloadTemplateImage}
-                  disabled={isCapturing}
-                  className={styles.actionButton}
+                <div className={styles.brideAndGroomName}>
+                  <p
+                    className={styles.brideName}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.brideName || t("bride_name_placeholder")}
+                  </p>
+                  <span className={styles.and}> & </span>
+                  <p
+                    className={styles.groomName}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.groomName || t("groom_name_placeholder")}
+                  </p>
+                </div>
+                <div
+                  className={styles.guestMessage}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
                 >
-                  {isCapturing ? t("capturing") : t("download_template")}
-                </Button>
-
-                <Button
-                  variant="outline"
-                  onClick={copyTemplateToClipboard}
-                  disabled={isCapturing}
-                  className={styles.actionButton}
+                  {formData.guestMessage || t("guest_message_placeholder")}
+                </div>
+                <div
+                  className={styles.entryDate}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
                 >
-                  {isCapturing ? t("capturing") : t("copy_to_clipboard")}
-                </Button>
-
-                <Button
-                  variant="primary"
-                  onClick={saveTemplateToBackend}
-                  disabled={isCapturing || isSaving}
-                  className={styles.actionButton}
+                  {formatDateWithSpans(formData.entryDate)}
+                </div>
+                <div
+                  className={styles.entryTime}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
                 >
-                  {isSaving ? t("saving") : t("save_to_server")}
-                </Button>
+                  {formatTimeWithSpans(formData.entryTime)}
+                </div>
+                <div
+                  className={styles.address}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
+                >
+                  {formData.address || t("address_placeholder")}
+                </div>
+                <div
+                  className={styles.endMessage}
+                  style={{
+                    color: formData.primaryColor || "#5a4a42",
+                    fontFamily: formData.fontType || "cairo",
+                  }}
+                >
+                  {formData.endMessage || t("end_message_placeholder")}
+                </div>
               </div>
             </div>
             <div className={styles.buttonContainer}>
