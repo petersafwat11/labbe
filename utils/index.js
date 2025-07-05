@@ -83,3 +83,198 @@ export function handleSetStep({
 
   return true;
 }
+
+// Template utility functions
+export function formatDateForDisplay(date, t) {
+  if (!date) return t('event_date_placeholder');
+  try {
+    return new Date(date).toLocaleDateString();
+  } catch (error) {
+    return t('event_date_placeholder');
+  }
+}
+
+export function formatDateWithSpans(date, t, styles) {
+  if (!date) {
+    return <span>{t('event_date_placeholder')}</span>;
+  }
+
+  try {
+    const dateObj = new Date(date);
+    const monthIndex = dateObj.getMonth();
+    const dayOfWeek = dateObj.getDay();
+    const dayOfMonth = dateObj.getDate();
+    const year = dateObj.getFullYear();
+
+    const monthName = t(`months.${monthIndex}`);
+    const dayName = t(`days.${dayOfWeek}`);
+
+    return (
+      <>
+        <span className={styles.monthName}>{monthName}</span>
+        <span className={styles.dayInfo}>
+          {dayName} {dayOfMonth}
+        </span>
+        <span className={styles.yearInfo}>{year}</span>
+      </>
+    );
+  } catch (error) {
+    return <span>{t('event_date_placeholder')}</span>;
+  }
+}
+
+export function formatTimeWithSpans(timeString, locale, t) {
+  if (!timeString) {
+    return <span>12:00:AM</span>;
+  }
+
+  try {
+    // Parse time format like "04:50:PM"
+    const timeParts = timeString.split(':');
+    const hour = parseInt(timeParts[0]);
+    const minute = parseInt(timeParts[1]);
+    const ampm = timeParts[2];
+
+    // Check if we're in Arabic locale using the component's locale
+    const isArabic = locale === 'ar';
+
+    if (isArabic) {
+      // Arabic format: "فى تمام الساعة الثامنة و الدقائق مساءا"
+      const arabicNumbers = [
+        '',
+        'الواحدة',
+        'الثانية',
+        'الثالثة',
+        'الرابعة',
+        'الخامسة',
+        'السادسة',
+        'السابعة',
+        'الثامنة',
+        'التاسعة',
+        'العاشرة',
+        'الحادية عشرة',
+        'الثانية عشرة',
+      ];
+
+      // Convert 24-hour to 12-hour for Arabic display
+      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const hourInArabic = arabicNumbers[displayHour] || displayHour;
+      const timeOfDay = ampm === 'AM' ? t('time_am') : t('time_pm');
+
+      return (
+        <>
+          <span>{t('time_prefix')}</span>
+          <span> {hourInArabic}</span>
+          {minute > 0 && (
+            <>
+              <span> {t('time_and')} </span>
+              <span>
+                {minute} {t('time_minutes')}
+              </span>
+            </>
+          )}
+          <span> {timeOfDay}</span>
+        </>
+      );
+    } else {
+      // English format: "at 4:50pm"
+      const hourDisplay = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const minuteDisplay = minute.toString().padStart(2, '0');
+      const timeOfDay = ampm === 'AM' ? t('time_am') : t('time_pm');
+
+      return (
+        <>
+          <span>{t('time_prefix')} </span>
+          <span>
+            {hourDisplay}:{minuteDisplay}
+          </span>
+          <span>{timeOfDay}</span>
+        </>
+      );
+    }
+  } catch (error) {
+    return <span>{timeString}</span>;
+  }
+}
+
+export function htmlToImageConvert(
+  imageRef,
+  fileName = 'template-image',
+  options = {}
+) {
+  const { toPng } = require('html-to-image');
+  const { autoDownload = true, returnBlob = false } = options;
+
+  return toPng(imageRef.current, { cacheBust: false })
+    .then((dataUrl) => {
+      console.log('dataUrl..', dataUrl);
+
+      // Auto-download if enabled
+      if (autoDownload) {
+        const link = document.createElement('a');
+        link.download = `${fileName}.png`;
+        link.href = dataUrl;
+        link.click();
+      }
+
+      // Return different formats based on options
+      if (returnBlob) {
+        // Convert dataUrl to Blob for file operations
+        return fetch(dataUrl)
+          .then((res) => res.blob())
+          .then((blob) => ({
+            dataUrl,
+            blob,
+            file: new File([blob], `${fileName}.png`, { type: 'image/png' }),
+          }));
+      }
+
+      return dataUrl;
+    })
+    .catch((err) => {
+      console.log('Error converting HTML to image:', err);
+      throw err;
+    });
+}
+
+// Helper function to convert dataUrl to blob
+export function dataUrlToBlob(dataUrl) {
+  return fetch(dataUrl).then((res) => res.blob());
+}
+
+// Helper function to convert dataUrl to file
+export function dataUrlToFile(dataUrl, fileName) {
+  return fetch(dataUrl)
+    .then((res) => res.blob())
+    .then((blob) => new File([blob], fileName, { type: blob.type }));
+}
+
+// Helper function to preview image in new tab
+export function previewImage(dataUrl) {
+  const newWindow = window.open();
+  newWindow.document.write(
+    `<img src="${dataUrl}" style="max-width: 100%; height: auto;">`
+  );
+}
+
+// Helper function to upload image to server
+export async function uploadImage(imageFile, endpoint = '/api/upload') {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}

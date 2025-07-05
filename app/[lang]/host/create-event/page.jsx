@@ -90,6 +90,8 @@ export default function CreateEventPage() {
   const { watch } = methods;
   const formData = watch();
 
+  console.log('formData, ', formData, 'formErorors', methods.formState.errors);
+
   // Step validation and redirection effect
   useEffect(() => {
     // Check if previous steps have required data
@@ -133,7 +135,15 @@ export default function CreateEventPage() {
         }
       } else {
         // Set form errors
-        console.error('Validation errors:', validation.error);
+        // console.error('Validation errors:', validation.error);
+
+        validation.error.forEach((err) => {
+          methods.setError(
+            err.path.join('.'),
+            { type: 'manual', message: err.message, ref: err.name },
+            { shouldFocus: true }
+          );
+        });
       }
     },
     [currentStep, formData, t, updateStep]

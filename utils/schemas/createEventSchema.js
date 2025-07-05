@@ -1,26 +1,26 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // Helper schemas
 const phoneSchema = z
   .string()
   .optional()
   .refine((val) => !val || val.length >= 10, {
-    message: "Phone number must be at least 10 digits",
+    message: 'Phone number must be at least 10 digits',
   });
 
 const requiredPhoneSchema = z
   .string()
-  .min(1, "Phone number is required")
-  .min(10, "Phone number must be at least 10 digits");
+  .min(1, 'Phone number is required')
+  .min(10, 'Phone number must be at least 10 digits');
 
 const emailSchema = z
   .string()
   .optional()
   .refine((val) => !val || z.string().email().safeParse(val).success, {
-    message: "Please enter a valid email address",
+    message: 'Please enter a valid email address',
   });
 
-const requiredStringSchema = z.string().min(1, "This field is required");
+const requiredStringSchema = z.string().min(1, 'This field is required');
 
 // Guest schema - name required, either email or phone required
 const guestSchema = z
@@ -34,8 +34,8 @@ const guestSchema = z
     (data) =>
       (data.phone && data.phone.trim()) || (data.email && data.email.trim()),
     {
-      message: "Either phone number or email address is required",
-      path: ["contact"], // This will be the error path
+      message: 'Either phone number or email address is required',
+      path: ['contact'], // This will be the error path
     }
   );
 
@@ -76,17 +76,17 @@ export const createEventSchema = (t) =>
     eventDetails: z.object({
       title: requiredStringSchema,
       type: z.enum([
-        "wedding",
-        "birthday",
-        "graduation",
-        "meeting",
-        "conference",
-        "other",
+        'wedding',
+        'birthday',
+        'graduation',
+        'meeting',
+        'conference',
+        'other',
       ]),
       date: z.date({
-        required_error: t ? t("date_required") : "Date is required",
+        required_error: t ? t('date_required') : 'Date is required',
       }),
-      time: z.string().min(1, t ? t("time_required") : "Time is required"),
+      time: z.string().min(1, t ? t('time_required') : 'Time is required'),
       location: locationSchema,
       description: z.string().optional(),
     }),
@@ -94,7 +94,7 @@ export const createEventSchema = (t) =>
     // Step 2: Guest List
     guestList: z
       .array(guestSchema)
-      .min(1, t ? t("guest_list_required") : "At least one guest is required"),
+      .min(1, t ? t('guest_list_required') : 'At least one guest is required'),
 
     // Step 3: Supervisors List
     supervisorsList: z.array(supervisorSchema).optional(),
@@ -106,12 +106,13 @@ export const createEventSchema = (t) =>
       attendanceAutoReply: z.string().optional(),
       absenceAutoReply: z.string().optional(),
       expectedAttendanceAutoReply: z.string().optional(),
+      templateImage: z.instanceof(File).optional(),
       note: z.string().optional(),
     }),
 
     // Step 5: Launch Settings
     launchSettings: z.object({
-      sendSchedule: z.enum(["now", "later"]).default("now"),
+      sendSchedule: z.enum(['now', 'later']).default('now'),
       scheduledDate: z.date().optional(),
       scheduledTime: z.string().optional(),
     }),
@@ -142,7 +143,7 @@ export const validateStep = (stepNumber, data, t) => {
   const schema = schemas[stepNumber];
 
   if (!schema) {
-    return { success: false, error: "Invalid step number" };
+    return { success: false, error: 'Invalid step number' };
   }
 
   try {
@@ -176,5 +177,47 @@ export const hasRequiredStepData = (stepNumber, data) => {
       return false;
   }
 };
+
+// Template form schema for invitation template customization
+export const templateFormSchema = (t) =>
+  z.object({
+    messageText: z.string().optional(),
+    brideName: z
+      .string()
+      .min(1, t ? t('bride_name_required') : 'Bride name is required'),
+    groomName: z
+      .string()
+      .min(1, t ? t('groom_name_required') : 'Groom name is required'),
+    guestMessage: z.string().optional(),
+    entryDate: z.date({
+      required_error: t ? t('entry_date_required') : 'Event date is required',
+    }),
+    entryTime: z
+      .string()
+      .min(1, t ? t('entry_time_required') : 'Event time is required')
+      .regex(
+        /^(0[1-9]|1[0-2]):[0-5][0-9]:(AM|PM)$/,
+        t ? t('invalid_time_format') : 'Invalid time format (HH:MM:AM/PM)'
+      ),
+    address: z
+      .string()
+      .min(1, t ? t('address_required') : 'Address is required'),
+    endMessage: z.string().optional(),
+    fontType: z
+      .enum(['inter', 'cairo', 'lato'], {
+        required_error: t ? t('font_type_required') : 'Font type is required',
+      })
+      .default('cairo'),
+    primaryColor: z
+      .string()
+      .min(1, t ? t('primary_color_required') : 'Primary color is required')
+      .regex(
+        /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
+        t
+          ? t('invalid_color_format')
+          : 'Invalid color format (hex color required)'
+      )
+      .default('#5a4a42'),
+  });
 
 export default createEventSchema;
