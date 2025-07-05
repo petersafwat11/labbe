@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import hostAPI from '@/lib/host';
 
 const Step1 = dynamic(() => import('./_components/eventSteps/Step1'), {
   ssr: false,
@@ -90,7 +91,7 @@ export default function CreateEventPage() {
   const { watch } = methods;
   const formData = watch();
 
-  console.log('formData, ', formData, 'formErorors', methods.formState.errors);
+  // console.log('formData, ', formData, 'formErorors', methods.formState.errors);
 
   // Step validation and redirection effect
   useEffect(() => {
@@ -115,6 +116,7 @@ export default function CreateEventPage() {
 
   const handleNext = useCallback(
     async (e) => {
+      console.log('handleNext start');
       e.preventDefault();
 
       // Validate current step
@@ -146,6 +148,7 @@ export default function CreateEventPage() {
         });
       }
     },
+
     [currentStep, formData, t, updateStep]
   );
 
@@ -197,6 +200,19 @@ export default function CreateEventPage() {
         return <Step1 />;
     }
   };
+  async function submitEvent() {
+    if (currentStep === steps.length) {
+      //  submit event
+      try {
+        const response = await hostAPI.createEvent(formData);
+        console.log('response..', response);
+      } catch (error) {
+        console.error('Error submitting event:', error);
+      }
+
+      return;
+    }
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -229,7 +245,10 @@ export default function CreateEventPage() {
           isCurrentStepValid={getCurrentStepValidity()}
         />
         <FormProvider {...methods}>
-          <form className={styles.stepsWrapper} onSubmit={handleNext}>
+          <form
+            className={styles.stepsWrapper}
+            onSubmit={methods.handleSubmit(submitEvent)}
+          >
             {/* <CardLayout className={styles.formCard}> */}
             {renderCurrentStep()}
 
@@ -244,15 +263,24 @@ export default function CreateEventPage() {
                 />
               </div>
               <div className={styles.Button}>
-                <Button
-                  variant="primary"
-                  title={
-                    currentStep === 5
-                      ? t('confirm_and_launch')
-                      : t('next_button')
-                  }
-                  type="submit"
-                />
+                {currentStep == 5 ? (
+                  <Button
+                    variant="primary"
+                    title={t('confirm_and_launch')}
+                    type="submit"
+                  />
+                ) : (
+                  <Button
+                    variant="primary"
+                    title={
+                      currentStep === 5
+                        ? t('confirm_and_launch')
+                        : t('next_button')
+                    }
+                    onClick={handleNext}
+                    type="button"
+                  />
+                )}
               </div>
             </div>
             {/* </CardLayout> */}

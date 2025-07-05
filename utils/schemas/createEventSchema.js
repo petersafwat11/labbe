@@ -113,7 +113,7 @@ export const createEventSchema = (t) =>
     // Step 5: Launch Settings
     launchSettings: z.object({
       sendSchedule: z.enum(['now', 'later']).default('now'),
-      scheduledDate: z.date().optional(),
+      scheduledDate: z.date().optional().nullable(),
       scheduledTime: z.string().optional(),
     }),
   });
