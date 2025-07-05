@@ -1,127 +1,514 @@
-'use client';
-import React from 'react';
-import CardLayout from '@/ui/commen/card/CardLayout';
-import styles from './templateForm.module.css';
-import InputGroup from '@/ui/commen/inputs/inputGroup/InputGroup';
-import InputSelect from '@/ui/commen/inputs/inputGroup/InputSelect';
-import DatePicker from '@/ui/commen/inputs/datePicker';
-import ColorPickerGroup from '@/ui/commen/inputs/inputGroup/ColorPickerGroup';
-import PopupLayout from '@/ui/commen/popup/PopupLayout';
-import TextArea from '@/ui/commen/inputs/inputGroup/TextArea';
-import FormHeader from '@/ui/commen/formHeader/FormHeader';
-import { StepTitle } from '@/ui/commen/title/SectionTitle';
-import Calendar from '@/ui/commen/inputs/Calendar';
-import TimePicker from '@/ui/commen/inputs/TimePicker';
-import Button from '@/ui/commen/button/Button';
-import { FaClosedCaptioning } from 'react-icons/fa6';
-import { useMediaQuery } from '@/hooks/use-media-query';
+"use client";
+import React, { useState, useRef } from "react";
+import CardLayout from "@/ui/commen/card/CardLayout";
+import styles from "./templateForm.module.css";
+import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
+import InputSelect from "@/ui/commen/inputs/inputGroup/InputSelect";
+import DatePicker from "@/ui/commen/inputs/datePicker";
+import ColorPickerGroup from "@/ui/commen/inputs/inputGroup/ColorPickerGroup";
+import PopupLayout from "@/ui/commen/popup/PopupLayout";
+import TextArea from "@/ui/commen/inputs/inputGroup/TextArea";
+import TimePicker from "@/ui/commen/inputs/TimePicker";
+import Button from "@/ui/commen/button/Button";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useTranslation } from "react-i18next";
+import { useForm, FormProvider } from "react-hook-form";
+import html2canvas from "html2canvas";
 
 const fontOptions = [
-  { value: 'inter', label: 'inter' },
-  { value: 'cairo', label: 'cairo' },
-  { value: 'lato', label: 'lato' },
+  { value: "inter", label: "Inter" },
+  { value: "cairo", label: "Cairo" },
+  { value: "lato", label: "Lato" },
 ];
 
-function TemplateForm({ isOpen, onClose }) {
-  const isLg = useMediaQuery('(min-width: 1024px)');
+function TemplateForm({ isOpen, onClose, locale }) {
+  const { t } = useTranslation("createEvent");
+  const isLg = useMediaQuery("(min-width: 1024px)");
+  const templateRef = useRef(null); // Reference to the template preview
+  const [isSaving, setIsSaving] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
+
+  // Initialize React Hook Form
+  const methods = useForm({
+    defaultValues: {
+      messageText: "",
+      brideName: "",
+      groomName: "",
+      guestMessage: "",
+      entryDate: null,
+      entryTime: "12:00:AM",
+      address: "",
+      endMessage: "",
+      fontType: "cairo",
+      primaryColor: "#5a4a42",
+    },
+  });
+
+  const { watch, handleSubmit, setValue } = methods;
+
+  // Watch all form values for real-time updates
+  const formData = watch();
+
+  // Handle form submission
+  const onSubmit = (data) => {
+    console.log("Template data:", data);
+    onClose();
+  };
+
+  // Format date for display
+  const formatDateForDisplay = (date) => {
+    if (!date) return t("event_date_placeholder");
+    try {
+      return new Date(date).toLocaleDateString();
+    } catch (error) {
+      return t("event_date_placeholder");
+    }
+  };
+
+  // Format date with separate spans for month, day, and year
+  const formatDateWithSpans = (date) => {
+    if (!date) {
+      return <span>{t("event_date_placeholder")}</span>;
+    }
+
+    try {
+      const dateObj = new Date(date);
+      const monthIndex = dateObj.getMonth();
+      const dayOfWeek = dateObj.getDay();
+      const dayOfMonth = dateObj.getDate();
+      const year = dateObj.getFullYear();
+
+      const monthName = t(`months.${monthIndex}`);
+      const dayName = t(`days.${dayOfWeek}`);
+
+      return (
+        <>
+          <span className={styles.monthName}>{monthName}</span>
+          <span className={styles.dayInfo}>
+            {dayName} {dayOfMonth}
+          </span>
+          <span className={styles.yearInfo}>{year}</span>
+        </>
+      );
+    } catch (error) {
+      return <span>{t("event_date_placeholder")}</span>;
+    }
+  };
+
+  // Format time with proper localization
+  const formatTimeWithSpans = (timeString) => {
+    if (!timeString) {
+      return <span>12:00:AM</span>;
+    }
+
+    try {
+      // Parse time format like "04:50:PM"
+      const timeParts = timeString.split(":");
+      const hour = parseInt(timeParts[0]);
+      const minute = parseInt(timeParts[1]);
+      const ampm = timeParts[2];
+
+      // Check if we're in Arabic locale using the component's locale
+      const isArabic = locale === "ar";
+
+      if (isArabic) {
+        // Arabic format: "فى تمام الساعة الثامنة و الدقائق مساءا"
+        const arabicNumbers = [
+          "",
+          "الواحدة",
+          "الثانية",
+          "الثالثة",
+          "الرابعة",
+          "الخامسة",
+          "السادسة",
+          "السابعة",
+          "الثامنة",
+          "التاسعة",
+          "العاشرة",
+          "الحادية عشرة",
+          "الثانية عشرة",
+        ];
+
+        // Convert 24-hour to 12-hour for Arabic display
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+        const hourInArabic = arabicNumbers[displayHour] || displayHour;
+        const timeOfDay = ampm === "AM" ? t("time_am") : t("time_pm");
+
+        return (
+          <>
+            <span>{t("time_prefix")}</span>
+            <span> {hourInArabic}</span>
+            {minute > 0 && (
+              <>
+                <span> {t("time_and")} </span>
+                <span>
+                  {minute} {t("time_minutes")}
+                </span>
+              </>
+            )}
+            <span> {timeOfDay}</span>
+          </>
+        );
+      } else {
+        // English format: "at 4:50pm"
+        const hourDisplay = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+        const minuteDisplay = minute.toString().padStart(2, "0");
+        const timeOfDay = ampm === "AM" ? t("time_am") : t("time_pm");
+
+        return (
+          <>
+            <span>{t("time_prefix")} </span>
+            <span>
+              {hourDisplay}:{minuteDisplay}
+            </span>
+            <span>{timeOfDay}</span>
+          </>
+        );
+      }
+    } catch (error) {
+      return <span>{timeString}</span>;
+    }
+  };
+
+  // Image capture functions
+  const captureTemplateAsImage = async () => {
+    if (!templateRef.current) return null;
+
+    setIsCapturing(true);
+
+    try {
+      const canvas = await html2canvas(templateRef.current, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        scale: 2, // Higher quality
+        logging: false,
+        width: templateRef.current.offsetWidth,
+        height: templateRef.current.offsetHeight,
+      });
+
+      return canvas;
+    } catch (error) {
+      console.error("Error capturing template:", error);
+      return null;
+    } finally {
+      setIsCapturing(false);
+    }
+  };
+
+  const downloadTemplateImage = async () => {
+    const canvas = await captureTemplateAsImage();
+    if (!canvas) return;
+
+    // Convert canvas to blob
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `invitation-template-${Date.now()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, "image/png");
+  };
+
+  const saveTemplateToBackend = async () => {
+    const canvas = await captureTemplateAsImage();
+    if (!canvas) return;
+
+    setIsSaving(true);
+
+    try {
+      // Convert canvas to blob
+      canvas.toBlob(async (blob) => {
+        const formDataToSend = new FormData();
+        formDataToSend.append("templateImage", blob, "template.png");
+        formDataToSend.append("templateData", JSON.stringify(formData));
+
+        // Send to your backend API
+        const response = await fetch("/api/auth/templates/save", {
+          method: "POST",
+          body: formDataToSend,
+        });
+
+        if (response.ok) {
+          console.log("Template saved successfully");
+          // Show success message
+        } else {
+          console.error("Failed to save template");
+        }
+      }, "image/png");
+    } catch (error) {
+      console.error("Error saving template:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const getTemplateAsBase64 = async () => {
+    const canvas = await captureTemplateAsImage();
+    if (!canvas) return null;
+
+    return canvas.toDataURL("image/png");
+  };
+
+  const copyTemplateToClipboard = async () => {
+    const canvas = await captureTemplateAsImage();
+    if (!canvas) return;
+
+    try {
+      canvas.toBlob(async (blob) => {
+        const item = new ClipboardItem({ "image/png": blob });
+        await navigator.clipboard.write([item]);
+        console.log("Template copied to clipboard");
+      }, "image/png");
+    } catch (error) {
+      console.error("Error copying to clipboard:", error);
+    }
+  };
+
+  const handleSave = async () => {
+    // Save form data and optionally capture the template
+    console.log("Saving template with data:", formData);
+
+    // You can also get the template as base64 and include it in the form submission
+    const templateImage = await getTemplateAsBase64();
+    if (templateImage) {
+      // Include the image in your form data
+      setValue("templateImage", templateImage);
+    }
+
+    onClose();
+  };
+
   return (
     <PopupLayout isOpen={isOpen} onClose={onClose}>
       <div className={styles.header}>
-        <h2>تعديل قالب التصميم</h2>
-        <button style={{ cursor: 'pointer' }} onClick={onClose}>
+        <h2>{t("edit_design_template")}</h2>
+        <button style={{ cursor: "pointer" }} onClick={onClose}>
           <img src="/svg/events/close-circle.svg" alt="close" />
         </button>
       </div>
       <CardLayout className={styles.container}>
-        <form className={styles.rightForm}>
-          <div className={styles.formGrid}>
-            <div style={{ gridColumn: 'span 2' }}>
-              <TextArea
-                label="نص الرسالة"
-                placeholder="ادخل نص الرسالة"
-                name="messageText"
-              />
-            </div>
-            <InputGroup
-              label="اسم العروسة"
-              placeholder="ادخل اسم العروسة"
-              name="brideName"
-            />
-            <InputGroup
-              label="اسم العريس"
-              placeholder="ادخل اسم العريس"
-              name="groomName"
-            />
-            <div style={{ gridColumn: 'span 2' }}>
+        <FormProvider {...methods}>
+          <form className={styles.rightForm} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.formGrid}>
+              <div style={{ gridColumn: "span 2" }}>
+                <TextArea
+                  label={t("message_text")}
+                  placeholder={t("message_text_placeholder")}
+                  name="messageText"
+                />
+              </div>
               <InputGroup
-                name="guestMessage"
-                label="رسالة الضيوف"
-                placeholder="ادخل رسالة الضيوف"
+                label={t("bride_name")}
+                placeholder={t("bride_name_placeholder")}
+                name="brideName"
+              />
+              <InputGroup
+                label={t("groom_name")}
+                placeholder={t("groom_name_placeholder")}
+                name="groomName"
+              />
+              <div style={{ gridColumn: "span 2" }}>
+                <InputGroup
+                  name="guestMessage"
+                  label={t("guest_message")}
+                  placeholder={t("guest_message_placeholder")}
+                />
+              </div>
+
+              <DatePicker
+                label={t("event_date")}
+                placeholder={t("event_date_placeholder")}
+                name="entryDate"
+              />
+              <TimePicker label={t("event_time")} name="entryTime" />
+
+              <InputGroup
+                label={t("address")}
+                placeholder={t("address_placeholder")}
+                name="address"
+              />
+              <InputGroup
+                label={t("end_message")}
+                placeholder={t("end_message_placeholder")}
+                name="endMessage"
+              />
+              <InputSelect
+                label={t("font_type")}
+                placeholder={t("font_type_placeholder")}
+                name="fontType"
+                options={fontOptions}
+              />
+              <ColorPickerGroup
+                label={t("primary_color")}
+                name="primaryColor"
               />
             </div>
-
-            <DatePicker
-              label="تاريخ الحفل"
-              placeholder="اختر موعد الدخول"
-              name="entryDate"
-            />
-            <TimePicker
-              label="وقت الحفل"
-              placeholder="اختر وقت الحفل"
-              name="entryTime"
-            />
-
-            <InputGroup
-              label="العنوان"
-              placeholder="ادخل عنوان القاعة"
-              name="address"
-            />
-            <InputGroup
-              label="رسالة ختامية"
-              placeholder="ادخل رسالة ختامية"
-              name="endMessage"
-            />
-            <InputSelect
-              label="نوع الخط"
-              placeholder="اختر نوع الخط"
-              name="fontType"
-              options={fontOptions}
-            />
-            <ColorPickerGroup label="اللون الأساسي" name="primaryColor" />
-          </div>
-          {!isLg && (
-            <div className={styles.buttonContainer}>
-              <Button
-                variant="secondary"
-                onClick={onClose}
-                title={'الغاء'}
-              ></Button>
-              <Button
-                variant="primary"
-                title={'حفظ'}
-                onClick={onClose}
-              ></Button>
-            </div>
-          )}
-        </form>
+            {!isLg && (
+              <div className={styles.buttonContainer}>
+                <Button
+                  variant="secondary"
+                  onClick={onClose}
+                  title={t("cancel")}
+                  type="button"
+                />
+                <Button variant="primary" title={t("save")} type="submit" />
+              </div>
+            )}
+          </form>
+        </FormProvider>
         {isLg && (
           <div className={styles.leftPreview}>
-            <img
-              src="/svg/events/template1.svg"
-              alt="invitation preview"
-              className={styles.invitationImage}
-            />
+            <div className={styles.templatePreview}>
+              <div
+                ref={templateRef}
+                className={styles.invitationBackground}
+                style={{
+                  backgroundImage: `url('/svg/events/template1.svg')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  width: "100%",
+                  height: "500px",
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className={styles.templateContent}>
+                  <div
+                    className={styles.messageText}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.messageText || t("message_text_placeholder")}
+                  </div>
+                  <div className={styles.brideAndGroomName}>
+                    <div
+                      className={styles.brideName}
+                      style={{
+                        color: formData.primaryColor || "#5a4a42",
+                        fontFamily: formData.fontType || "cairo",
+                      }}
+                    >
+                      {formData.brideName || t("bride_name_placeholder")}
+                    </div>
+                    <div
+                      className={styles.and}
+                      style={{
+                        color: formData.primaryColor || "#5a4a42",
+                        fontFamily: formData.fontType || "cairo",
+                      }}
+                    >
+                      &
+                    </div>
+                    <div
+                      className={styles.groomName}
+                      style={{
+                        color: formData.primaryColor || "#5a4a42",
+                        fontFamily: formData.fontType || "cairo",
+                      }}
+                    >
+                      {formData.groomName || t("groom_name_placeholder")}
+                    </div>
+                  </div>
+                  <div
+                    className={styles.guestMessage}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.guestMessage || t("guest_message_placeholder")}
+                  </div>
+                  <div
+                    className={styles.entryDate}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formatDateWithSpans(formData.entryDate)}
+                  </div>
+                  <div
+                    className={styles.entryTime}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formatTimeWithSpans(formData.entryTime)}
+                  </div>
+                  <div
+                    className={styles.address}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.address || t("address_placeholder")}
+                  </div>
+                  <div
+                    className={styles.endMessage}
+                    style={{
+                      color: formData.primaryColor || "#5a4a42",
+                      fontFamily: formData.fontType || "cairo",
+                    }}
+                  >
+                    {formData.endMessage || t("end_message_placeholder")}
+                  </div>
+                </div>
+              </div>
+
+              {/* Template Actions */}
+              <div className={styles.templateActions}>
+                <Button
+                  variant="outline"
+                  onClick={downloadTemplateImage}
+                  disabled={isCapturing}
+                  className={styles.actionButton}
+                >
+                  {isCapturing ? t("capturing") : t("download_template")}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={copyTemplateToClipboard}
+                  disabled={isCapturing}
+                  className={styles.actionButton}
+                >
+                  {isCapturing ? t("capturing") : t("copy_to_clipboard")}
+                </Button>
+
+                <Button
+                  variant="primary"
+                  onClick={saveTemplateToBackend}
+                  disabled={isCapturing || isSaving}
+                  className={styles.actionButton}
+                >
+                  {isSaving ? t("saving") : t("save_to_server")}
+                </Button>
+              </div>
+            </div>
             <div className={styles.buttonContainer}>
               <Button
                 variant="secondary"
                 onClick={onClose}
-                title={'الغاء'}
-              ></Button>
+                title={t("cancel")}
+                type="button"
+              />
               <Button
                 variant="primary"
-                title={'حفظ'}
-                onClick={onClose}
-              ></Button>
+                title={t("save")}
+                onClick={handleSubmit(onSubmit)}
+                type="button"
+              />
             </div>
           </div>
         )}

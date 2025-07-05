@@ -17,6 +17,11 @@ export const singleEventColumns = [
     render: (value) => <TableCell value={value} />,
   },
   {
+    key: "email",
+    label: "البريد الإلكتروني",
+    render: (value) => <TableCell value={value || "-"} />,
+  },
+  {
     key: "message",
     label: "رسالة من الضيف",
     render: (value) => <TableCell value={value} />,
@@ -52,7 +57,12 @@ export const temporaryGuestColumns = (props) => [
   {
     key: "phone",
     label: "رقم الجوال",
-    render: (value) => <TableCell value={value} />,
+    render: (value) => <TableCell value={value || "-"} />,
+  },
+  {
+    key: "email",
+    label: "البريد الإلكتروني",
+    render: (value) => <TableCell value={value || "-"} />,
   },
   {
     key: "actions",

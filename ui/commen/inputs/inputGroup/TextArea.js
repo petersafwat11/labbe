@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import styles from './textarea.module.css';
-import Image from 'next/image';
-import { get, useFormContext } from 'react-hook-form';
+"use client";
+import React from "react";
+import styles from "./textarea.module.css";
+import Image from "next/image";
+import { get, useFormContext } from "react-hook-form";
 
 const TextArea = ({
   label,
@@ -37,7 +37,7 @@ const TextArea = ({
           {label}
           {required && <span className={styles.required}>*</span>}
         </label>
-        {type === 'mobile' ? (
+        {type === "mobile" ? (
           <div className={styles.input_container}></div>
         ) : (
           <div className={styles.input_container}>
@@ -51,7 +51,7 @@ const TextArea = ({
               name={name}
               value={inputValue}
               onChange={onChange}
-              style={prefixText ? { paddingLeft: '9rem' } : {}}
+              style={prefixText ? { paddingLeft: "9rem" } : {}}
             />
             {iconPath && (
               <Image
@@ -62,7 +62,7 @@ const TextArea = ({
                 height={24}
               />
             )}
-            {type === 'password' && iconPath2 && (
+            {type === "password" && iconPath2 && (
               <Image
                 className={styles.icon_2}
                 src={`/svg/${iconPath2}`}
@@ -93,7 +93,7 @@ const TextArea = ({
               <p
                 key={index}
                 className={`${styles.validation_rule} ${
-                  rule.isValid ? styles.valid : ''
+                  rule.isValid ? styles.valid : ""
                 }`}
               >
                 {/* <Image
@@ -117,7 +117,7 @@ const TextArea = ({
         {label}
         {required && <span className={styles.required}>*</span>}
       </label>
-      {type === 'mobile' ? (
+      {type === "mobile" ? (
         <div className={styles.input_container}></div>
       ) : (
         <div className={styles.input_container}>
@@ -125,14 +125,14 @@ const TextArea = ({
             <span className={styles.prefix_text}>{prefixText}</span>
           )}
           <textarea
-            className={error ? styles.input_error : styles.input}
+            className={
+              error || externalError ? styles.input_error : styles.input
+            }
             type={type}
             placeholder={placeholder}
             name={name}
-            {...(isControlled ? {} : register(name))}
-            value={inputValue || undefined}
-            onChange={isControlled ? onChange : undefined}
-            style={prefixText ? { paddingLeft: '9rem' } : {}}
+            {...register(name)}
+            style={prefixText ? { paddingLeft: "9rem" } : {}}
           />
         </div>
       )}
@@ -155,7 +155,7 @@ const TextArea = ({
             <p
               key={index}
               className={`${styles.validation_rule} ${
-                rule.isValid ? styles.valid : ''
+                rule.isValid ? styles.valid : ""
               }`}
             >
               {rule.text}

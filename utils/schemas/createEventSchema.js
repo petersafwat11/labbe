@@ -3,21 +3,47 @@ import { z } from "zod";
 // Helper schemas
 const phoneSchema = z
   .string()
+  .optional()
+  .refine((val) => !val || val.length >= 10, {
+    message: "Phone number must be at least 10 digits",
+  });
+
+const requiredPhoneSchema = z
+  .string()
+  .min(1, "Phone number is required")
   .min(10, "Phone number must be at least 10 digits");
+
+const emailSchema = z
+  .string()
+  .optional()
+  .refine((val) => !val || z.string().email().safeParse(val).success, {
+    message: "Please enter a valid email address",
+  });
+
 const requiredStringSchema = z.string().min(1, "This field is required");
 
-// Guest schema - only name and phone
-const guestSchema = z.object({
-  id: z.number().optional(),
-  name: requiredStringSchema,
-  phone: phoneSchema,
-});
+// Guest schema - name required, either email or phone required
+const guestSchema = z
+  .object({
+    id: z.number().optional(),
+    name: requiredStringSchema,
+    phone: phoneSchema,
+    email: emailSchema,
+  })
+  .refine(
+    (data) =>
+      (data.phone && data.phone.trim()) || (data.email && data.email.trim()),
+    {
+      message: "Either phone number or email address is required",
+      path: ["contact"], // This will be the error path
+    }
+  );
 
-// Supervisor schema - only name and phone
+// Supervisor schema - name and phone required
 const supervisorSchema = z.object({
   id: z.number().optional(),
   name: requiredStringSchema,
-  phone: phoneSchema,
+  phone: requiredPhoneSchema,
 });
 
 // Location schema

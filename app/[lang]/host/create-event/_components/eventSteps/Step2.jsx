@@ -1,7 +1,7 @@
 "use client";
 import { StepTitle } from "@/ui/commen/title/SectionTitle";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardLayout from "@/ui/commen/card/CardLayout";
 import styles from "./createEvent.module.css";
 import InputGroup from "@/ui/commen/inputs/inputGroup/InputGroup";
@@ -17,21 +17,32 @@ function Step2() {
     setValue,
     watch,
     formState: { errors },
+    clearErrors,
   } = useFormContext();
 
   const [currentGuest, setCurrentGuest] = useState({
     name: "",
     phone: "",
+    email: "",
   });
 
   const [localErrors, setLocalErrors] = useState({});
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   // Watch the guestList to get current values
   const guestList = watch("guestList") || [];
 
+  // Clear form errors when guestList changes
+  useEffect(() => {
+    if (guestList.length > 0) {
+      clearErrors("guestList");
+    }
+  }, [guestList, clearErrors]);
+
   const resetCurrentGuest = () => {
-    setCurrentGuest({ name: "", phone: "" });
+    setCurrentGuest({ name: "", phone: "", email: "" });
     setLocalErrors({});
+    setShowValidationErrors(false);
   };
 
   const handleInputChange = (field, value) => {
@@ -40,65 +51,118 @@ function Step2() {
       [field]: value,
     }));
 
-    // Clear error when user starts typing
+    // Clear specific field error when user starts typing
     if (localErrors[field]) {
       setLocalErrors((prev) => ({
         ...prev,
         [field]: "",
       }));
     }
+
+    // Clear contact error when either phone or email is provided
+    if ((field === "phone" || field === "email") && localErrors.contact) {
+      setLocalErrors((prev) => ({
+        ...prev,
+        contact: "",
+      }));
+    }
+
+    // Hide validation errors when user starts typing
+    if (showValidationErrors) {
+      setShowValidationErrors(false);
+    }
   };
 
   const validateGuest = () => {
     const newErrors = {};
 
-    // Align with zod schema validation
+    // Name is required
     if (!currentGuest.name || !currentGuest.name.trim()) {
-      newErrors.name = "This field is required";
+      newErrors.name = t("guest_name_required") || "Guest name is required";
     }
 
-    if (!currentGuest.phone || !currentGuest.phone.trim()) {
-      newErrors.phone = "This field is required";
-    } else if (currentGuest.phone.length < 10) {
-      newErrors.phone = "Phone number must be at least 10 digits";
+    // Either phone or email is required
+    const hasPhone = currentGuest.phone && currentGuest.phone.trim();
+    const hasEmail = currentGuest.email && currentGuest.email.trim();
+
+    if (!hasPhone && !hasEmail) {
+      newErrors.contact =
+        t("guest_contact_required") ||
+        "Either phone number or email address is required";
+    }
+
+    // Validate phone format if provided and not empty
+    if (hasPhone && currentGuest.phone.trim().length < 10) {
+      newErrors.phone =
+        t("guest_phone_invalid") || "Phone number must be at least 10 digits";
+    }
+
+    // Validate email format if provided and not empty
+    if (hasEmail) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(currentGuest.email.trim())) {
+        newErrors.email =
+          t("guest_email_invalid") || "Please enter a valid email address";
+      }
     }
 
     setLocalErrors(newErrors);
+    setShowValidationErrors(Object.keys(newErrors).length > 0);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleAddGuest = () => {
-    if (!validateGuest()) return;
+    if (!validateGuest()) {
+      return;
+    }
 
-    const newGuest = {
-      ...currentGuest,
-      id: Date.now(), // Use timestamp as unique ID
-    };
+    try {
+      const newGuest = {
+        ...currentGuest,
+        // Ensure consistent empty string handling
+        phone: currentGuest.phone?.trim() || "",
+        email: currentGuest.email?.trim() || "",
+        name: currentGuest.name?.trim() || "",
+        id: Date.now(), // Use timestamp as unique ID
+      };
 
-    const updatedGuestList = [...guestList, newGuest];
-    setValue("guestList", updatedGuestList);
-    resetCurrentGuest();
+      const updatedGuestList = [...guestList, newGuest];
+      setValue("guestList", updatedGuestList, { shouldValidate: true });
+      resetCurrentGuest();
+    } catch (error) {
+      console.error("Error adding guest:", error);
+    }
   };
 
   const handleEditGuest = (id) => {
-    if (!validateGuest()) return;
+    if (!validateGuest()) {
+      return;
+    }
 
-    const updatedGuest = {
-      ...currentGuest,
-      id: id,
-    };
+    try {
+      const updatedGuest = {
+        ...currentGuest,
+        // Ensure consistent empty string handling
+        phone: currentGuest.phone?.trim() || "",
+        email: currentGuest.email?.trim() || "",
+        name: currentGuest.name?.trim() || "",
+        id: id,
+      };
 
-    const updatedGuestList = guestList.map((guest) =>
-      guest.id === id ? updatedGuest : guest
-    );
+      const updatedGuestList = guestList.map((guest) =>
+        guest.id === id ? updatedGuest : guest
+      );
 
-    setValue("guestList", updatedGuestList);
-    resetCurrentGuest();
+      setValue("guestList", updatedGuestList, { shouldValidate: true });
+      resetCurrentGuest();
+    } catch (error) {
+      console.error("Error editing guest:", error);
+    }
   };
 
   const handleRemoveGuest = (id) => {
     const updatedGuestList = guestList.filter((guest) => guest.id !== id);
-    setValue("guestList", updatedGuestList);
+    setValue("guestList", updatedGuestList, { shouldValidate: true });
 
     // Clear current guest if it was being edited
     if (currentGuest.id === id) {
@@ -109,7 +173,15 @@ function Step2() {
   const handleEditGuestClick = (id) => {
     const guest = guestList.find((guest) => guest.id === id);
     if (guest) {
-      setCurrentGuest(guest);
+      setCurrentGuest({
+        ...guest,
+        // Ensure all fields have values to avoid undefined issues
+        name: guest.name || "",
+        phone: guest.phone || "",
+        email: guest.email || "",
+      });
+      setLocalErrors({}); // Clear errors when editing
+      setShowValidationErrors(false);
     }
   };
 
@@ -136,7 +208,7 @@ function Step2() {
                 required
                 value={currentGuest.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                error={localErrors.name}
+                error={showValidationErrors ? localErrors.name : ""}
               />
             </div>
 
@@ -147,10 +219,29 @@ function Step2() {
                 type="tel"
                 value={currentGuest.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
-                error={localErrors.phone}
+                error={showValidationErrors ? localErrors.phone : ""}
               />
             </div>
           </div>
+          <div className={styles.row}>
+            <div className={styles.col}>
+              <InputGroup
+                label={t("guest_email")}
+                placeholder={t("guest_email_placeholder")}
+                type="email"
+                value={currentGuest.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                error={showValidationErrors ? localErrors.email : ""}
+              />
+            </div>
+          </div>
+
+          {/* Contact validation error */}
+          {showValidationErrors && localErrors.contact && (
+            <div className={styles.contactError}>
+              <p>{localErrors.contact}</p>
+            </div>
+          )}
 
           <div className={styles.addGuestButton}>
             <Button

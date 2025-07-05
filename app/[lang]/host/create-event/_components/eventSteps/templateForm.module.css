@@ -49,6 +49,137 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* Template Preview Styles */
+.templatePreview {
+  position: relative;
+  width: 100%;
+  height: 50rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+/* invitation background */
+.invitationBackground {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.templateContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+  padding: 10.2rem 3.4rem 7.1rem;
+}
+
+/* Text Element Styles - You can adjust positions later */
+.messageText {
+  width: 359px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.brideAndGroomName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.brideName,
+.groomName,
+.and {
+  font-size: 2.9rem;
+  font-weight: 400;
+}
+
+.guestMessage {
+  font-size: 1.2rem;
+}
+
+.entryDate {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  line-height: 1.2;
+}
+
+.entryDate .monthName {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.entryDate .dayInfo {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.entryDate .yearInfo {
+  font-size: 1.4rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.entryTime {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  word-wrap: break-word;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1rem;
+  line-height: 1.3;
+}
+
+.entryTime span {
+  line-height: 1.3;
+}
+
+.entryTime span:first-child {
+  margin-right: 0.2rem;
+}
+
+.entryTime span:last-child {
+  margin-left: 0.2rem;
+}
+
+.address {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  word-wrap: break-word;
+  line-height: 1.3;
+}
+
+.endMessage {
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-align: center;
+  word-wrap: break-word;
+  line-height: 1.3;
+}
+
 .rightForm {
   flex: 1 1 55%;
   display: flex;
@@ -140,4 +271,77 @@
     line-height: 28px; /* 116.667% */
     padding: 0;
   }
+
+  .templatePreview {
+    height: 40rem;
+  }
+
+  .templateContent {
+    padding: 1.5rem;
+  }
+
+  .messageText {
+    font-size: 1.4rem;
+  }
+
+  .brideName,
+  .groomName {
+    font-size: 1.8rem;
+  }
+
+  .guestMessage,
+  .entryDate,
+  .entryTime,
+  .address {
+    font-size: 1.2rem;
+  }
+
+  .endMessage {
+    font-size: 1.1rem;
+  }
+}
+
+/* Template Actions Styles */
+.templateActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Template Preview Improvements */
+.templatePreview {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 1rem;
+}
+
+.invitationBackground {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
